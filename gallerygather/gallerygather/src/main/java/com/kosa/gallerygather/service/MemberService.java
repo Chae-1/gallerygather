@@ -18,7 +18,6 @@ public class MemberService {
         Member member = new Member();
         member.setAuth("USER");
         repository.save(member);
-
         member.setName("asd");
     }
 }

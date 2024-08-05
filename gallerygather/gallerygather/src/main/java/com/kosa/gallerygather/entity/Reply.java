@@ -8,23 +8,17 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "TBL_MEMBER")
 @Getter
-public class Member {
+public class REPLY {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
-    private String password;
-
-    private String email;
-
-    private String auth;
+    private String reply;
 
     private LocalDateTime regDate;
 
     private LocalDateTime updateDate;
 
-}
 
+}

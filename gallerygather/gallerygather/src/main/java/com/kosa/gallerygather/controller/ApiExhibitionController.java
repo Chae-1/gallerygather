@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class ApiExhibitionController {
 
-    @GetMapping("/api/exhibition")
+    @GetMapping("/api/exhibitions")
     public ResponseEntity<String> exhibition() {
         return ResponseEntity.ok("ok");
     }

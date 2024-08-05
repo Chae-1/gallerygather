@@ -6,9 +6,9 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "TBL_MEMBER")
+@Table(name = "TBL_REPLY")
 @Getter
-public class REPLY {
+public class Reply {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

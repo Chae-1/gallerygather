@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.util.Date;
 
 @Entity
-@Table(name = "TBL")
+@Table(name = "TBL_EXHIBITION")
 @Getter
 public class Exhibition {
 

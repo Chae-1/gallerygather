@@ -2,12 +2,16 @@ package com.kosa.gallerygather.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "TBL_MEMBER")
 @Getter
+@Setter
 public class Member {
 
     @Id
@@ -31,6 +35,9 @@ public class Member {
 
     @Column(name = "update_date")
     private LocalDateTime updateDate;
+
+    @OneToMany(mappedBy = "member")
+    private List<Reply> replies = new ArrayList<>();
 
 }
 

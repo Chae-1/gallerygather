@@ -2,49 +2,55 @@ package com.kosa.gallerygather.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@Table(name = "TBL")
+@Table(name = "TBL_EXHIBITION")
 @Getter
+@Setter
 public class Exhibition {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "title")
     private String title;
 
+    @Column(name = "place")
     private String place;
 
+    @Column(name = "description")
     private String description;
 
-    private Date start_date;
+    @Column(name = "start_date")
+    private LocalDateTime startDate;
 
-    private Date end_date;
+    @Column(name = "end_date")
+    private LocalDateTime endDate;
 
-    private long charge;
+    @Column(name = "charge")
+    private Long charge;
 
+    @Column(name = "")
     private String author;
 
-    private String site_url;
+    private String siteUrl;
 
-    private String img_url;
+    private String imgUrl;
 
-    private long like_count;
+    private long likeCount;
 
-    private long read_count;
+    private long readCount;
 
-    private long review_count;
+    private long reviewCount;
 
-    private long avg_score;
+    private long avgScore;
 
     private String genre;
 
     private String duration;
-
-
-
-
 }

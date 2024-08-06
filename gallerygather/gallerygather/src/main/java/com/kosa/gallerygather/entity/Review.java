@@ -2,11 +2,13 @@ package com.kosa.gallerygather.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
 public class Review {
 
     @Id
@@ -17,11 +19,10 @@ public class Review {
 
     private String content;
 
-    private LocalDateTime date;
+    private LocalDateTime regDate;
 
-    private LocalDateTime update_date;
+    private Long rating;
 
-    private Long score;
-
+    private LocalDateTime updateDate;
 
 }

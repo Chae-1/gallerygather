@@ -7,13 +7,13 @@
 </template>
 
 <script>
-import HeaderCompo from '@/layout/components/HeaderCompo.vue'
+import HeaderCompo from '@/layout/components/HeaderCompo.vue';
 import FooterCompo from "@/layout/components/FooterCompo.vue";
 
 export default {
-  components: [
-      HeaderCompo, FooterCompo
-  ]
+  components: {
+    HeaderCompo, FooterCompo
+  }
 }
 </script>
 

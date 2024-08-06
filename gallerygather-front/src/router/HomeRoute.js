@@ -1,6 +1,7 @@
 import Home from "@/layout/Home.vue";
 import HomeMain from "@/views/HomeMain.vue";
 import Review from "@/views/Review.vue";
+import PageExhibitionDetail from "@/views/PageExhibitionDetail.vue";
 
 const homeRoute = {
     path: '/',
@@ -13,12 +14,19 @@ const homeRoute = {
             component: HomeMain,
 
         },
+
         
         {
             path: 'review',
             component: Review,
             
         },
+
+        {
+            path: '/exhibitiondetails',
+            component: PageExhibitionDetail
+        }
+
     ]
 };
 

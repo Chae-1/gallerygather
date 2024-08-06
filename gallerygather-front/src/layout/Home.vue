@@ -18,5 +18,7 @@ export default {
 </script>
 
 <style>
-
+  #container {
+    min-height: 90vh;
+  }
 </style>

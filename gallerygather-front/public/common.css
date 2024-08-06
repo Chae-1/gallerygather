@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 @font-face {
-    font-family:'NotoL';
+    font-family: 'NotoL';
     font-weight: normal;
     font-style: normal;
     src: url('fonts/NotoSansKR-Regular.eot');
@@ -11,8 +11,9 @@
     url('fonts/NotoSansKR-Regular.otf') format('opentype'),
     local("※");
 }
+
 @font-face {
-    font-family:'NotoB';
+    font-family: 'NotoB';
     font-weight: normal;
     font-style: normal;
     src: url('fonts/NotoSansKR-Medium.eot');
@@ -22,8 +23,9 @@
     url('fonts/NotoSansKR-Medium.otf') format('opentype'),
     local("※");
 }
+
 @font-face {
-    font-family:'NsrL';
+    font-family: 'NsrL';
     font-weight: normal;
     font-style: normal;
     src: url('fonts/NanumSquareRoundR.eot');
@@ -33,8 +35,9 @@
     url('fonts/NanumSquareRoundR.ttf') format('truetype'),
     local("※");
 }
+
 @font-face {
-    font-family:'NsrB';
+    font-family: 'NsrB';
     font-weight: normal;
     font-style: normal;
     src: url('fonts/NanumSquareRoundB.eot');
@@ -44,12 +47,35 @@
     url('fonts/NanumSquareRoundB.ttf') format('truetype'),
     local("※");
 }
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;900&display=swap');
-html, body {width:100%; min-height:100%; height:100%; color:#737373;  font-family: 'NotoL'; font-size: 14px;}
-html, body, div, span, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, button, abbr, acronym, address, code,del,
-dfn, em, img, strong, sub, sup, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th,
-td ,hr {margin:0;padding:0;font-size:100%;box-sizing: border-box;color:#737373;}
-body {height:100%;min-height:100%;font-family:'NotoL','Malgun Gothic','맑은고딕','돋움',dotum, sans-serif;font-size:14px;color:#737373;line-height:1.5}
+html, body {
+    width: 100%;
+    min-height: 100%;
+    height: 100%;
+    color: #737373;
+    font-family: 'NotoL';
+    font-size: 14px;
+}
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, button, abbr, acronym, address, code, del,
+dfn, em, img, strong, sub, sup, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th,
+td, hr {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    box-sizing: border-box;
+    color: #737373;
+}
+
+body {
+    height: 100%;
+    min-height: 100%;
+    font-family: 'NotoL', 'Malgun Gothic', '맑은고딕', '돋움', dotum, sans-serif;
+    font-size: 14px;
+    color: #737373;
+    line-height: 1.5
+}
 
 h1, h2, h3, h4, h5, h6 {
     font-weight: normal
@@ -187,4 +213,9 @@ button:focus {
 
 .flexbox {
     display: flex;
+}
+
+#appPage, #app {
+    width: 100%;
+    height: 100%;
 }

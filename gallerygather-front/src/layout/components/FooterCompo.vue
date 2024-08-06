@@ -1,7 +1,5 @@
 <script>
-export default {
-
-};
+export default {};
 </script>
 
 <template>
@@ -13,11 +11,15 @@ export default {
   </footer>
 </template>
 
-<style scoped>
-  footer {
-    width: 100%;
-    height: 50px;
-    border-top: 1px solid #ddd;
-  }
+<style scoped >
+footer {
+  margin-top: auto;
+}
+
+footer {
+  width: 100%;
+  height: 50px;
+  border-top: 1px solid #ddd;
+}
 
 </style>

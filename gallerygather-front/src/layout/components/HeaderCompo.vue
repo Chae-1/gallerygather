@@ -19,6 +19,7 @@ export default {
 </template>
 
 <style>
+
 header {
     display: flex;
     justify-content: space-between;

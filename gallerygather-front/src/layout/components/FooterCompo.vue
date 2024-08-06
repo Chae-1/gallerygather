@@ -1,17 +1,25 @@
 <script>
-export default {
-
-};
+export default {};
 </script>
 
 <template>
   <footer>
-    푸터입니다.
+    <div>
+      <span>%%</span>
+      <span>footer</span>
+    </div>
   </footer>
 </template>
 
-<style>
-  footer {
-    margin-top: auto;
-  }
+<style scoped >
+footer {
+  margin-top: auto;
+}
+
+footer {
+  width: 100%;
+  height: 50px;
+  border-top: 1px solid #ddd;
+}
+
 </style>

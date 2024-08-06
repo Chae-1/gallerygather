@@ -2,7 +2,7 @@
   <div class="wrap">
     <HeaderCompo/>
     <div id="container">
-        <router-view></router-view>
+      <router-view></router-view>
     </div>
     <FooterCompo/>
   </div>
@@ -25,5 +25,9 @@ export default {
     flex-direction: column;
     width: 100%;
     height: 100%;
+  }
+
+  #container {
+    min-height: 90vh;
   }
 </style>

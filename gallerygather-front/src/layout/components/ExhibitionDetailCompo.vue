@@ -1,0 +1,114 @@
+<template>
+    <div class="exhibition">
+    <div class="exhibition-poster">
+        <div class="poster-wrapper">
+            <img src="../../assets/img/daniel_arsham.png" alt="Exhibition Poster Blurry" class="blurry-image" />
+            <img src="../../assets/img/daniel_arsham.png" alt="Exhibition Poster Clear" class="clear-image" />
+        </div>
+        </div>
+        <div class="exhibition-info">
+            <span>진행중</span>
+            <h1>[미술] 국보순회전: 모두의 곁으로 ‘금관총 금관, 그리고 이사지왕’</h1>
+            <p>2024.06.06 - 2024.09.01</p>
+            <p>보령석탄박물관</p>
+            <div class="exhibition-desc">
+                문화는어쩌고저쩌고
+            </div>
+            <div class="exhibition-stats">
+                <span>👁️ 42</span>
+                <span>❤️ 0</span>
+                <span>💬 0</span>
+            </div>
+            <button class="ticket-button">예매처 보기</button>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style scoped>
+.exhibition {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.exhibition-poster {
+    position: relative;
+    width: 40vw;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.poster-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.blurry-image {
+    position: absolute;
+    /* top: 0;
+    left: 0; */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(10px);
+    /* transform: scale(1.1); Slight scaling to ensure the image covers the entire area */
+}
+
+.clear-image {
+    position: relative;
+    width: 50%; /* Adjust the size as needed */
+    height: auto;
+    z-index: 1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional: Add a shadow for better visibility */
+}
+
+.exhibition-info {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.exhibition-info h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.exhibition-info p {
+    margin: 5px 0;
+}
+
+.exhibition-stats {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.ticket-button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.ticket-button:hover {
+    background-color: #e0e0e0;
+}
+</style>

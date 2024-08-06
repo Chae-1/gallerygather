@@ -6,30 +6,51 @@ export default {
 
 <template>
   <header>
-    <div class="logo">
-      <div class="logo-image">
-        <img></img>
-      </div>
-    </div>
-    <div class="member-menu">
-      <div class="login">로그인</div>
-      <div class="join">히원가입</div>
-    </div>
+    <div class="logo">로고나 이름</div>
+        <nav>
+            <ul>
+                <li><a href="#">장르별</a></li>
+                <li><a href="#">지역별</a></li>
+                <li><a href="#">리뷰</a></li>
+                <li><a href="#">@@@ 님</a></li>
+            </ul>
+        </nav>
   </header>
 </template>
 
 <style>
-  header {
+
+header {
     display: flex;
-    max-width: 1220px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    margin: 0;
+    padding: 0;
     width: 100%;
-    height: 60px;
-    position: relative;
-    z-index: 100;
-    margin: 0 auto;
-  }
+    height: 80px;
+}
 
-  header > logo {
+header .logo {
+    font-size: 18px;
+    font-weight: bold;
+}
 
-  }
+header nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+header nav ul li {
+    margin-left: 20px;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #333;
+}
 </style>

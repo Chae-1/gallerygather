@@ -1,6 +1,7 @@
 import Home from "@/layout/Home.vue";
 import HomeMain from "@/views/HomeMain.vue";
 import PageExhibitionDetail from "@/views/PageExhibitionDetail.vue";
+import Login from "@/views/Login.vue";
 import PageReviewWrite from "@/views/PageReviewWrite.vue";
 
 const homeRoute = {
@@ -17,6 +18,11 @@ const homeRoute = {
         {
             path: '/exhibitiondetails',
             component: PageExhibitionDetail
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: Login,
         },
         {
             path: '/exhibitWrite',

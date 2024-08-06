@@ -17,7 +17,7 @@ const homeRoute = {
 
         
         {
-            path: 'review',
+            path: '/review',
             component: Review,
             
         },

@@ -6,13 +6,12 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "TBL_REVIEW")
 @Getter
 public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String title;
 
@@ -22,7 +21,7 @@ public class Review {
 
     private LocalDateTime update_date;
 
-    private long score;
+    private Long score;
 
 
 }

@@ -7,7 +7,6 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "TBL_REVIEW")
 @Getter
 @Setter
 public class Review {
@@ -22,8 +21,8 @@ public class Review {
 
     private LocalDateTime regDate;
 
-    private LocalDateTime updateDate;
+    private Long rating;
 
-    private Long score;
+    private LocalDateTime updateDate;
 
 }

@@ -1,4 +1,2 @@
-GET http://api.kcisa.kr/openapi/API_CCA_145/request?serviceKey=46cd54e4-19c0-4a21-a4fb-e96cf2eabcd6
-Accept: application/json
+POST http://localhost:8080/api/users/login?email=coguddlf&password=1234
 
-==============

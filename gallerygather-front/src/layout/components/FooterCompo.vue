@@ -10,6 +10,8 @@ export default {
   </footer>
 </template>
 
-<style scoped>
-
+<style>
+  footer {
+    margin-top: auto;
+  }
 </style>

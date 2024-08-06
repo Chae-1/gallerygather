@@ -6,10 +6,18 @@ export default {
 
 <template>
   <footer>
-    푸터입니다.
+    <div>
+      <span>%%</span>
+      <span>footer</span>
+    </div>
   </footer>
 </template>
 
 <style scoped>
+  footer {
+    width: 100%;
+    height: 50px;
+    border-top: 1px solid #ddd;
+  }
 
 </style>

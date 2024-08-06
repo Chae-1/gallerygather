@@ -60,7 +60,7 @@ export default {
 
 <style scoped>
 .review-container {
-  background-color: #f8f4e5;
+  /* background-color: #f8f4e5; */
   padding: 20px;
   border-radius: 8px;
   width: 700px;

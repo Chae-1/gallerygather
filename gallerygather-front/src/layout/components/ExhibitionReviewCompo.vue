@@ -1,6 +1,7 @@
 <template>
     <div class="exhibition-reviews">
         <div>
+            <span>리뷰 목록</span>
             <button>리뷰 쓰기</button>
         </div>
         <div class="review-content">
@@ -54,25 +55,46 @@
 
 <script>
 export default {
-
+    data() {
+        return {
+            exhibitReviewList: []
+        };
+    },
+    created() {
+        this.getExhibitReviewList;
+    },
+    methods: {
+        async getExhibitReviewList() {
+            this.exhibitReviewList = []; //await this.$api.만들어야함. 
+        }
+    }
 }
 </script>
 
 <style scoped>
 .exhibition-reviews {
     padding: 20px;
-    width: 90%;
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f3ec;;
+}
+
+.exhibition-reviews > div > span {
+    margin-left: 2.5%;
+    padding-left: 10px;
+    font-weight: bold;
 }
 
 .exhibition-reviews button {
-    margin: 0 5px 0 auto;
     background-color: #ba9d73;
     color: white;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    margin-right: 2.5%;
     border-radius: 5px;
+    float: right;
 }
 
 .exhibition-reviews button:hover {
@@ -93,7 +115,7 @@ export default {
 }
 
 .review-item {
-    width: 90%;
+    width: 95%;
     margin: 0 auto 20px;
 }
 
@@ -120,7 +142,6 @@ export default {
 
 .reviewbox-sub {
     display: flex;
-    /* justify-content: space-between; */
     align-content: center;
     margin-top: 10px;
     color: #8a7b6a;

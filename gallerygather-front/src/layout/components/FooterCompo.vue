@@ -13,10 +13,6 @@ export default {};
 
 <style scoped >
 footer {
-  margin-top: auto;
-}
-
-footer {
   width: 100%;
   height: 50px;
   border-top: 1px solid #ddd;

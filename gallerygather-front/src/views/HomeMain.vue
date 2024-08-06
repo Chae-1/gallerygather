@@ -54,18 +54,64 @@
         </p>
         <div class="sort-selection-side">
           <ul class="view-sort-list">
-            <li class="button-text">추천순</li>
-            <li class="button-text">최신순</li>
-            <li class="button-text">조회순</li>
-            <li class="button-text">좋아요순</li>
-            <li class="button-round">상세옵션 열기</li>
-            <input type="text" class="search-input"/>
+            <li class="button-text">
+              <button>추천순</button>
+            </li>
+            <li class="button-text">
+              <button>최신순</button>
+            </li>
+            <li class="button-text">
+              <button>조회순</button>
+            </li>
+            <li class="button-text">
+              <button>좋아요순</button>
+            </li>
           </ul>
+          <div class="rbox-block">
+            <button class="filter-button">
+              상세옵션
+              <span class="st-text">열기</span>
+            </button>
+            <span class="search-box hide-mo">
+              <input type="text" class="o-input" placeholder="전시명, 작가명, 전시 공간명 등을 입력해주세요" name="search_keyword"
+                     maxlength="20" value="">
+              <button type="button" class="o-btn o-btn-search" aria-label="검색"></button>
+            </span>
+          </div>
         </div>
       </div>
 
-      <div class="main-content-list">
+      <div>
+        <b-card-group deck>
+          <b-card title="Title" img-src="https://picsum.photos/300/300/?image=41" img-alt="Image" img-top>
+            <b-card-text>
+              This is a wider card with supporting text below as a natural lead-in to additional content.
+              This content is a little bit longer.
+            </b-card-text>
+            <template #footer>
+              <small class="text-muted">Last updated 3 mins ago</small>
+            </template>
+          </b-card>
 
+          <b-card title="Title" img-src="https://picsum.photos/300/300/?image=41" img-alt="Image" img-top>
+            <b-card-text>
+              This card has supporting text below as a natural lead-in to additional content.
+            </b-card-text>
+            <template #footer>
+              <small class="text-muted">Last updated 3 mins ago</small>
+            </template>
+          </b-card>
+
+          <b-card title="Title" img-src="https://picsum.photos/300/300/?image=41" img-alt="Image" img-top>
+            <b-card-text>
+              This is a wider card with supporting text below as a natural lead-in to additional content.
+              This card has even longer content than the first to show that equal height action.
+            </b-card-text>
+            <template #footer>
+              <small class="text-muted">Last updated 3 mins ago</small>
+            </template>
+          </b-card>
+        </b-card-group>
       </div>
 
     </article>
@@ -101,16 +147,8 @@
   padding: 50px;
   display: flex;
   flex-direction: column;
-  background-color: beige;
 }
 
-.main-content .button-text {
-  color: darkgray;
-  padding-right: 20px;
-  text-align: center;
-  margin-right: 7px;
-  position: relative;
-}
 
 .sort-selection {
   display: flex;
@@ -119,14 +157,89 @@
   align-items: center;
 }
 
+.sort-selection .rbox-block {
+  display: flex;
+  z-index: 10;
+}
+
 .sort-selection-side {
   display: flex;
   margin-left: auto;
   align-items: center;
 }
 
-.view-sort-list {
-  display:flex;
+.sort-selection-side .search-box {
+  width: 100%;
+  min-width: 360px;
+  max-width: 360px;
 }
 
+
+.view-sort-list {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  color: #666;
+}
+
+.view-sort-list li {
+  position: relative;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.filter-button {
+  position: relative;
+  display: inline-flex;
+  border: 1px solid #dbd3c7;
+  border-radius: 999px;
+  padding: 11px 16px;
+}
+
+.view-sort li + li:before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: block;
+  width: 1px;
+  height: 10px;
+  margin-top: -5px;
+  background: #dbd3c7;
+  background-color: rgb(219, 211, 199);
+  content: "";
+}
+
+.search-box .o-btn-search {
+  position: absolute;
+  padding: 3px;
+  border-radius: 0;
+  vertical-align: middle;
+  background: url("https://png.pngtree.com/png-clipart/20190705/original/pngtree-vector-search-icon-png-image_4271228.jpg");
+  background-repeat: no-repeat;
+  background-size: 18px auto;
+  flex-shrink: 0;
+}
+
+.search-box {
+  position: relative;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.search-box .o-input {
+  width: 100%;
+  flex: 1 1;
+  height: 40px;
+  font-size: 14px;
+  color: #666;
+  padding: 8px 45px 8px 16px;
+  border: 1px solid #c8c6bd;
+  border-radius: 8px;
+  background: #eae7e2;
+}
+
+.filter-button .st-text {
+  margin-left: 3px;
+}
 </style>

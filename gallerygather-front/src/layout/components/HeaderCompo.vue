@@ -27,10 +27,8 @@ header {
     background-color: #fff;
     padding: 10px 20px;
     border-bottom: 1px solid #ddd;
-    margin: 0;
-    padding: 0;
     width: 100%;
-    height: 80px;
+    height: 100px;
 }
 
 header .logo {

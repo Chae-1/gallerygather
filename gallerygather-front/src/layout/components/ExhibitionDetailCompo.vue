@@ -7,19 +7,19 @@
             </div>
         </div>
         <div class="exhibition-info">
-            <span class="exhibition-status">진행중</span>
-            <h1 class="exhibition-title">[미술] 국보순회전: 모두의 곁으로 ‘금관총 금관, 그리고 이사지왕’</h1>
+            <span class="exhibition-status">{{exhibitDetails.status}}</span>
+            <h1 class="exhibition-title">{{ exhibitDetails.title }}</h1>
             <div class="">
-                <p>2024.06.06 - 2024.09.01</p>
-                <p>보령석탄박물관</p>
+                <p>{{exhibitDetails.startDate}} - {{ exhibitDetails.endDate }}</p>
+                <p>{{exhibitDetails.place}}</p>
             </div>
             <div class="exhibition-desc">
-                문화는어쩌고저쩌고
+                {{ exhibitDetails.content }}
             </div>
             <div class="exhibition-stats">
-                <span class="view">👁️ 42</span>
-                <span class="likes">❤️ 0</span>
-                <span class="replies">💬 0</span>
+                <span class="view">👁️ {{ exhibitDetails.view }}</span>
+                <span class="likes">❤️ {{ exhibitDetails.likes }}</span>
+                <span class="replies">💬 {{ exhibitDetails.replies }}</span>
             </div>
             <button class="ticket-button">예매처 보기</button>
         </div>
@@ -28,7 +28,29 @@
 
 <script>
 export default {
-
+    data() {
+        return {
+            exhibitDetails: {
+                status: "진행중",
+                title: "[미술] 국보순회전: 모두의 곁으로 ‘금관총 금관, 그리고 이사지왕’",
+                startDate: "2024.06.06",
+                endDate: "2024.09.01",
+                place: "보령석탄박물관",
+                content: "문화는어쩌고저쩌고",
+                view: 43,
+                likes: 10,
+                replies: 2,
+            }
+        }
+    },
+    created() {
+        this.getExhibitDetails();
+    },
+    methods: {
+        async getExhibitDetails() {
+            // this.exhibitDetails = []; //await this.$api.만들어야함. 
+        }
+    }
 }
 </script>
 
@@ -39,7 +61,7 @@ export default {
     gap: 20px;
     justify-content: center;
     align-items: center;
-
+    background-color: #eae7e2;;
 }
 
 .exhibition-poster {
@@ -63,13 +85,11 @@ export default {
 
 .blurry-image {
     position: absolute;
-    /* top: 0;
-    left: 0; */
     width: 100%;
     height: 100%;
     object-fit: cover;
     filter: blur(10px);
-    /* transform: scale(1.1); Slight scaling to ensure the image covers the entire area */
+    transform: scale(1.3);
 }
 
 .clear-image {
@@ -78,6 +98,11 @@ export default {
     height: auto;
     z-index: 1;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional: Add a shadow for better visibility */
+    transition: transform 0.2s;
+}
+
+.clear-image:hover {
+    transform: scale(1.1);
 }
 
 .exhibition-info {
@@ -90,11 +115,24 @@ export default {
 
 .exhibition-info h1 {
     font-size: 24px;
+    font-weight: bold;
     margin-bottom: 10px;
 }
 
 .exhibition-info p {
     margin: 5px 0;
+}
+
+.exhibition-status {
+    margin-bottom: 10px;
+}
+
+.exhibition-desc {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px 10px;
+    margin: 10px 0;
+    min-height: 30vh;
 }
 
 .exhibition-stats {

@@ -14,10 +14,7 @@ public class MemberService {
 
     private final MemberRepository repository;
 
-    public void execution() {
-        Member member = new Member();
-        member.setAuth("USER");
-        repository.save(member);
-        member.setName("asd");
+    public void doLogin() {
+
     }
 }

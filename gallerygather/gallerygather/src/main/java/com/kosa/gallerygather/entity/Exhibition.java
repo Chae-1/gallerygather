@@ -1,9 +1,9 @@
 package com.kosa.gallerygather.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -11,6 +11,9 @@ import java.util.Date;
 @Table(name = "TBL_EXHIBITION")
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Exhibition {
 
     @Id
@@ -27,28 +30,30 @@ public class Exhibition {
     private String description;
 
     @Column(name = "start_date")
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date")
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     @Column(name = "charge")
-    private Long charge;
+    private Integer charge;
 
-    @Column(name = "")
+    @Column(name = "author")
     private String author;
 
+    @Column(name ="site_url")
     private String siteUrl;
 
+    @Column(name = "img_url")
     private String imgUrl;
 
-    private long likeCount;
+    private int likeCount;
 
-    private long readCount;
+    private int readCount;
 
-    private long reviewCount;
+    private int reviewCount;
 
-    private long avgScore;
+    private int avgScore;
 
     private String genre;
 

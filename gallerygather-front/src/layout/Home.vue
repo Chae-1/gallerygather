@@ -28,6 +28,8 @@ export default {
   }
 
   #container {
-    min-height: 90vh;
+    width: 100%;
+    height: 100%;
   }
+
 </style>

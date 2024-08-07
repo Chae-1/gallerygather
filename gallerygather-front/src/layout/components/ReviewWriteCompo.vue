@@ -94,36 +94,6 @@
   }
   
   .exhibition-detail {
-=======
-
-}
-</script>
-
-<style scoped>
-.review-container {
-  /* background-color: #f8f4e5; */
-  padding: 20px;
-  border-radius: 8px;
-  width: 700px;
-  margin: 0 auto;
-}
-
-.title {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-.exhibition-info {
-  display: flex;
-  margin-bottom: 20px;
-}
-
-.exhibition-image {
-  width: 150px;
-  height: 200px;
-  margin-right: 20px;
-}
-.exhibition-detail{
     margin-top: 20px;
   }
   

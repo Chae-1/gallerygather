@@ -61,6 +61,10 @@ export default {
         content: this.review.content,
         rating: this.review.rating
       })
+
+      // 라우팅 추가
+      this.$router.push({ name: 'ReviewDetail' })
+
       this.review.title = ''
       this.review.content = ''
       this.review.rating = 0

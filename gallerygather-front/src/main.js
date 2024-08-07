@@ -6,9 +6,12 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import axios from "axios";
+import {createPinia} from "pinia";
 
+const pinia = createPinia();
 const app = createApp(App)
 app.use(router);
+app.use(pinia);
 app.use(BootstrapVue3);
 
 app.mount('#app')

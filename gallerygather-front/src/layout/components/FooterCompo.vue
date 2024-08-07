@@ -11,10 +11,10 @@ export default {};
   </footer>
 </template>
 
-<style scoped >
+<style>
 footer {
   width: 100%;
-  height: 50px;
+  margin: 0 auto;
   border-top: 1px solid #ddd;
 }
 

@@ -1,23 +1,28 @@
 <script>
 export default {
-  name: "Login.vue"
+  name: "Login.vue",
+  methods: {
+    login() {
+      axios.get()
+    }
+  }
 }
 </script>
 
 <template>
   <div>
-    <form class="login">
-      <span>Email</span>
+    <form class="login" method="post" action="http://localhost:8080/api/users/login" @submit="login(form)">
+      <span>이메일</span>
       <input type="email" placeholder="Email Address">
-      <span>Password</span>
+      <span>비밀번호</span>
       <input type="password" placeholder="Password">
       <p>
         <label>
-          <input type="checkbox"> Keep me logged in
+          <input type="checkbox"> 로그인 지속
         </label>
-        <a href="#none">Forgot Your Password?</a>
+        <a href="#none">비밀번호를 잊으셨나요?</a>
       </p>
-      <button>Log in</button>
+      <button type="submit">로그인</button>
     </form>
   </div>
 </template>
@@ -49,7 +54,7 @@ a {
   padding: 25px;
   box-sizing: border-box;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
-  margin: 20% auto;
+  margin: 10% auto;
 }
 
 .login span {

@@ -20,6 +20,10 @@ public class Exhibition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long localId;
+
+    private String audience;
+
     @Column(name = "title")
     private String title;
 
@@ -27,6 +31,7 @@ public class Exhibition {
     private String place;
 
     @Column(name = "description")
+    @Lob
     private String description;
 
     @Column(name = "start_date")
@@ -46,6 +51,8 @@ public class Exhibition {
 
     @Column(name = "img_url")
     private String imgUrl;
+
+    private String eventSite;
 
     private int likeCount;
 

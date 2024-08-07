@@ -14,10 +14,11 @@ public class ApiExhibitionController {
     private final ExhibitionListUpdateService listUpdateService;
 
     @GetMapping("/api/exhibitions")
-    public ResponseEntity<String> exhibition() {
+    public ResponseEntity<String> exhibition(Integer pageNo, Integer recordPerSession) {
         try {
-            listUpdateService.updateExhibition();
+            listUpdateService.updateExhibition(recordPerSession, pageNo);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
         return ResponseEntity.ok("ok");

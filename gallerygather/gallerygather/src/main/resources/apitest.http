@@ -1,2 +1,3 @@
-POST http://localhost:8080/api/users/login?email=coguddlf&password=1234
+GET http://localhost:8080/api/exhibitions?pageNo=5&recordPerSession=10
+Accept: application/json
 

@@ -4,7 +4,6 @@ import Review from "@/views/Review.vue";
 import PageExhibitionDetail from "@/views/PageExhibitionDetail.vue";
 import MypageView from '@/views/MypageView.vue'
 import Login from "@/views/Login.vue";
-import PageReviewWrite from "@/views/PageReviewWrite.vue";
 import PageReviewDetail from "@/views/PageReviewDetail.vue";
 
 const homeRoute = {
@@ -39,10 +38,6 @@ const homeRoute = {
             path: '/login',
             name: 'login',
             component: Login,
-        },
-        {
-            path: '/exhibitWrite',
-            component: PageReviewWrite
         }
 
     ]

@@ -22,19 +22,52 @@
         </div>
             
         <div class="review-content">
-            <textarea name="" id="">
-                아르떼에 당첨되어서 오사카파나로마전 보고왓어여
-                소중해
-                좋아요
-                환상의 그림
-            </textarea>
+            <!-- <quill-editor v-model="content" placeholder="게시글이 없습니다."></quill-editor> -->
+            <display-compo :content="reviewDetails.content" ></display-compo>
         </div>
-
     </div>
 </template>
 
 <script>
-export default {
+import DisplayCompo from './main/DisplayCompo.vue'
+import ReviewRepliesCompo from './ReviewRepliesCompo.vue'
+// import QuillEditor from './QuillEditor.vue'
+
+export default { 
+    components: {
+        DisplayCompo,
+        ReviewRepliesCompo,
+        // QuillEditor
+    },
+    data() {
+        return {
+            reviewDetails: {
+
+                content: `
+            <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+            <HTML>
+            <HEAD>
+                <TITLE>Understanding HTML File Format</TITLE>
+            </HEAD>
+            <BODY>
+                <P>Hello World!</p>
+                <div>이것참</div>
+                <h3>맞아?</h3>
+                <p>근ㄱ길 아니 긴 글 긴글이ㅏ러디ㅏ머리ㅏㅓㅎ;ㅁ디험;'ㅣㅏㅎㄷ;'ㅣ함;'ㅣ핟;'히ㅓㅁ;ㅎ'ㅣㅓㅣㅏ더히;ㄷ험;ㅣ하ㅓㄷ;ㅣ헏
+                    이ㅏㅁ허ㅣ다ㅓㅎ미;ㅓㅎㄷ;ㅣ핟;ㅣㄱ헉;헏ㅁ허;</p>
+            </BODY>
+            </HTML>
+            `
+            },
+        }
+    },
+    created() {
+
+    },
+    methods: {
+        // getReviewDetails
+    }
 
 }
 </script>
@@ -71,9 +104,11 @@ export default {
     height: 100%;
 }
 
-.review-content textarea{
-    position: relative;
+.review-content {
+    margin: 10px auto;
     width: 60%;
-    margin: 20px auto;
+    min-height: 40vh;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 </style>

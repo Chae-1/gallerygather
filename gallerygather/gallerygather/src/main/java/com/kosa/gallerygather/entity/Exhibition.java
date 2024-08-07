@@ -35,7 +35,6 @@ public class Exhibition {
     @Column(name = "charge")
     private Long charge;
 
-    @Column(name = "")
     private String author;
 
     private String siteUrl;

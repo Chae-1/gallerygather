@@ -54,7 +54,7 @@
 public CorsConfigurationSource corsConfigurationSource() {
    CorsConfiguration configuration = new CorsConfiguration();
    configuration.addAllowedOrigin("https://example.com"));
-   configuration.addAllowedMethod("GET","POST"));
+   configuration.addAllowedMethod("GET","POST");
    configuration.setAllowCredentials(true);
    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
    source.registerCorsConfiguration("/**", configuration);

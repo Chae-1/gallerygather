@@ -4,9 +4,9 @@ import Review from "@/views/Review.vue";
 import PageExhibitionDetail from "@/views/PageExhibitionDetail.vue";
 import MypageView from '@/views/MypageView.vue'
 import Login from "@/views/Login.vue";
-import PageReviewWrite from "@/views/PageReviewWrite.vue";
 import PageReviewDetail from "@/views/PageReviewDetail.vue";
 import JoinForm from "@/layout/components/main/JoinForm.vue";
+import ReviewDetail from "@/views/ReviewDetail.vue";
 
 const homeRoute = {
     path: '/',
@@ -31,6 +31,12 @@ const homeRoute = {
             
         },
         {
+            path: '/detail',
+            name: 'ReviewDetail',
+            component: ReviewDetail,
+
+        },
+        {
             path: '/reviewdetails',
             component: PageReviewDetail
         },
@@ -46,10 +52,6 @@ const homeRoute = {
             path: '/login',
             name: 'login',
             component: Login,
-        },
-        {
-            path: '/exhibitWrite',
-            component: PageReviewWrite
         }
 
     ]

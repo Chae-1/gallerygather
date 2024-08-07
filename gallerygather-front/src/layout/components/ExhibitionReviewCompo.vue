@@ -51,6 +51,7 @@
             </ul>
         </div>
     </div>
+    <pagenation-compo></pagenation-compo>
 </template>
 
 <script>

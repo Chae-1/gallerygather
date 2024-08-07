@@ -13,4 +13,5 @@ const app = createApp(App)
 app.use(router);
 app.use(pinia);
 app.use(BootstrapVue3);
+
 app.mount('#app')

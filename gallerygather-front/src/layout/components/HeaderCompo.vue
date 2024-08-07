@@ -67,44 +67,77 @@ export default {
                 </li>
             </ul>
         </div>
+        <div class="login-bar">
+            <div>
+                회원가입
+            </div>
+            <div>
+                로그인
+            </div>
+
+        </div>
     </header>
 </template>
 
 <style scoped>
+ul {
+    padding: 0;
+    margin: 0;
+}
 
 header {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    gap: 20%;
-    background-color: #fff;
-    padding: 10px 20px;
-    border-bottom: 1px solid #ddd;
+    padding: 0 5%;
+    /* position: relative; */
     width: 100%;
-    height: 8vh;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo {
+    padding: 20px 10px;
 }
 
 .main-menu {
-    position: inherit;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
     display: flex;
+    flex-direction: row;
+    gap: 50px;
+    z-index: 1;
+    padding: 0;
 }
 
-.main-menu .item .item__name {
-    padding:10px 20px 34px 20px;
+.main-menu .item .item__name{
+    padding: 20px 20px 25px;
+    margin-top : 5px;
 }
-
 .main-menu .item:hover .item__name{
   background-color: #2c2a29;
   color: #669900;
   border-radius: 6px 6px 0 0;
-
 }
+
 .main-menu .item .item__contents{
+    width: 100%;
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    display: none;
+    transition-delay: 2s;
+    transition-property: height;
+}
+
+.main-menu .item:hover .item__contents {
+    display: block;
+}
+
+.main-menu .item .item__contents .contents__menu{
+  background-color: #2c2a29;
+  height: 400px; 
+}
+/* .main-menu .item .item__contents{
   width: 100%;
-  position: fixed;
+  position: absolute;
   left: 0;
   display: none;
   z-index: 2;
@@ -118,8 +151,8 @@ header {
 .main-menu .item .item__contents .contents__menu{
   background-color: #2c2a29;
   height: 400px; 
-}
-
+} */
+/* 
 .inner {
     font-size: 40px;
     padding-top: 50px;
@@ -139,6 +172,11 @@ header {
 .inner > li > a:hover::before {
     content:"ㅡ";
     width: auto;
-}
+} */
 
+.login-bar {
+    display: flex;
+    flex-direction: row;
+    padding: 20px 10px;
+}
 </style>

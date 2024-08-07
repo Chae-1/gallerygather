@@ -61,7 +61,6 @@ export default {
     gap: 20px;
     justify-content: center;
     align-items: center;
-    background-color: #eae7e2;;
 }
 
 .exhibition-poster {

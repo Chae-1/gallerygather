@@ -9,4 +9,5 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 const app = createApp(App)
 app.use(router);
 app.use(BootstrapVue3);
+
 app.mount('#app')

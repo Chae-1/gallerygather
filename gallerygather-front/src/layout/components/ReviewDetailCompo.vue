@@ -8,7 +8,7 @@
                 <div class="review-info">
                     <span class="reviewer">안수영</span>
                     <br/>
-                    <span class="scope">⭐ 10.0</span>
+                    <span class="scope">⭐ 4</span>
                 </div>
                 <div>
                     후기 작성일자: <span class="review-date">2024-04-18</span>
@@ -26,16 +26,25 @@
         </div>         
         <div class="review-content">
             <p>내용: 진짜 재밌더라고요~ 우하하</p>
-            <p>평점: ⭐ 3</p>
+            <!-- <quill-editor v-model="content" placeholder="게시글이 없습니다."></quill-editor> -->
         </div>
     </div>
 </template>
 
 <script>
 
-export default {
+import ReviewRepliesCompo from './ReviewRepliesCompo.vue'
+// import QuillEditor from './QuillEditor.vue'
+
+export default { 
+    components: {
+        ReviewRepliesCompo,
+        // QuillEditor
+    },
     
-};
+}
+
+
 </script>
 
 <style scoped>
@@ -71,9 +80,11 @@ export default {
     height: 100%;
 }
 
-.review-content textarea{
-    position: relative;
+.review-content {
+    margin: 10px auto;
     width: 60%;
-    margin: 20px auto;
+    min-height: 40vh;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 </style>

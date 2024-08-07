@@ -2,7 +2,7 @@
     <div class="review-container">
       <h2 class="title">후기 작성하기</h2>
       <div class="exhibition-info">
-        <img src="../../assets/img/kitty.jpg" alt="전시 이미지" class="exhibition-image">
+        <img src="../../../assets/img/kitty.jpg" alt="전시 이미지" class="exhibition-image">
         <div class="exhibition-detail">
           <h3>{{ gtitle }}</h3>
           <p>기간: {{ period }}</p>
@@ -11,7 +11,7 @@
       </div>
       <form @submit.prevent="submit">
         별점을 입력하세요. <star-rating v-model:rating="review.rating" :increment="0.5" :star-size="20"></star-rating>
-      <br />
+        <br />
         제목: <input type="text" class="input-title" v-model="review.title" placeholder="제목을 입력해주세요." required />
         <br />
         내용: <QuillEditor v-model:modelValue="review.content" placeholder="내용을 입력해 주세요." required></QuillEditor>
@@ -55,9 +55,7 @@
 
         this.review.title = '';
         this.review.content = '';
-        this.review.rating = 0;
-
-        
+        this.review.rating = 0;   
       }
     },
     watch: {

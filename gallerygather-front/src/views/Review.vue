@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ReviewWrite from '@/layout/components/ReviewWriteCompo.vue';
+import ReviewWrite from '@/layout/components/review/ReviewWriteCompo.vue';
 
 export default {
     components:{

@@ -65,7 +65,7 @@ export default {
 .quill-editor {
   height: 500px;
   max-height: none;
-  overflow: hidden;
+  overflow: auto;
   
 }
 </style>

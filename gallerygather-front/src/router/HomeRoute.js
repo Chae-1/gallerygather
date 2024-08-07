@@ -20,11 +20,12 @@ const homeRoute = {
         },
         {
             path: '/review',
+            name: 'ReviewWrite',
             component: Review,
             
         },
         {
-            path: '/detail',
+            path: '/review/detail',
             name: 'ReviewDetail',
             component: ReviewDetail,
 

@@ -6,6 +6,7 @@ import MypageView from '@/views/MypageView.vue'
 import Login from "@/views/Login.vue";
 import PageReviewWrite from "@/views/PageReviewWrite.vue";
 import PageReviewDetail from "@/views/PageReviewDetail.vue";
+import ReviewDetail from "@/views/ReviewDetail.vue";
 
 const homeRoute = {
     path: '/',
@@ -22,6 +23,12 @@ const homeRoute = {
             path: '/review',
             component: Review,
             
+        },
+        {
+            path: '/detail',
+            name: 'ReviewDetail',
+            component: ReviewDetail,
+
         },
         {
             path: '/reviewdetails',

@@ -25,11 +25,14 @@
                 </li>
             </ul>
         </div>
+        <pagination-compo></pagination-compo>
     </div>
 </template>
 
 <script>
+import PaginationCompo from './PaginationCompo.vue';
 export default {
+    components: { PaginationCompo },
     data() {
         return {
             newReplyContent: '',

@@ -1,6 +1,13 @@
 <script>
-export default {
+import {userStore} from "@/store/userStore.js";
 
+export default {
+  computed: {
+    isAuthenticated() {
+      const store = userStore();
+      return store.isAuthenticated;
+    }
+  },
 };
 </script>
 
@@ -68,13 +75,19 @@ export default {
             </ul>
         </div>
         <div class="login-bar">
-            <div>
-                회원가입
+            <div class="login-menu">
+                <a href="/join">
+                  회원가입
+                </a>
             </div>
-            <div>
+            <div class="login-menu">
+              <a href="/logout" v-if="isAuthenticated">
+                로그아웃
+              </a>
+              <a href="/login" v-else>
                 로그인
+              </a>
             </div>
-
         </div>
     </header>
 </template>
@@ -97,6 +110,7 @@ header {
 
 .logo {
     padding: 20px 10px;
+    vertical-align: middle;
 }
 
 .main-menu {
@@ -111,7 +125,8 @@ header {
     padding: 20px 20px 25px;
     margin-top : 5px;
 }
-.main-menu .item:hover .item__name{
+
+.main-menu .item:hover .item__name, .login-bar > div:hover{
   background-color: #2c2a29;
   color: #669900;
   border-radius: 6px 6px 0 0;
@@ -133,7 +148,7 @@ header {
 
 .main-menu .item .item__contents .contents__menu{
   background-color: #2c2a29;
-  height: 400px; 
+  height: 400px;
 }
 /* .main-menu .item .item__contents{
   width: 100%;
@@ -175,8 +190,17 @@ header {
 } */
 
 .login-bar {
-    display: flex;
-    flex-direction: row;
-    padding: 20px 10px;
+  display: flex;
+  padding: 20px 0;
+  vertical-align: center;
 }
+
+.login-bar > div {
+  padding: 0 20px;
+}
+
+.login-menu {
+  height: 100%;
+}
+
 </style>

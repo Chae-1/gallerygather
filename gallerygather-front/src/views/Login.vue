@@ -1,28 +1,44 @@
+
 <script>
+// 작성자: 채형일
+import {userStore} from "@/store/userStore.js";
+
 export default {
   name: "Login.vue",
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+
   methods: {
     login() {
-      axios.get()
+      console.log("login 요청 중");
+      const store = userStore();
+      store.login(this.email, this.password)
+          .then(response => console.log(response.data))
+          .catch((error) => console.log(error));
     }
   }
+
 }
 </script>
 
 <template>
   <div>
-    <form class="login" method="post" action="http://localhost:8080/api/users/login" @submit="login(form)">
+    <form class="login" method="post">
       <span>이메일</span>
-      <input type="email" placeholder="Email Address">
+      <input type="email" v-model="email" placeholder="Email Address">
       <span>비밀번호</span>
-      <input type="password" placeholder="Password">
+      <input type="password" v-model="password" placeholder="Password">
       <p>
         <label>
           <input type="checkbox"> 로그인 지속
         </label>
         <a href="#none">비밀번호를 잊으셨나요?</a>
       </p>
-      <button type="submit">로그인</button>
+      <button type="button" @click="login">로그인</button>
     </form>
   </div>
 </template>
@@ -30,24 +46,13 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Raleway&display=swap');
 
-body {
-  font-family: 'Raleway', sans-serif;
-  line-height: 1.5em;
-  margin: 0;
-  font-weight: 300;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  color: #222;
-}
 a {
   text-decoration: none;
   color: #222;
 }
 
 .login {
-  max-width: 1220px;
+  max-width: 1920px;
   background-color: #f5f5f5;
   border: 1px solid #eee;
   border-radius: 5px;

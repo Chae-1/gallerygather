@@ -1,75 +1,50 @@
 <template>
     <div class="review-details">
         <div class="review-container">
-
             <div class="review-box">
-                <div>리뷰</div>
-                <div class="title">너무 재밌는 전시회였습니다.</div>
-                <div class="review-">
+                <p>후기 상세보기</p>
+                <br/>
+                <h2 class="title">헬로키티 전시회</h2>
+                <div class="review-info">
                     <span class="reviewer">안수영</span>
-                    <span class="scope">10.0</span>
+                    <br/>
+                    <span class="scope">⭐ 4</span>
                 </div>
                 <div>
-                    <span class="review-date">2024-04-18</span>
-                    <span class="view">89</span>
-                    <span class="likes">2</span>
-                    <span class="replies">0</span>
+                    후기 작성일자: <span class="review-date">2024-04-18</span>
+                    <br/>
+                    <span class="view">👁️ 89</span>
+                    <br/>
+                    <span class="likes">❤️ 2</span>
+                    <br/>
+                    <span class="replies">💬 0</span>
                 </div>
             </div>
             <div class="exhibit-img">
                 <img src="../../assets/img/daniel_arsham.png" alt="daniel_arsham">
             </div>
-        </div>
-            
+        </div>         
         <div class="review-content">
+            <p>내용: 진짜 재밌더라고요~ 우하하</p>
             <!-- <quill-editor v-model="content" placeholder="게시글이 없습니다."></quill-editor> -->
-            <display-compo :content="reviewDetails.content" ></display-compo>
         </div>
     </div>
 </template>
 
 <script>
-import DisplayCompo from './main/DisplayCompo.vue'
+
 import ReviewRepliesCompo from './ReviewRepliesCompo.vue'
 // import QuillEditor from './QuillEditor.vue'
 
 export default { 
     components: {
-        DisplayCompo,
         ReviewRepliesCompo,
         // QuillEditor
     },
-    data() {
-        return {
-            reviewDetails: {
-
-                content: `
-            <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-            "http://www.w3.org/TR/html4/strict.dtd">
-            <HTML>
-            <HEAD>
-                <TITLE>Understanding HTML File Format</TITLE>
-            </HEAD>
-            <BODY>
-                <P>Hello World!</p>
-                <div>이것참</div>
-                <h3>맞아?</h3>
-                <p>근ㄱ길 아니 긴 글 긴글이ㅏ러디ㅏ머리ㅏㅓㅎ;ㅁ디험;'ㅣㅏㅎㄷ;'ㅣ함;'ㅣ핟;'히ㅓㅁ;ㅎ'ㅣㅓㅣㅏ더히;ㄷ험;ㅣ하ㅓㄷ;ㅣ헏
-                    이ㅏㅁ허ㅣ다ㅓㅎ미;ㅓㅎㄷ;ㅣ핟;ㅣㄱ헉;헏ㅁ허;</p>
-            </BODY>
-            </HTML>
-            `
-            },
-        }
-    },
-    created() {
-
-    },
-    methods: {
-        // getReviewDetails
-    }
-
+    
 }
+
+
 </script>
 
 <style scoped>
@@ -89,6 +64,7 @@ export default {
     background-color: darkslategray;
     justify-content: center;
     align-items: center;
+    color: aliceblue;
 }
 
 .review-box {

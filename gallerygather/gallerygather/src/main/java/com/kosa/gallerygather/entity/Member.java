@@ -1,9 +1,12 @@
 package com.kosa.gallerygather.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +15,10 @@ import java.util.List;
 @Table(name = "TBL_MEMBER")
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
+
+    private static final String BASIC_AUTH = "USER";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +36,8 @@ public class Member {
     @Column(name = "auth")
     private String auth;
 
+    private LocalDate dateOfBirth;
+
     @Column(name = "reg_date")
     private LocalDateTime regDate;
 
@@ -38,6 +46,21 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Reply> replies = new ArrayList<>();
+
+    private Member(String name, String password, String email, String auth, LocalDate dateOfBirth, LocalDateTime regDate, LocalDateTime updateDate) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.auth = auth;
+        this.dateOfBirth = dateOfBirth;
+        this.regDate = regDate;
+        this.updateDate = updateDate;
+    }
+
+    public static Member ofNewMember(String name, String email, String password, LocalDate dateOfBirth) {
+        return new Member(name, password, email, BASIC_AUTH, dateOfBirth, LocalDateTime.now(), LocalDateTime.now());
+    }
+
 
 }
 

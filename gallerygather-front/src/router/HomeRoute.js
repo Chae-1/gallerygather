@@ -5,6 +5,7 @@ import PageExhibitionDetail from "@/views/PageExhibitionDetail.vue";
 import MypageView from '@/views/MypageView.vue'
 import Login from "@/views/Login.vue";
 import PageReviewDetail from "@/views/PageReviewDetail.vue";
+import JoinForm from "@/layout/components/main/JoinForm.vue";
 import ReviewDetail from "@/views/ReviewDetail.vue";
 
 const homeRoute = {
@@ -13,6 +14,12 @@ const homeRoute = {
     redirect: '/main',
     component: Home,
     children: [
+
+        {
+            path: '/join',
+            component: JoinForm
+        },
+
         {
             path: '/main',
             component: HomeMain,

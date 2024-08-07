@@ -1,11 +1,14 @@
 <template>
   <div class="mypage">
     <div class="summary-container">
-      <div class="my-summary__inbox"><span class="my-summary__tit">좋아요</span><span class="my-summary__num">0</span>
+      <div class="my-summary__inbox">
+        <span class="my-summary__tit">좋아요</span><span class="my-summary__num">0</span>
       </div>
-      <div class="my-summary__inbox"><span class="my-summary__tit">작성글</span><span class="my-summary__num">0</span>
+      <div class="my-summary__inbox">
+        <span class="my-summary__tit">작성글</span><span class="my-summary__num">0</span>
       </div>
-      <div class="my-summary__inbox"><span class="my-summary__tit">작성댓글</span><span class="my-summary__num">0</span>
+      <div class="my-summary__inbox">
+        <span class="my-summary__tit">작성댓글</span><span class="my-summary__num">0</span>
       </div>
     </div>
 
@@ -27,12 +30,20 @@
       <input type="text" v-model="membernick" maxlength="10" class="form-input" />
       <button type="button" class="nick-btn" @click="checkNickDuplicate">중복확인</button>
       <br />
-      <span class="form-note">※ 2자~15자, 영문, 한글, 숫자만 가능. (특수문자, 문장기호, 이모티콘 등 사용불가)</span>
+      <span class="form-note"
+        >※ 2자~15자, 영문, 한글, 숫자만 가능. (특수문자, 문장기호, 이모티콘 등 사용불가)</span
+      >
     </div>
 
     <div class="inform__block">
       <label class="form-label">이름 </label>
-      <input type="text" v-model="membername" placeholder=" 이름을 입력해주세요." maxlength="10" class="form-input"/>
+      <input
+        type="text"
+        v-model="membername"
+        placeholder=" 이름을 입력해주세요."
+        maxlength="10"
+        class="form-input"
+      />
     </div>
 
     <div class="inform__block">
@@ -51,11 +62,18 @@
     </div>
 
     <div class="inform__block">
-      <label class="form-label">주소 </label><br>
+      <label class="form-label">주소 </label><br />
       <div class="address-container">
-      <input type="text" class="form-input" v-model="zipcode" placeholder="우편번호 찾기" readonly @click="findPostcode" />
-      <input type="text" class="form-input" v-model="address" placeholder="주소" readonly />
-      <input type="text" class="form-input" v-model="detailAddress" placeholder="상세주소" />
+        <input
+          type="text"
+          class="form-input"
+          v-model="zipcode"
+          placeholder="우편번호 찾기"
+          readonly
+          @click="findPostcode"
+        />
+        <input type="text" class="form-input" v-model="address" placeholder="주소" readonly />
+        <input type="text" class="form-input" v-model="detailAddress" placeholder="상세주소" />
       </div>
     </div>
 
@@ -140,7 +158,6 @@ export default {
 </script>
 
 <style scoped>
-
 /* 마이페이지 스타일 정의 */
 /* 마이페이지 컨테이너 스타일: 고정된 너비를 설정하고 가운데 정렬, Arial 폰트 적용 */
 .mypage {
@@ -180,8 +197,8 @@ export default {
   color: #333;
 }
 
-  /* 공통 스타일 정의 */
-  /* 글자 라벨 스타일: inline-block으로 설정하여 크기를 조정하고, 고정 너비와 패딩을 추가 */
+/* 공통 스타일 정의 */
+/* 글자 라벨 스타일: inline-block으로 설정하여 크기를 조정하고, 고정 너비와 패딩을 추가 */
 .form-label {
   display: inline-block;
   width: 118px;
@@ -206,7 +223,7 @@ export default {
   border: 1px solid #dbd3c7;
   border-radius: 6px;
   line-height: 1.5;
-  background: transparent none repeat 0 0/auto auto padding-box border-box scroll;
+  background: transparent none repeat 0 0 / auto auto padding-box border-box scroll;
   margin-bottom: 10px; /* 필드 간 간격 추가 */
 }
 
@@ -218,7 +235,7 @@ export default {
   display: inline-flex;
   padding: 14px 16px;
   border: 1px solid;
-  letter-spacing: -.02em;
+  letter-spacing: -0.02em;
   align-items: center;
 }
 
@@ -229,7 +246,7 @@ export default {
   display: inline-flex;
   padding: 12px 20px;
   border: 1px solid;
-  letter-spacing: -.02em;
+  letter-spacing: -0.02em;
   align-items: center;
 }
 
@@ -242,7 +259,7 @@ export default {
   display: flex;
   padding: 4px 24px;
   border: 1px solid;
-  letter-spacing: -.02em;
+  letter-spacing: -0.02em;
   align-items: center;
   font-weight: 500;
   white-space: nowrap;
@@ -290,8 +307,8 @@ export default {
   margin-bottom: 10px;
 }
 
-.mypage-title{
-  margin: 10px 30px 10px 10px ;
+.mypage-title {
+  margin: 10px 30px 10px 10px;
 }
 
 /* 저장 버튼 컨테이너 스타일: 컨테이너를 flex로 설정하고 중앙에 배치 */
@@ -300,6 +317,4 @@ export default {
   justify-content: center;
   margin-top: 20px;
 }
-
 </style>
-

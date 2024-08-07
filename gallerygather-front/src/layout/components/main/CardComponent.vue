@@ -1,6 +1,12 @@
 <script>
 export default {
-  name: "CardComponent"
+  name: "CardComponent",
+  data() {
+    return {
+      rows: 100,
+      currentPage: 1,
+    }
+  }
 }
 </script>
 
@@ -35,6 +41,12 @@ export default {
       </template>
     </b-card>
   </b-card-group>
+
+  <div class="mt-3">
+    <h6>Large Pills</h6>
+    <b-pagination v-model="currentPage" :per-page=10 pills :total-rows="rows" size="lg" align="fill"></b-pagination>
+  </div>
+
 </template>
 
 <style scoped>

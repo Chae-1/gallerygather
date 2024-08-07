@@ -51,11 +51,13 @@
             </ul>
         </div>
     </div>
-    <pagenation-compo></pagenation-compo>
+    <pagination-compo></pagination-compo>
 </template>
 
 <script>
+import PaginationCompo from './PaginationCompo.vue';
 export default {
+    components: {PaginationCompo},
     data() {
         return {
             exhibitReviewList: []

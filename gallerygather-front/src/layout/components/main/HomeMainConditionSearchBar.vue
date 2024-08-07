@@ -2,12 +2,12 @@
 export default {
   data() {
     return {
-      toggle: false,
-    };
+      toggle: false
+    }
   },
   methods: {
     toggleDetailSearchMenu() {
-      this.toggle = !this.toggle;
+      this.toggle = !this.toggle
     }
   }
 }
@@ -15,9 +15,7 @@ export default {
 
 <template>
   <div class="sort-selection">
-    <p class="result-text">
-      결과 총 1000개
-    </p>
+    <p class="result-text">결과 총 1000개</p>
     <div class="sort-selection-side">
       <ul class="view-sort-list">
         <li class="button-text">
@@ -38,9 +36,16 @@ export default {
             <span class="st-text">열기</span>
           </button>
           <span class="search-box hide-mo">
-              <input type="text" class="o-input" placeholder="전시명, 작가명, 전시 공간명 등을 입력해주세요" name="search_keyword"
-                     maxlength="20" value="" autocomplete="false">
-              <button type="button" class="o-btn o-btn-search" aria-label="검색"></button>
+            <input
+              type="text"
+              class="o-input"
+              placeholder="전시명, 작가명, 전시 공간명 등을 입력해주세요"
+              name="search_keyword"
+              maxlength="20"
+              value=""
+              autocomplete="false"
+            />
+            <button type="button" class="o-btn o-btn-search" aria-label="검색"></button>
           </span>
         </div>
       </ul>
@@ -54,7 +59,7 @@ export default {
           <ul class="search-items">
             <li class="search-item" v-for="item in 20">
               <label for="search">
-                <input type="checkbox">
+                <input type="checkbox" />
                 <span>전체</span>
               </label>
             </li>
@@ -66,7 +71,6 @@ export default {
 </template>
 
 <style scoped>
-
 .search-option {
   width: 33%;
   display: flex;
@@ -97,9 +101,9 @@ export default {
   padding: 30px;
 }
 
-.search-item span, p {
+.search-item span,
+p {
   padding: 0 10px;
-
 }
 
 .sort-selection {
@@ -114,7 +118,6 @@ export default {
   font-size: 18px;
   color: black;
 }
-
 
 .sort-selection .rbox-block {
   display: flex;
@@ -132,7 +135,6 @@ export default {
   min-width: 360px;
   max-width: 360px;
 }
-
 
 .view-sort-list {
   display: flex;
@@ -165,7 +167,7 @@ export default {
   margin-top: -5px;
   background: #dbd3c7;
   background-color: rgb(219, 211, 199);
-  content: "";
+  content: '';
 }
 
 .search-box .o-btn-search {
@@ -173,7 +175,7 @@ export default {
   padding: 3px;
   border-radius: 0;
   vertical-align: middle;
-  background: url("https://png.pngtree.com/png-clipart/20190705/original/pngtree-vector-search-icon-png-image_4271228.jpg");
+  background: url('https://png.pngtree.com/png-clipart/20190705/original/pngtree-vector-search-icon-png-image_4271228.jpg');
   background-repeat: no-repeat;
   background-size: 18px auto;
   flex-shrink: 0;

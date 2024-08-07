@@ -76,7 +76,7 @@ export default {
     padding: 20px;
     display: flex;
     flex-direction: column;
-    background-color: #f5f3ec;;
+    /* background-color: #f5f3ec;; */
 }
 
 .exhibition-reviews > div > span {

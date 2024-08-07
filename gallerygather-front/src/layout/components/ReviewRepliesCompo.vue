@@ -79,17 +79,22 @@ export default {
     width: 90%;
 }
 
+button {
+    position: relative;
+    width: 70px;
+    height: 40px;
+    background-color: black;
+    border-radius: 5px;
+}
 .reply-register button {
     position: relative;
     width: 70px;
     height: 40px;
     background-color: black;
     border-radius: 5px;
-    bottom: 0;
 }
 
 .reply-lists-container{
-    /* border: 1px solid blue; */
     background-color: blue;
     border-radius: 5px;
     padding: 20px 20px 10px;
@@ -97,7 +102,6 @@ export default {
 
 li {
     list-style: none;
-    /* border: 1px solid pink; */
     background-color: pink;
     border-radius: 5px;
     margin-bottom: 10px;
@@ -118,5 +122,19 @@ textarea {
 .reply-box {
     display: flex;
     flex-direction: column;
+}
+
+.reply-content {
+    width: 400px;
+}
+
+.reply-manage {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    margin-left: 10px;
+}
+
+.reply-manage button {
 }
 </style>

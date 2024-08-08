@@ -22,7 +22,7 @@ const homeRoute = {
       path: '/join',
       component: JoinForm
     },
-       
+
     {
       path: '/main',
       component: HomeMain
@@ -30,7 +30,7 @@ const homeRoute = {
     {
       path: '/review',
       name: 'ReviewWrite',
-      component: Review,
+      component: Review
     },
     {
       path: '/review/detail',
@@ -43,6 +43,7 @@ const homeRoute = {
     },
     {
       path: '/exhibitiondetails',
+      name: 'ExhibitionDetails',
       component: PageExhibitionDetail
     },
     {

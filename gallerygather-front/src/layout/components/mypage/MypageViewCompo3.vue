@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="reivews">
     <div class="container">
       <!-- 행을 사용하여 탭 버튼들을 정렬 -->
       <div class="row">
@@ -11,13 +11,13 @@
         </div>
       </div>
       <!-- 선택 및 삭제 버튼을 포함하는 행 -->
-      <div class="selectedAllrow d-flex align-items-center">
+      <div class="selectedAllrow">
         <!-- 전체 선택 체크박스 -->
         <div class="col-auto">
           <input type="checkbox" v-model="selectAll" @change="toggleSelectAll" /> 전체선택
         </div>
         <!-- 선택된 항목을 삭제하는 버튼 -->
-        <button @click="deleteSelected" class="delete btn btn-danger ml-auto">삭제</button>
+        <button @click="deleteSelected" class="deletebtn">삭제</button>
       </div>
       <!-- 리뷰 항목들을 나열하는 행 -->
       <div class="row">
@@ -99,12 +99,6 @@ export default {
 </script>
 
 <style scoped>
-/* 카드 컴포넌트의 여백을 설정 */
-.v-card {
-  margin-bottom: 16px;
-  cursor: pointer;
-}
-
 .review-image {
   max-width: 100px; /* 이미지 최대 너비 설정 */
   max-height: 100px; /* 이미지 최대 높이 설정 */
@@ -118,7 +112,7 @@ export default {
   align-items: center;
   margin-bottom: 10px;
 }
-.delete {
+.deletebtn {
   margin-left: auto;
   padding: 6px 12px;
 }

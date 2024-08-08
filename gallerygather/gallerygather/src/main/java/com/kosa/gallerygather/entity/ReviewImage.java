@@ -20,7 +20,7 @@ public class ReviewImage {
     @Column(name = "original_name")
     private String originalName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exhibitreview_id")
     private ExhibitionReview exhibitionReview;
 }

@@ -28,4 +28,8 @@ public class ReviewReply {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "exhibit_review_id")
+    private ExhibitionReview exhibitionReview;
 }

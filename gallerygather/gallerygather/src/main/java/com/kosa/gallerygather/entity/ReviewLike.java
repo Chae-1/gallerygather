@@ -17,12 +17,12 @@ public class ReviewLike {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne
-    @JoinColumn(name = "exhibition_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "exhibit_review_id")
     private ExhibitionReview exhibitionReview;
 
 

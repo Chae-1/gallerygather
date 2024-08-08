@@ -26,7 +26,7 @@ public class ExhibitionReview {
 
     private LocalDateTime updateDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exhibition_id")
     private Exhibition exhibition;
 }

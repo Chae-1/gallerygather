@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import PaginationCompo from './PaginationCompo.vue';
+import PaginationCompo from '../PaginationCompo.vue';
 export default {
     components: { PaginationCompo },
     data() {
@@ -105,6 +105,8 @@ export default {
 
 .reply-register textarea {
     width: calc(100% - 60px);
+    /* background-color: transparent; */
+    color: aliceblue;
 }
 
 .reply-register button {

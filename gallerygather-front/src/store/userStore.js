@@ -10,35 +10,40 @@ async function requestLogin(email, password) {
 
 export const userStore = defineStore({
     id: 'user', state: () => ({
-        email: 'not login', token: null,
+        email: 'not login', accessToken: null, nickName: '',
     }), getters: {
         isAuthenticated(state) {
             return state.token !== null;
         }
     }, actions: {
         logout() {
+            // 서버에 logout을 호출
             this.$patch({
                 name: null, token: null,
-            })
-        },
-        extractAndSetUserInfo(token) {
+            });
+            sessionStorage.setItem('token', null);
         },
 
         async login(email, password) {
-            const resp = await axios.post("http://localhost:8080/api/members/login", {
+            return await axios.post("http://localhost:8080/api/members/login", {
                 email, password
             }, {
                 responseType: "json"
             }).then(response => {
-                const token = response.data.token;
-
-                const userInfo = extractAndSetUserInfo(token);
-                localStorage.setItem('token', token);
+                console.log(response);
+                const accessToken = response.data.accessToken;
+                const nickName = response.data.nickName;
+                const email = response.data.email;
+                localStorage.setItem('accessToken', accessToken);
                 this.$patch({
-                    email,
-                    token: value // assuming the token is returned in the response
+                    email: email,
+                    accessToken: accessToken,
+                    nickName: nickName
                 });
+                return response;
             }).catch((error) => {
+                console.log(error);
+                throw error;
             });
         },
     }

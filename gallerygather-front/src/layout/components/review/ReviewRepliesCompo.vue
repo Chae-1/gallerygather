@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import PaginationCompo from './PaginationCompo.vue';
+import PaginationCompo from '@/layout/components/PaginationCompo.vue'
 export default {
     components: { PaginationCompo },
     data() {

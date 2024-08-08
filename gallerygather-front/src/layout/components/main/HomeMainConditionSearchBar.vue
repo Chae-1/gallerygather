@@ -51,7 +51,7 @@ export default {
       </ul>
     </div>
 
-    <div class="search-detail-menu" v-show="!toggle">
+    <div class="search-detail-menu" v-show="toggle">
       <p>상세옵션</p>
       <div class="search-box">
         <div class="search-option" v-for="itemx in 3">

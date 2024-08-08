@@ -18,8 +18,11 @@ export default {
       const store = userStore();
       store.login(this.email, this.password)
           .then(response => {
-            const token = response.data.token;
-            const userInfo = extractUserInfoFrom(token);
+            console.log(response);
+            const accessToken = response.data.accessToken;
+            const nickName = response.data.nickName;
+            const email = response.data.email;
+            console.log(accessToken, nickName, email);
             this.$router.push('/main');
           })
           .catch((error) => console.log(error));

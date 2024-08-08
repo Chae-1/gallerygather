@@ -76,7 +76,10 @@ export default {
         </div>
         <div class="login-bar">
             <div class="login-menu">
-                <a href="/join">
+                <a v-if="isAuthenticated">
+                  마이페이지
+                </a>
+                <a href="/join" v-else>
                   회원가입
                 </a>
             </div>

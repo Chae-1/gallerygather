@@ -11,6 +11,7 @@ import MypageViewCompo1 from '@/layout/components/mypage/MypageViewCompo1.vue'
 import MypageViewCompo2 from '@/layout/components/mypage/MypageViewCompo2.vue'
 import MypageViewCompo3 from '@/layout/components/mypage/MypageViewCompo3.vue'
 import MypageViewCompo4 from '@/layout/components/mypage/MypageViewCompo4.vue'
+import JoinSuccessComment from "@/layout/components/main/JoinSuccessComment.vue";
 
 const homeRoute = {
   path: '/',
@@ -20,7 +21,13 @@ const homeRoute = {
   children: [
     {
       path: '/join',
-      component: JoinForm
+      component: JoinForm,
+    },
+
+    {
+      name: 'success',
+      path: '/join/success',
+      component: JoinSuccessComment
     },
 
     {

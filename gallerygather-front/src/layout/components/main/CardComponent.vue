@@ -1,54 +1,62 @@
 <script>
+import axios from "axios";
+
 export default {
   name: "CardComponent",
   data() {
     return {
-      rows: 100,
+      totalElement: 101,
       currentPage: 1,
+      perPage: 10,
+      cardItems: [],
+      conditions: [],
     }
+  },
+
+  methods: {
+    fetchNewItems() {
+      axios.get(`http://localhost:8080/api/exhibitions?pageNo=${this.currentPage}&perPage=${this.perPage}`)
+          .then(response => {
+            this.cardItems = response.data.content;
+            this.totalElement = response.data.totalElements;
+            console.log(response);
+          })
+          .catch(ex => {
+            console.log(ex);
+          })
+    },
+    updatePageNum(pageEvent, pageNo) {
+      this.currentPage = pageNo;
+    }
+  },
+  created() {
+    this.fetchNewItems();
   }
 }
 </script>
 
 <template>
   <b-card-group deck>
-    <b-card title="Title" img-src="https://picsum.photos/100/100/?image=41" img-alt="Image" img-top>
+    <b-card v-for="item in cardItems" :title="item.title" style="max-width: 20rem; flex: 25%;" img-width="400px"
+            img-height="400px"
+            :img-src="item.imageUrl" img-alt="" key="" img-top>
       <b-card-text>
-        This is a wider card with supporting text below as a natural lead-in to additional content.
-        This content is a little bit longer.
+        {{ item.description.slice(0, 30) }}
       </b-card-text>
-      <template #footer>
-        <small class="text-muted">Last updated 3 mins ago</small>
-      </template>
-    </b-card>
-
-    <b-card title="Title" img-src="https://picsum.photos/100/100/?image=41" img-alt="Image" img-top>
-      <b-card-text>
-        This card has supporting text below as a natural lead-in to additional content.
-      </b-card-text>
-      <template #footer>
-        <small class="text-muted">Last updated 3 mins ago</small>
-      </template>
-    </b-card>
-
-    <b-card title="Title" img-src="https://picsum.photos/100/100/?image=41" img-alt="Image" img-top>
-      <b-card-text>
-        This is a wider card with supporting text below as a natural lead-in to additional content.
-        This card has even longer content than the first to show that equal height action.
-      </b-card-text>
-      <template #footer>
-        <small class="text-muted">Last updated 3 mins ago</small>
-      </template>
     </b-card>
   </b-card-group>
 
   <div class="mt-3">
     <h6>Large Pills</h6>
-    <b-pagination v-model="currentPage" :per-page=10 pills :total-rows="rows" size="lg" align="fill"></b-pagination>
+    <b-pagination v-model="currentPage"
+                  :per-page="perPage"
+                  @page-click="fetchNewItems"
+                  pills :total-rows="totalElement"
+                  size="lg" align="fill">
+    </b-pagination>
   </div>
 
 </template>
 
 <style scoped>
-
 </style>

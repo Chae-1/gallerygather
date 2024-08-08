@@ -33,7 +33,7 @@ public class ExhibitionListUpdateService {
 
     private static final Pattern INTEGER_PATTERN = Pattern.compile("-?\\d+");
 
-    @PostConstruct
+    //@PostConstruct
     public void init() {
         for (int pageNum = 0; pageNum < 22; pageNum++) {
             try {
@@ -44,7 +44,7 @@ public class ExhibitionListUpdateService {
         }
     }
 
-    // 반드시 리팩러틸ㅇ이 필요
+    // 반드시 리팩터링이 필요
     public void callExhibitionUpdateRequest(int recordPerSession, int pageNum) throws Exception {
         StringBuilder urlBuilder = new StringBuilder(resourceOriginUrl); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + key); /*서비스키*/

@@ -1,5 +1,6 @@
 package com.kosa.gallerygather.service;
 
+import com.kosa.gallerygather.dto.PageRequestDto;
 import com.kosa.gallerygather.entity.ExhibitionCardDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ class ExhibitionServiceTest {
 
     @Test
     void getCardDto() {
-        Page<ExhibitionCardDto> cardDto = exhibitionService.getCardDto();
+        Page<ExhibitionCardDto> cardDto = exhibitionService.getCardDto(new PageRequestDto(10, 1));
         System.out.println(cardDto);
 
         System.out.println("cardDto.getTotalElements() = " + cardDto.getTotalElements());

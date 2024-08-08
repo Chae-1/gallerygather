@@ -15,10 +15,11 @@ public class ExhibitionService {
     private final ExhibitionRepository exhibitionRepository;
 
     public Page<ExhibitionCardDto> getCardDto(PageRequestDto pageRequestDto) {
-        PageRequest pageRequest = PageRequest.of(pageRequestDto.getPageNo(), pageRequestDto.getPagePer(), Sort.by("startDate")
+        PageRequest pageRequest = PageRequest.of(pageRequestDto
+                .getPageNo() - 1, pageRequestDto.getPagePer(), Sort.by("startDate")
                 .ascending());
         return exhibitionRepository.fetchExhibitionsWithPagination(pageRequest)
-                .map(exhibition -> new ExhibitionCardDto(exhibition.getImgUrl(),
+                .map(exhibition -> new ExhibitionCardDto(exhibition.getId(), exhibition.getImgUrl(),
                         exhibition.getTitle(), exhibition.getDescription()));
     }
 }

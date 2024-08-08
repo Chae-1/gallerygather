@@ -9,30 +9,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
 @Slf4j
+@RequestMapping("/api/exhibitions")
 public class ApiExhibitionController {
-    private final ExhibitionListUpdateService listUpdateService;
     private final ExhibitionService exhibitionService;
 
     @GetMapping
-    public ResponseEntity<Page<ExhibitionCardDto>> getCards(@RequestBody PageRequestDto page) {
+    public ResponseEntity<Page<ExhibitionCardDto>> getCards(@ModelAttribute PageRequestDto page) {
         return ResponseEntity.ok(exhibitionService.getCardDto(page));
     }
 
-    @GetMapping("/api/exhibitions")
-    public ResponseEntity<String> fetchExhibitionFromOther(Integer pageNo, Integer recordPerSession) {
-        try {
-            listUpdateService.callExhibitionUpdateRequest(recordPerSession, pageNo);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-        return ResponseEntity.ok("ok");
-    }
 }

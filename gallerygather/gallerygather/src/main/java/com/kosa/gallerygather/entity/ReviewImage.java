@@ -6,8 +6,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "TBL_IMAGE")
-public class Image {
+@Table(name = "TBL_REVIEW_IMAGE")
+public class ReviewImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,4 +19,9 @@ public class Image {
 
     @Column(name = "original_name")
     private String originalName;
+
+    @ManyToOne
+    @JoinColumn(name = "exhibitreview_id")
+    private ExhibitionReview exhibitionReview;
 }
+

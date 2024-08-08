@@ -7,14 +7,22 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "TBL_BUCKET")
+@Table(name = "TBL_EXHIBIT_BUCKET")
 @Getter
 @Setter
-public class Bucket {
+public class MyExhibitionBucket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private LocalDateTime reserveDate;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "exhibition_id")
+    private Exhibition exhibition;
 }

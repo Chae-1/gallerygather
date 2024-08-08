@@ -7,6 +7,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "TBL_EXHIBIT_REVIEW")
 @Getter
 @Setter
 public class ExhibitionReview {
@@ -25,4 +26,7 @@ public class ExhibitionReview {
 
     private LocalDateTime updateDate;
 
+    @ManyToOne
+    @JoinColumn(name = "exhibition_id")
+    private Exhibition exhibition;
 }

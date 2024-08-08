@@ -1,15 +1,15 @@
 <template>
   <div class="mypage">
     <div class="summary-container">
-      <div class="my-summary__inbox">
+      <router-link to="/mylikecompo" class="my-summary__inbox">
         <span class="my-summary__tit">좋아요</span><span class="my-summary__num">0</span>
-      </div>
-      <div class="my-summary__inbox">
+      </router-link>
+      <router-link to="/myreviewcompo"  class="my-summary__inbox">
         <span class="my-summary__tit">작성글</span><span class="my-summary__num">0</span>
-      </div>
-      <div class="my-summary__inbox">
+      </router-link>
+      <router-link to="/myreplycompo"  class="my-summary__inbox">
         <span class="my-summary__tit">작성댓글</span><span class="my-summary__num">0</span>
-      </div>
+      </router-link>
     </div>
 
     <div class="mypage-title-pack">

@@ -1,17 +1,17 @@
 <template>
-  <div>
+  <div class="navi-bar">
     <ul>
       <li>
-        <h4><router-link to="/mypagecompo">page</router-link></h4>
+        <h4><router-link to="/mypagecompo">내 정보</router-link></h4>
       </li>
       <li>
-        <h4><router-link to="/mylikecompo">like</router-link></h4>
+        <h4><router-link to="/mylikecompo">좋아요</router-link></h4>
       </li>
       <li>
-        <h4><router-link to="/myreviewcompo">review</router-link></h4>
+        <h4><router-link to="/myreviewcompo">리뷰</router-link></h4>
       </li>
       <li>
-        <h4><router-link to="/myreplycompo">reply</router-link></h4>
+        <h4><router-link to="/myreplycompo">댓글</router-link></h4>
       </li>
     </ul>
   </div>
@@ -24,5 +24,28 @@ export default {
 </script>
 
 <style scoped>
-/* 필요한 스타일 추가 */
+.navi-bar{
+  /* border: 1px solid #000000; */
+  background-color: darkslategrey
+}
+ul {
+  margin-top: 180px;
+}
+
+ul li {
+    margin-top: 30px;
+    margin-bottom: 50px;
+    margin-left: 50px;
+}
+h4 {
+  font-size: 20px;
+}
+ul li a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: white; /* 링크 색상 변경 (원하는 색상으로 변경 가능) */
+}
+
+ul li a:hover {
+    color: darkcyan; /* 링크 호버 시 색상 변경 (원하는 색상으로 변경 가능) */
+}
 </style>

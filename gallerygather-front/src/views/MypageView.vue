@@ -20,11 +20,13 @@ export default {
 <style scoped>
 .mypage {
   display: flex; /* Flexbox 레이아웃을 사용하여 나란히 배치 */
+  height: 100vh;
 }
 
 .navi {
-  width: 250px; /* 네비게이션 바의 너비를 설정 */
+  width: 300px; /* 네비게이션 바의 너비를 설정 */
   background-color: f9f6f3; /* 배경 색상 */
+  flex-shrink: 0;
 }
 
 .main {

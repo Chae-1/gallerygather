@@ -44,12 +44,11 @@ public class Member {
     @Column(name = "reg_date")
     private LocalDateTime regDate;
 
-    @Column(name = "" +
-            "update_date")
+    @Column(name = "update_date")
     private LocalDateTime updateDate;
 
     @OneToMany(mappedBy = "member")
-    private List<Reply> replies = new ArrayList<>();
+    private List<ReviewReply> replies = new ArrayList<>();
 
     private Member(String name, String password, String email, String auth, LocalDate dateOfBirth,
                    LocalDateTime regDate, LocalDateTime updateDate, String nickName) {

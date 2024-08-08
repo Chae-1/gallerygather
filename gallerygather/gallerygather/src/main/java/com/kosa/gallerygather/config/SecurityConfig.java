@@ -82,7 +82,6 @@ public class SecurityConfig {
         authenticationProvider.setUserDetailsService(userDetailsServiceImpl(memberRepository));
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
-
     }
 
     @Bean

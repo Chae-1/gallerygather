@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-public class Review {
+public class ExhibitionReview {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

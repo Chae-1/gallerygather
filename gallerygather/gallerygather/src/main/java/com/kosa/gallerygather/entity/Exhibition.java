@@ -65,4 +65,5 @@ public class Exhibition {
     private String genre;
 
     private String duration;
+
 }

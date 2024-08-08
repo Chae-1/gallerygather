@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/members")
 public class ApiMemberController {
     private final MemberService memberService;
-
+    // 작성자 : 채형일
     @PostMapping("/login")
     public ResponseEntity<JwtResponseDto> login(@RequestBody LoginRequest loginRequest) {
         log.info("{}", loginRequest);

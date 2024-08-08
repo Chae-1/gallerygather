@@ -7,6 +7,8 @@ export default {
       const store = userStore();
       return store.isAuthenticated;
     }
+    // 로그인한 상태에서 요청 정보
+    // 마이페이지 ..
   },
 };
 </script>

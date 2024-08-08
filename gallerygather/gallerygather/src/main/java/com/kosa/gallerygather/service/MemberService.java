@@ -1,9 +1,7 @@
 package com.kosa.gallerygather.service;
 
-import com.kosa.gallerygather.dto.CompleteJoinMemberDto;
-import com.kosa.gallerygather.dto.JoinRequest;
-import com.kosa.gallerygather.dto.JwtResponseDto;
-import com.kosa.gallerygather.dto.LoginRequest;
+import com.kosa.gallerygather.dto.*;
+import com.kosa.gallerygather.exception.member.ExistMemberException;
 import com.kosa.gallerygather.repository.MemberRepository;
 import com.kosa.gallerygather.util.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +14,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.kosa.gallerygather.entity.Member;
 
-
+/*
+    작성자: 채형일
+ */
 @Service
 @RequiredArgsConstructor
-@Slf4j //
+@Slf4j
 public class MemberService {
 
-    private final MemberRepository repository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
@@ -32,9 +31,12 @@ public class MemberService {
         log.info("인증 확인 중...");
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         // 필요시 refreshToken 을 발급해서 넘겨준다.
-        // -> accessToken의 특성 상,
+        // -> accessToken의 특성 상, 회원의 세션을 유지해줄 수 없기 때문이다.
         if (authenticate.isAuthenticated()) {
-            return new JwtResponseDto(jwtService.generateToken(authenticate.getName()), request.getEmail());
+            String[] emailAndNickName = authenticate.getName().split("/");
+            String email = emailAndNickName[0];
+            String nickName = emailAndNickName[0];
+            return new JwtResponseDto(jwtService.generateToken(email), email, nickName);
         }
 
         log.info("인증 실패 !!");
@@ -42,15 +44,30 @@ public class MemberService {
     }
 
     public CompleteJoinMemberDto joinMember(JoinRequest joinRequest) {
+        // 이미 존재하는 회원의 경우 예외가 발생한다.
+        // 정책에 따라서
+        validateMember(joinRequest);
+
         Member member = Member.ofNewMember(joinRequest.getName(), joinRequest.getEmail(),
-                encodedPassword(joinRequest.getPassword()), joinRequest.getDateOfBirth());
+                passwordEncoder.encode(joinRequest.getPassword()), joinRequest.getDateOfBirth(),
+                joinRequest.getNickName());
         Member saveMember = memberRepository.save(member);
 
         return CompleteJoinMemberDto.ofNewMemberResponse(saveMember.getEmail(),
-                saveMember.getName(), saveMember.getRegDate());
+                saveMember.getName(), saveMember.getRegDate(), saveMember.getNickName());
     }
 
-    private String encodedPassword(String password) {
-        return passwordEncoder.encode(password);
+    private void validateMember(JoinRequest joinRequest) {
+        if (memberRepository.findByEmail(joinRequest.getEmail())
+                .isPresent()) {
+            throw new ExistMemberException();
+        }
+    }
+
+    public MemberDuplicationCheckDto checkDuplicatedEmail(String email) {
+        return MemberDuplicationCheckDto.generateResultFor(
+                memberRepository.findByEmail(email)
+                        .orElse(null)
+        );
     }
 }

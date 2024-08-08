@@ -20,9 +20,6 @@ import java.net.*;
 import java.time.LocalDate;
 import java.util.List;
 
-/*
-    Exhibition Update
- */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -36,11 +33,11 @@ public class ExhibitionListUpdateService {
 
     private static final Pattern INTEGER_PATTERN = Pattern.compile("-?\\d+");
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
-        for (int i = 0; i < 100; i++) {
+        for (int pageNum = 0; pageNum < 1000; pageNum++) {
             try {
-                callExhibitionUpdateRequest(10, i);
+                callExhibitionUpdateRequest(10, pageNum);
             } catch (Exception e) {
                 System.out.println("호출 실패");
             }
@@ -101,11 +98,11 @@ public class ExhibitionListUpdateService {
                             .charge(changeToCharge(item.getCharge()))
                             .genre(item.getGenre())
                             .siteUrl(item.getUrl())
-                            .avgScore(0)
                             .localId((item.getLocalId()))
                             .likeCount(0)
                             .readCount(0)
                             .reviewCount(0)
+                            .avgScore(0)
                             .audience(item.getAudience()).build());
                 }
             } catch (Exception ex1) {

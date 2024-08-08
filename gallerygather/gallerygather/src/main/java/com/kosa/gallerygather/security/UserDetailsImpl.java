@@ -5,7 +5,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,12 +12,14 @@ public class UserDetailsImpl implements UserDetails {
 
     private String email;
     private String password;
+    private String nickName;
     private String auth;
 
     public UserDetailsImpl(Member findMember) {
         this.email = findMember.getEmail();
         this.auth = findMember.getEmail();
         this.password = findMember.getPassword();
+        this.nickName = findMember.getNickName();
     }
 
     @Override
@@ -33,6 +34,6 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return email + "/" + nickName;
     }
 }

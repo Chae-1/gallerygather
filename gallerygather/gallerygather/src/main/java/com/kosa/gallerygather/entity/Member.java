@@ -27,6 +27,9 @@ public class Member {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "nick_name")
+    private String nickName;
+
     @Column(name = "password")
     private String password;
 
@@ -41,13 +44,15 @@ public class Member {
     @Column(name = "reg_date")
     private LocalDateTime regDate;
 
-    @Column(name = "update_date")
+    @Column(name = "" +
+            "update_date")
     private LocalDateTime updateDate;
 
     @OneToMany(mappedBy = "member")
     private List<Reply> replies = new ArrayList<>();
 
-    private Member(String name, String password, String email, String auth, LocalDate dateOfBirth, LocalDateTime regDate, LocalDateTime updateDate) {
+    private Member(String name, String password, String email, String auth, LocalDate dateOfBirth,
+                   LocalDateTime regDate, LocalDateTime updateDate, String nickName) {
         this.name = name;
         this.password = password;
         this.email = email;
@@ -55,10 +60,16 @@ public class Member {
         this.dateOfBirth = dateOfBirth;
         this.regDate = regDate;
         this.updateDate = updateDate;
+        this.nickName = nickName;
     }
 
-    public static Member ofNewMember(String name, String email, String password, LocalDate dateOfBirth) {
-        return new Member(name, password, email, BASIC_AUTH, dateOfBirth, LocalDateTime.now(), LocalDateTime.now());
+    /*
+
+     */
+    public static Member ofNewMember(String name, String email,
+                                     String password, LocalDate dateOfBirth, String nickName) {
+        return new Member(name, password, email, BASIC_AUTH,
+                dateOfBirth, LocalDateTime.now(), LocalDateTime.now(), nickName);
     }
 
 

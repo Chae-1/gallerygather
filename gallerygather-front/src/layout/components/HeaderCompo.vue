@@ -7,6 +7,8 @@ export default {
       const store = userStore();
       return store.isAuthenticated;
     }
+    // 로그인한 상태에서 요청 정보
+    // 마이페이지 ..
   },
 };
 </script>
@@ -14,8 +16,8 @@ export default {
 <template>
     <header>
         <div class="logo">
-            <a href="/" class="logo">
-                <span>로고나 이름</span>
+            <a href="/" class="logo-path">
+                <img src="../../assets/img/logo.png" alt="">
             </a>
         </div>
         <div class="menu-container">
@@ -76,7 +78,10 @@ export default {
         </div>
         <div class="login-bar">
             <div class="login-menu">
-                <a href="/join">
+                <a v-if="isAuthenticated">
+                  마이페이지
+                </a>
+                <a href="/join" v-else>
                   회원가입
                 </a>
             </div>
@@ -101,36 +106,54 @@ ul {
 header {
     display: flex;
     flex-direction: row;
-    padding: 0 5%;
+    padding: 0 3%;
     /* position: relative; */
     width: 100%;
     justify-content: space-between;
-    border-bottom: 1px solid #faf3e0;;
+    /* border-bottom: 1px solid #faf3e0;; */
     background-color: #f8f5eb;
 }
 
+a {
+    color: #737373;
+}
+
+a:hover {
+    color:#669900;
+}
+
 .logo {
-    padding: 20px 10px;
+    padding: 10px 0 5px;
     vertical-align: middle;
+}
+
+.logo-path img {
+    height: 70px;
 }
 
 .main-menu {
     display: flex;
     flex-direction: row;
-    gap: 50px;
+    gap: 30px;
     z-index: 1;
     padding: 0;
 }
 
 .main-menu .item .item__name{
-    padding: 20px 20px 25px;
-    margin-top : 5px;
+    padding: 20px 20px 30px;
+    margin-top : 10px;
 }
 
-.main-menu .item:hover .item__name, .login-bar > div:hover{
+.main-menu .item:hover .item__name{
   background-color: #2c2a29;
   color: #669900;
   border-radius: 6px 6px 0 0;
+}
+
+.login-bar > div:hover a{
+  background-color: #2c2a29;
+  color: #669900;
+  border-radius: 6px;
 }
 
 .main-menu .item .item__contents{
@@ -192,16 +215,22 @@ header {
 
 .login-bar {
   display: flex;
-  padding: 20px 0;
+  /* padding: 10px 0; */
   vertical-align: center;
 }
 
 .login-bar > div {
-  padding: 0 20px;
+  /* padding: 0 20px; */
+  padding: 20px;
+  margin-top: 10px;
 }
 
 .login-menu {
-  height: 100%;
+  /* height: 100%; */
+}
+
+.login-menu a {
+    padding: 10px 20px;
 }
 
 </style>

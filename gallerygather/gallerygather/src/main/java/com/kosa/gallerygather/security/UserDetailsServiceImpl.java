@@ -7,12 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
-
-@Component
 @Slf4j
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -22,9 +17,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.debug("Entering in loadUserByUsername Method...");
-        Optional<Member> optional = memberRepository
-                .findByEmail(username);
-        Member findMember = optional
+        Member findMember = memberRepository
+                .findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("notFound Username"));
 
         log.info("User Authenticated Successfully..!!!");

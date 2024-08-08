@@ -108,6 +108,8 @@ export default {
 
 .reply-register textarea {
     width: calc(100% - 60px);
+    /* background-color: transparent; */
+    color: aliceblue;
     background-color: #f8f5eb;
 }
 

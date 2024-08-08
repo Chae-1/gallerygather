@@ -92,21 +92,25 @@ export default {
 }
 
 .reply-container {
-    width: 60%;
-    margin: 20px auto;
+    background-color: #f8f5eb;
+    /* width: 60%;
+    margin: 20px auto; */
 }
 .reply-register {
     position: relative;
     padding: 20px;
     border-radius: 5px;
-    background-color: red;
-    margin-bottom: 20px;
+    background-color: #3d3b3a;
+    width: 60%;
+    margin: 20px auto;
+    /* margin-bottom: 20px; */
 }
 
 .reply-register textarea {
     width: calc(100% - 60px);
     /* background-color: transparent; */
     color: aliceblue;
+    background-color: #f8f5eb;
 }
 
 .reply-register button {
@@ -115,27 +119,29 @@ export default {
     right: 10px;
     width: 60px;
     height: 30px;
-    background-color: black;
+    background-color: #669900;
     border-radius: 5px;
-    color: white;
+    color: #f8f5eb;
 }
 
 .reply-lists-container {
-    background-color: blue;
+    width: 60%;
+    margin: 0 auto;
+    background-color: #3d3b3a;
     border-radius: 5px;
     padding: 20px 20px 10px;
 }
 
 li {
     list-style: none;
-    background-color: pink;
+    background-color: #f8f5eb;
     border-radius: 5px;
     margin-bottom: 10px;
     padding: 10px;
 }
 
 textarea {
-    background-color: white;
+    /* background-color: white; */
     border-radius: 5px;
     padding: 10px;
     resize: none;
@@ -143,7 +149,7 @@ textarea {
 }
 
 textarea.editable {
-    border: 1px solid black;
+    border: 1px solid #669900;
 }
 
 .reply {
@@ -179,9 +185,9 @@ textarea.editable {
 .reply-manage button {
     width: 60px;
     height: 30px;
-    background-color: black;
+    background-color: #669900;
     border-radius: 5px;
-    color: white;
+    color: #f8f5eb;
 }
 
 .date {

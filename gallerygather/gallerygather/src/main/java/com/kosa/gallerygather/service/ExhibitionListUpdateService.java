@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.net.*;
 import java.time.LocalDate;
 import java.util.List;
+
 /*
     Exhibition Update
  */
@@ -100,7 +101,11 @@ public class ExhibitionListUpdateService {
                             .charge(changeToCharge(item.getCharge()))
                             .genre(item.getGenre())
                             .siteUrl(item.getUrl())
+                            .avgScore(0)
                             .localId((item.getLocalId()))
+                            .likeCount(0)
+                            .readCount(0)
+                            .reviewCount(0)
                             .audience(item.getAudience()).build());
                 }
             } catch (Exception ex1) {

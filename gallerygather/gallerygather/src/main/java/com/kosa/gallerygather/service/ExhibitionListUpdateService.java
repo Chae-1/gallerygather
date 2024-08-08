@@ -6,14 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kosa.gallerygather.dto.ResourceApiResponse;
 import com.kosa.gallerygather.entity.Exhibition;
 import com.kosa.gallerygather.repository.ExhibitionRepository;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.regex.Pattern;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.*;

@@ -18,6 +18,7 @@ public class ExhibitionService {
         PageRequest pageRequest = PageRequest.of(pageRequestDto
                 .getPageNo() - 1, pageRequestDto.getPagePer(), Sort.by("startDate")
                 .ascending());
+
         return exhibitionRepository.fetchExhibitionsWithPagination(pageRequest)
                 .map(exhibition -> new ExhibitionCardDto(exhibition.getId(), exhibition.getImgUrl(),
                         exhibition.getTitle(), exhibition.getDescription()));

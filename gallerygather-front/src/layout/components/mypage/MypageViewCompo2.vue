@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>좋아요</h3>
+    <h3>담아둔 목록</h3>
   </div>
 </template>
 

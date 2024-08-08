@@ -31,6 +31,7 @@
 
 <script>
 import PaginationCompo from '@/layout/components/PaginationCompo.vue'
+
 export default {
     components: { PaginationCompo },
     data() {
@@ -108,6 +109,8 @@ export default {
 
 .reply-register textarea {
     width: calc(100% - 60px);
+    /* background-color: transparent; */
+    color: aliceblue;
     background-color: #f8f5eb;
 }
 

@@ -102,7 +102,7 @@ export default {
 }
 
 .reply-container {
-  background-color: #f8f5eb;
+  /* background-color: #f8f5eb; */
   /* width: 60%;
     margin: 20px auto; */
 }
@@ -118,6 +118,8 @@ export default {
 
 .reply-register textarea {
   width: calc(100% - 60px);
+  /* background-color: transparent; */
+  color: aliceblue;
   background-color: #f8f5eb;
 }
 
@@ -127,7 +129,7 @@ export default {
   right: 10px;
   width: 60px;
   height: 30px;
-  background-color: #669900;
+  background-color: darkslategray;
   border-radius: 5px;
   color: #f8f5eb;
 }
@@ -135,7 +137,7 @@ export default {
 .reply-lists-container {
   width: 60%;
   margin: 0 auto;
-  background-color: #3d3b3a;
+  background-color: darkslategray;
   border-radius: 5px;
   padding: 20px 20px 10px;
 }
@@ -193,7 +195,7 @@ textarea.editable {
 .reply-manage button {
   width: 60px;
   height: 30px;
-  background-color: #669900;
+  background-color: #3d3b3a;
   border-radius: 5px;
   color: #f8f5eb;
 }

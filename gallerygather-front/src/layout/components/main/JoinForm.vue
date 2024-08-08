@@ -4,16 +4,36 @@ import 'flatpickr/dist/flatpickr.min.css';
 import 'flatpickr/dist/l10n/ko.js';
 import axios from "axios";
 
+function canNotJoin(email) {
+  let canJoin = true;
+  let result = axios.post('http://localhost:8080/api/members/emails/check', {
+    email: email
+  }, {
+    responseType: "json",
+  }).then((response) => {
+    // 정상적인 응답이 오면, 회원 가입 확인 폼으로 이동
+    canJoin = response.data.canJoin;
+    response.status;
+  }).catch((error) => {
+    canJoin = false;
+    console.log(error);
+  });
+  // checkResult =
+  console.log(canJoin);
+  return !canJoin;
+}
+
 export default {
   data() {
     return {
       name: '',
       email: '',
+      nickName: '',
       password: '',
       passwordValid: '',
       dateOfBirth: '',
       errorMessage: '에러 메시지',
-      showErrormessage: true
+      showErrormessage: false
     }
   },
 
@@ -32,26 +52,32 @@ export default {
     submitForm() {
       // valid
       console.log(this.dateOfBirth);
-
       if (this.password !== this.passwordValid) {
         this.errorMessage = '비밀번호가 일치하지 않습니다.';
-        return ;
+        return;
       }
 
+      if (canNotJoin(this.email)) {
+        this.errorMessage = '이미 가입된 회원입니다.';
+        return;
+      }
+
+      // 정상일 경우, 회원 가입 요청 시도
       axios.post('http://localhost:8080/api/members/join', {
         email: this.email,
         name: this.name,
+        nickName: this.nickName,
         password: this.password,
         dateOfBirth: this.dateOfBirth
       }, {
         responseType: "json",
       }).then((response) => {
+        // 정상적인 응답이 오면, 회원 가입 확인 폼으로 이동
         console.log(response);
         response.status;
       }).catch((error) => {
         console.log(error);
       });
-
     },
   }
 }
@@ -66,6 +92,8 @@ export default {
       <form method="post" @submit.prevent="submitForm">
         <span>이름</span>
         <input type="text" v-model="name" placeholder="이름을 적어주세요" autocomplete="false">
+        <span>닉네임</span>
+        <input type="text" v-model="nickName" placeholder="닉네임을 적어주세요" autocomplete="false">
         <span>이메일</span>
         <input type="email" v-model="email" placeholder="이메일을 적어주세요" autocomplete="false">
         <span>비밀번호</span>

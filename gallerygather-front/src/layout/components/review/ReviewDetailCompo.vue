@@ -73,7 +73,7 @@ export default {
     
 }
 .review {
-
+   
 }
 
 .review-container {
@@ -108,12 +108,14 @@ export default {
 }
 
 .button-container {
+    width: 50%;
     display: flex;
-    justify-content: right;
+    justify-content: flex-end; /* 오른쪽 정렬을 유지하려면 'right' 대신 'flex-end' 사용 */
     gap: 10px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin: 20px auto; /* 위아래 margin을 20px로 설정하고 수평 중앙 정렬 */
+    align-items: center;
 }
+
 
 .editButton, .deleteButton, .likeButton  {
     padding: 10px 20px;

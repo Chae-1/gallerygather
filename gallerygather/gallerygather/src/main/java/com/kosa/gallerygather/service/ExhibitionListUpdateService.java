@@ -55,7 +55,7 @@ public class ExhibitionListUpdateService {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
         conn.setRequestMethod("GET");
-        conn.setRequestProperty("Content-type", "application/json");
+        conn.setRequestProperty("Content-type", "application/json; charset=utf-8");
         conn.setRequestProperty("Accept", "application/json");
         System.out.println("Response code: " + conn.getResponseCode());
 
@@ -114,11 +114,6 @@ public class ExhibitionListUpdateService {
     }
 
     private String changeToCharge(String charge) {
-//        if (charge == null || isNotNumber(charge)) {
-//            return 0;
-//        }
-//        return Integer.parseInt(charge);
-
         if (charge == null) {
             return "알수 없음";
         }
@@ -126,9 +121,5 @@ public class ExhibitionListUpdateService {
             return "무료";
         }
         return charge;
-    }
-
-    private boolean isNotNumber(String charge) {
-        return INTEGER_PATTERN.matcher(charge).matches();
     }
 }

@@ -33,9 +33,9 @@ public class ExhibitionListUpdateService {
 
     private static final Pattern INTEGER_PATTERN = Pattern.compile("-?\\d+");
 
-//    @PostConstruct
+    @PostConstruct
     public void init() {
-        for (int pageNum = 0; pageNum < 1000; pageNum++) {
+        for (int pageNum = 0; pageNum < 22; pageNum++) {
             try {
                 callExhibitionUpdateRequest(10, pageNum);
             } catch (Exception e) {
@@ -94,16 +94,13 @@ public class ExhibitionListUpdateService {
                             .endDate(endDate)
                             .author(item.getAuthor())
                             .imgUrl(item.getImageObject())
-                            .eventSite(item.getEventSite())
+                            .place(item.getEventSite())
                             .charge(changeToCharge(item.getCharge()))
-                            .genre(item.getGenre())
                             .siteUrl(item.getUrl())
-                            .localId((item.getLocalId()))
                             .likeCount(0)
                             .readCount(0)
                             .reviewCount(0)
-                            .avgScore(0)
-                            .audience(item.getAudience()).build());
+                            .avgRating(0).build());
                 }
             } catch (Exception ex1) {
                 ex1.printStackTrace();
@@ -116,11 +113,19 @@ public class ExhibitionListUpdateService {
         }
     }
 
-    private int changeToCharge(String charge) {
-        if (charge == null || isNotNumber(charge)) {
-            return 0;
+    private String changeToCharge(String charge) {
+//        if (charge == null || isNotNumber(charge)) {
+//            return 0;
+//        }
+//        return Integer.parseInt(charge);
+
+        if (charge == null) {
+            return "알수 없음";
         }
-        return Integer.parseInt(charge);
+        if (charge.equals("0")) {
+            return "무료";
+        }
+        return charge;
     }
 
     private boolean isNotNumber(String charge) {

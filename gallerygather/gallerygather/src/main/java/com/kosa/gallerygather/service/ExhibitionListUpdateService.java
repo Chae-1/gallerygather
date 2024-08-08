@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kosa.gallerygather.dto.ResourceApiResponse;
 import com.kosa.gallerygather.entity.Exhibition;
 import com.kosa.gallerygather.repository.ExhibitionRepository;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,9 @@ import java.io.InputStreamReader;
 import java.net.*;
 import java.time.LocalDate;
 import java.util.List;
-
+/*
+    Exhibition Update
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -32,7 +35,19 @@ public class ExhibitionListUpdateService {
 
     private static final Pattern INTEGER_PATTERN = Pattern.compile("-?\\d+");
 
-    public void updateExhibition(int recordPerSession, int pageNum) throws Exception {
+    @PostConstruct
+    public void init() {
+        for (int i = 0; i < 100; i++) {
+            try {
+                callExhibitionUpdateRequest(10, i);
+            } catch (Exception e) {
+                System.out.println("호출 실패");
+            }
+        }
+    }
+
+    // 반드시 리팩러틸ㅇ이 필요
+    public void callExhibitionUpdateRequest(int recordPerSession, int pageNum) throws Exception {
         StringBuilder urlBuilder = new StringBuilder(resourceOriginUrl); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + key); /*서비스키*/
         urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(recordPerSession), "UTF-8")); /*세션당 요청레코드수*/
@@ -85,7 +100,7 @@ public class ExhibitionListUpdateService {
                             .charge(changeToCharge(item.getCharge()))
                             .genre(item.getGenre())
                             .siteUrl(item.getUrl())
-                            .localId(Long.parseLong(item.getLocalId()))
+                            .localId((item.getLocalId()))
                             .audience(item.getAudience()).build());
                 }
             } catch (Exception ex1) {

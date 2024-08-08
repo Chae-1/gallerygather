@@ -14,9 +14,9 @@ public class ApiExhibitionController {
     private final ExhibitionListUpdateService listUpdateService;
 
     @GetMapping("/api/exhibitions")
-    public ResponseEntity<String> exhibition(Integer pageNo, Integer recordPerSession) {
+    public ResponseEntity<String> fetchExhibitionFromOther(Integer pageNo, Integer recordPerSession) {
         try {
-            listUpdateService.updateExhibition(recordPerSession, pageNo);
+            listUpdateService.callExhibitionUpdateRequest(recordPerSession, pageNo);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);

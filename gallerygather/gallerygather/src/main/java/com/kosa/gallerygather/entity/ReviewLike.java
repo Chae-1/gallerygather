@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="TBL_EXHIBITLIKE")
+@Table(name="TBL_REVIEWLIKE")
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ExhibitionLike {
+public class ReviewLike {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,6 +23,7 @@ public class ExhibitionLike {
 
     @ManyToOne
     @JoinColumn(name = "exhibition_id")
-    private Exhibition exhibition;
+    private ExhibitionReview exhibitionReview;
+
 
 }

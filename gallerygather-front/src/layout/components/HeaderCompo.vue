@@ -105,7 +105,8 @@ header {
     /* position: relative; */
     width: 100%;
     justify-content: space-between;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #faf3e0;;
+    background-color: #f8f5eb;
 }
 
 .logo {

@@ -20,7 +20,7 @@ public class Exhibition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long localId;
+    private String localId;
 
     private String audience;
 
@@ -54,13 +54,13 @@ public class Exhibition {
 
     private String eventSite;
 
-    private int likeCount;
+    private Integer likeCount;
 
-    private int readCount;
+    private Integer readCount;
 
-    private int reviewCount;
+    private Integer reviewCount;
 
-    private int avgScore;
+    private Integer avgScore;
 
     private String genre;
 

@@ -4,10 +4,6 @@
 import {defineStore} from "pinia";
 import axios from "axios";
 
-/**
- *
- */
-
 async function requestLogin(email, password) {
 }
 
@@ -25,6 +21,8 @@ export const userStore = defineStore({
                 name: null, token: null,
             })
         },
+        extractAndSetUserInfo(token) {
+        },
 
         async login(email, password) {
             const resp = await axios.post("http://localhost:8080/api/members/login", {
@@ -32,10 +30,13 @@ export const userStore = defineStore({
             }, {
                 responseType: "json"
             }).then(response => {
-                console.log(response);
+                const token = response.data.token;
+
+                const userInfo = extractAndSetUserInfo(token);
+                localStorage.setItem('token', token);
                 this.$patch({
                     email,
-                    token: response.data.token // assuming the token is returned in the response
+                    token: value // assuming the token is returned in the response
                 });
             }).catch((error) => {
             });

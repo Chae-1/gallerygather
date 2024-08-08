@@ -1,7 +1,7 @@
-
 <script>
 // 작성자: 채형일
 import {userStore} from "@/store/userStore.js";
+import extractUserInfoFrom from "@/util/jwtUtil.js";
 
 export default {
   name: "Login.vue",
@@ -17,7 +17,11 @@ export default {
       console.log("login 요청 중");
       const store = userStore();
       store.login(this.email, this.password)
-          .then(response => console.log(response.data))
+          .then(response => {
+            const token = response.data.token;
+            const userInfo = extractUserInfoFrom(token);
+            this.$router.push('/main');
+          })
           .catch((error) => console.log(error));
     }
   }
@@ -67,6 +71,7 @@ a {
   display: block;
   margin-top: 20px;
 }
+
 .login input[type=email],
 .login input[type=password] {
   width: 100%;
@@ -76,22 +81,27 @@ a {
   border-radius: 5px;
   padding-left: 50px;
 }
+
 .login input[type=email]:hover,
 .login input[type=password]:hover {
   border: 1px solid dodgerblue;
   box-shadow: 0 0 5px dodgerblue;
 }
+
 .login input[type=email] {
   background: #fff url(../assets/img/icon-email.png) no-repeat center left 10px;
 }
+
 .login input[type=password] {
   background: #fff url(../assets/img/icon-lock.png) no-repeat center left 10px;
 }
+
 .login input[type=email]::placeholder,
 .login input[type=password]::placeholder {
   opacity: 1;
   transition: 0.3s;
 }
+
 .login input[type=email]:focus::placeholder,
 .login input[type=password]:focus::placeholder {
   opacity: 0;
@@ -101,16 +111,20 @@ a {
 .login p {
   overflow: hidden;
 }
+
 .login p label {
   float: left;
   cursor: pointer;
 }
+
 .login p a {
   float: right;
 }
+
 .login p a:hover {
   text-decoration: underline;
 }
+
 .login button {
   background-color: #2991b1;
   color: #fff;
@@ -122,6 +136,7 @@ a {
   font-size: 24px;
   transition: 0.3s;
 }
+
 .login button:hover {
   background-color: #2c778e;
 }

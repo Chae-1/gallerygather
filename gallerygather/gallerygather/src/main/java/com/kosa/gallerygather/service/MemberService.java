@@ -14,7 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.kosa.gallerygather.entity.Member;
 
 
@@ -32,9 +31,12 @@ public class MemberService {
     public JwtResponseDto doLogin(LoginRequest request) {
         log.info("인증 확인 중...");
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        // 필요시 refreshToken 을 발급해서 넘겨준다.
+        // -> accessToken의 특성 상,
         if (authenticate.isAuthenticated()) {
-            return new JwtResponseDto(jwtService.generateToken(authenticate.getName()));
+            return new JwtResponseDto(jwtService.generateToken(authenticate.getName()), request.getEmail());
         }
+
         log.info("인증 실패 !!");
         throw new UsernameNotFoundException("User Not Found !!!");
     }

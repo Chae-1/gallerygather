@@ -36,6 +36,5 @@ class ExhibitionLikeRepositoryTest {
         repository.save(reviewReply);
 
         reviewReply.setReply("dd");
-        reviewReply
     }
 }

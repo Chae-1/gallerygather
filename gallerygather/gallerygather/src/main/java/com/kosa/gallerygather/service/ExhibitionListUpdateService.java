@@ -6,14 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kosa.gallerygather.dto.ResourceApiResponse;
 import com.kosa.gallerygather.entity.Exhibition;
 import com.kosa.gallerygather.repository.ExhibitionRepository;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.regex.Pattern;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.*;
@@ -33,7 +30,7 @@ public class ExhibitionListUpdateService {
 
     private static final Pattern INTEGER_PATTERN = Pattern.compile("-?\\d+");
 
-//    @PostConstruct
+    //@PostConstruct
     public void init() {
         for (int pageNum = 0; pageNum < 22; pageNum++) {
             try {
@@ -44,7 +41,7 @@ public class ExhibitionListUpdateService {
         }
     }
 
-    // 반드시 리팩러틸ㅇ이 필요
+    // 반드시 리팩터링이 필요
     public void callExhibitionUpdateRequest(int recordPerSession, int pageNum) throws Exception {
         StringBuilder urlBuilder = new StringBuilder(resourceOriginUrl); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + key); /*서비스키*/
@@ -55,7 +52,7 @@ public class ExhibitionListUpdateService {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
         conn.setRequestMethod("GET");
-        conn.setRequestProperty("Content-type", "application/json");
+        conn.setRequestProperty("Content-type", "application/json; charset=utf-8");
         conn.setRequestProperty("Accept", "application/json");
         System.out.println("Response code: " + conn.getResponseCode());
 
@@ -114,11 +111,6 @@ public class ExhibitionListUpdateService {
     }
 
     private String changeToCharge(String charge) {
-//        if (charge == null || isNotNumber(charge)) {
-//            return 0;
-//        }
-//        return Integer.parseInt(charge);
-
         if (charge == null) {
             return "알수 없음";
         }
@@ -126,9 +118,5 @@ public class ExhibitionListUpdateService {
             return "무료";
         }
         return charge;
-    }
-
-    private boolean isNotNumber(String charge) {
-        return INTEGER_PATTERN.matcher(charge).matches();
     }
 }

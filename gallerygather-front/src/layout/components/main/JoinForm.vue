@@ -19,7 +19,6 @@ function canNotJoin(email) {
     console.log(error);
   });
   // checkResult =
-  console.log(canJoin);
   return !canJoin;
 }
 
@@ -72,11 +71,18 @@ export default {
       }, {
         responseType: "json",
       }).then((response) => {
-        // 정상적인 응답이 오면, 회원 가입 확인 폼으로 이동
         console.log(response);
-        response.status;
+        const joinedEmail = response.data.email;
+        const joinedName = response.data.name;
+        const joinedNickName = response.data.nickName;
+        const joinedDate = response.data.regDate;
+
+        this.$router.push({name: 'success', params: {
+          joinedName, joinedEmail, joinedNickName, joinedDate
+          }});
       }).catch((error) => {
         console.log(error);
+        this.showErrormessage = true;
       });
     },
   }
@@ -87,7 +93,7 @@ export default {
   <div>
     <div class="join">
       <div class="error-message">
-        <p>{{ errorMessages }}</p>
+        <p v-if="showErrormessage">{{ errorMessage }}</p>
       </div>
       <form method="post" @submit.prevent="submitForm">
         <span>이름</span>

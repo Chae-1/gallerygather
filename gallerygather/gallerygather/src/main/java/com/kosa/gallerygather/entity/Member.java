@@ -50,6 +50,10 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<ReviewReply> replies = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "refresh_token_id")
+    private RefreshToken refreshToken;
+
     private Member(String name, String password, String email, String auth, LocalDate dateOfBirth,
                    LocalDateTime regDate, LocalDateTime updateDate, String nickName) {
         this.name = name;
@@ -62,9 +66,6 @@ public class Member {
         this.nickName = nickName;
     }
 
-    /*
-
-     */
     public static Member ofNewMember(String name, String email,
                                      String password, LocalDate dateOfBirth, String nickName) {
         return new Member(name, password, email, BASIC_AUTH,

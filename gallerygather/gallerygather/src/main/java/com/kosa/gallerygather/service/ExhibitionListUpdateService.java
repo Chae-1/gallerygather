@@ -33,7 +33,7 @@ public class ExhibitionListUpdateService {
 
     private static final Pattern INTEGER_PATTERN = Pattern.compile("-?\\d+");
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         for (int pageNum = 0; pageNum < 22; pageNum++) {
             try {
@@ -84,8 +84,8 @@ public class ExhibitionListUpdateService {
                 for (ResourceApiResponse.Item item : items) {
                     System.out.println(item);
                     String[] split = item.getPeriod().split("~");
-                    LocalDate startDate = LocalDate.parse(split[0]);
-                    LocalDate endDate = LocalDate.parse(split[0]);
+                    LocalDate startDate = LocalDate.parse(split[0].trim());
+                    LocalDate endDate = LocalDate.parse(split[0].trim());
 
                     repository.save(Exhibition.builder()
                             .title(item.getTitle())

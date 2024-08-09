@@ -27,6 +27,7 @@ class MemberRepositoryTest {
         Member selectedMember2 = memberRepository.findByEmail(savedMember.getEmail()).get();
 
         Assertions.assertThat(selectedMember2.getId()).isEqualTo(savedMember.getId());
+        System.out.println(member);
     }
 
 

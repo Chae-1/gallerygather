@@ -25,7 +25,8 @@ public class ExhibitionService {
 
         return exhibitionRepository.fetchExhibitionsWithPagination(pageRequest)
                 .map(exhibition -> new ExhibitionCardDto(exhibition.getId(), exhibition.getImgUrl(),
-                        exhibition.getTitle(), exhibition.getDescription()));
+                        exhibition.getTitle(), exhibition.getDescription(),
+                        exhibition.getStartDate(), exhibition.getEndDate()));
     }
 
     public ExhibitionDto getExhibitionDetail(Long id) {

@@ -1,13 +1,11 @@
 package com.kosa.gallerygather.service;
 
 import com.kosa.gallerygather.dto.PageRequestDto;
-import com.kosa.gallerygather.entity.ExhibitionCardDto;
+import com.kosa.gallerygather.dto.ExhibitionCardDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ExhibitionServiceTest {

@@ -1,17 +1,14 @@
 package com.kosa.gallerygather.service;
 
+import com.kosa.gallerygather.dto.ExhibitionCardDto;
 import com.kosa.gallerygather.dto.ExhibitionDto;
 import com.kosa.gallerygather.dto.PageRequestDto;
-import com.kosa.gallerygather.entity.Exhibition;
-import com.kosa.gallerygather.entity.ExhibitionCardDto;
 import com.kosa.gallerygather.repository.ExhibitionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

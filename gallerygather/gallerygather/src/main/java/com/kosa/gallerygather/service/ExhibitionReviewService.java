@@ -28,8 +28,6 @@ public class ExhibitionReviewService {
     private final MemberRepository memberRepository;
     private final ExhibitionReviewReplyRepository exhibitionReviewReplyRepository;
 
-    // insert data, 외래키 into exhibitionReview values
-    // 회원이 전시에 리뷰를 작성한다.
     @Transactional
     public ReviewDetailDto addReviewToExhibition(String email, Long exhibitionId, ExhibitionReviewRequestDto requestDto) {
         Member findMember = memberRepository.findByEmail(email)
@@ -43,8 +41,9 @@ public class ExhibitionReviewService {
                         requestDto.getRating(),
                         findExhibition, findMember));
 
-        exhibitionReviewRepository.findExhibitionReviewWithAllReplies(savedExhibitionReview.getId());
-        List<ExhibitionReviewReply> exhibitionReviewReplies = exhibitionReviewReplyRepository.findByExhibitionId(savedExhibitionReview.getId());
+//        exhibitionReviewRepository.findExhibitionReviewWithAllReplies(savedExhibitionReview.getId());
+        List<ExhibitionReviewReply> exhibitionReviewReplies = exhibitionReviewReplyRepository
+                .findByExhibitReview(savedExhibitionReview);
         return new ReviewDetailDto(findExhibition, exhibitionReviewReplies);
     }
 }

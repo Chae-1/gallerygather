@@ -8,14 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 @SpringBootTest
-class ExhibitionExhibitionReviewRepositoryTest {
+class ExhibitionReviewRepositoryTest {
     @Autowired
     ExhibitionReviewRepository exhibitionReviewRepository;
 
     @Test
     void update() {
-        // 1. 댓글을 작성한다.
-        // 2.
         List<ExhibitionReview> hyeongil = exhibitionReviewRepository.findByContent("hyeongil");
     }
 

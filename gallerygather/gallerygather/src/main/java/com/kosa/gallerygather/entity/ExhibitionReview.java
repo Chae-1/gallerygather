@@ -50,9 +50,6 @@ public class ExhibitionReview {
         this.member = member;
     }
 
-    public static ExhibitionReview ofNewReview(String title, String content, Long rating) {
-        return new ExhibitionReview(null, title, content, )
-    }
 
 
 }

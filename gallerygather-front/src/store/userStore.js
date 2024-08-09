@@ -13,7 +13,7 @@ export const userStore = defineStore({
         email: 'not login', accessToken: sessionStorage.getItem('accessToken'), nickName: '',
     }), getters: {
         isAuthenticated(state) {
-            return state.token !== null;
+            return state.accessToken !== null;
         }
     }, actions: {
         logout() {

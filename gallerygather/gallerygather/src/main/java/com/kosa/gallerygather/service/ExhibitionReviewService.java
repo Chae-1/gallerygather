@@ -1,6 +1,7 @@
 package com.kosa.gallerygather.service;
 
 import com.kosa.gallerygather.dto.ExhibitionReviewRequestDto;
+import com.kosa.gallerygather.dto.ReviewDetailDto;
 import com.kosa.gallerygather.entity.Exhibition;
 import com.kosa.gallerygather.entity.ExhibitionReview;
 import com.kosa.gallerygather.entity.ExhibitionReviewReply;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +31,7 @@ public class ExhibitionReviewService {
     // insert data, 외래키 into exhibitionReview values
     // 회원이 전시에 리뷰를 작성한다.
     @Transactional
-    public void addReviewToExhibition(String email, Long exhibitionId, ExhibitionReviewRequestDto requestDto) {
+    public ReviewDetailDto addReviewToExhibition(String email, Long exhibitionId, ExhibitionReviewRequestDto requestDto) {
         Member findMember = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new MemberException("가입되지 않은 사용자 입니다."));
 
@@ -43,9 +43,8 @@ public class ExhibitionReviewService {
                         requestDto.getRating(),
                         findExhibition, findMember));
 
-        exhibitionReviewRepository.findExhibitionReviewWithAllReplies();
+        exhibitionReviewRepository.findExhibitionReviewWithAllReplies(savedExhibitionReview.getId());
         List<ExhibitionReviewReply> exhibitionReviewReplies = exhibitionReviewReplyRepository.findByExhibitionId(savedExhibitionReview.getId());
-
-
+        return new ReviewDetailDto(findExhibition, exhibitionReviewReplies);
     }
 }

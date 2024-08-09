@@ -1,11 +1,11 @@
 package com.kosa.gallerygather.controller;
 
 import com.kosa.gallerygather.dto.ExhibitionReviewRequestDto;
+import com.kosa.gallerygather.dto.ReviewDetailDto;
 import com.kosa.gallerygather.security.UserDetailsImpl;
 import com.kosa.gallerygather.service.ExhibitionReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.query.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +19,10 @@ public class ApiExhibitionReviewController {
     // @ModelAttribute -> Request Parameter -> Object, value
     // @RequestBody -> Http Body -> Json -> Object, value
     @PostMapping
-    public ResponseEntity<Page> postExhibitionReview(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                     @PathVariable Long exhibitionId,
-                                                     @ModelAttribute ExhibitionReviewRequestDto requestDto) {
-        exhibitionReviewService.addReviewToExhibition(userDetails.getEmail(), exhibitionId, requestDto);
-        return ResponseEntity.ok(null);
+    public ResponseEntity<ReviewDetailDto> postExhibitionReview(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                                @PathVariable Long exhibitionId,
+                                                                @ModelAttribute ExhibitionReviewRequestDto requestDto) {
+        ReviewDetailDto reviewDetailDto = exhibitionReviewService.addReviewToExhibition(userDetails.getEmail(), exhibitionId, requestDto);
+        return ResponseEntity.ok(reviewDetailDto);
     }
 }

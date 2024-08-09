@@ -17,7 +17,6 @@ class ExhibitionLikeRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
 
-
     @Test
     @Transactional
     void test() {

@@ -1,6 +1,5 @@
 package com.kosa.gallerygather.entity;
 
-import com.kosa.gallerygather.dto.ExhibitionReviewRequestDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -8,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "TBL_EXHIBIT_REVIEW")
@@ -38,10 +39,12 @@ public class ExhibitionReview {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @OneToMany(mappedBy = "exhibitionReview", cascade = CascadeType.PERSIST)
+    private List<ExhibitionReviewReply> reviewReplies = new ArrayList<>();
 
-    private ExhibitionReview(Long id, String title, String content, LocalDateTime regDate,
-                            Double rating, LocalDateTime updateDate, Exhibition exhibition, Member member) {
-        this.id = id;
+
+    private ExhibitionReview(String title, String content, LocalDateTime regDate,
+                             Double rating, LocalDateTime updateDate, Exhibition exhibition, Member member) {
         this.title = title;
         this.content = content;
         this.regDate = regDate;
@@ -52,6 +55,13 @@ public class ExhibitionReview {
     }
 
     public static ExhibitionReview ofNewReview(String title, String content, Double rating, Exhibition exhibition, Member member) {
-        return new ExhibitionReview(null, title, content, LocalDateTime.now(), rating, LocalDateTime.now(), exhibition, member);
+        return new ExhibitionReview(title, content, LocalDateTime.now(), rating, LocalDateTime.now(), exhibition, member);
     }
+
+    public void addReplies(ExhibitionReviewReply... replies) {
+        for (ExhibitionReviewReply reply : replies) {
+            this.reviewReplies.add(reply);
+        }
+    }
+
 }

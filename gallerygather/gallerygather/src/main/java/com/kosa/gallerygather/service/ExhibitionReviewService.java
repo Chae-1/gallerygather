@@ -41,9 +41,9 @@ public class ExhibitionReviewService {
                         requestDto.getRating(),
                         findExhibition, findMember));
 
-//        exhibitionReviewRepository.findExhibitionReviewWithAllReplies(savedExhibitionReview.getId());
         List<ExhibitionReviewReply> exhibitionReviewReplies = exhibitionReviewReplyRepository
                 .findByExhibitReview(savedExhibitionReview);
+
         return new ReviewDetailDto(findExhibition, exhibitionReviewReplies);
     }
 }

@@ -1,8 +1,7 @@
 package com.kosa.gallerygather.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +9,8 @@ import java.time.LocalDateTime;
 @Table(name = "TBL_REVIEW_REPLY")
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class ExhibitionReviewReply {
 
     @Id
@@ -32,4 +33,9 @@ public class ExhibitionReviewReply {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exhibit_review_id")
     private ExhibitionReview exhibitionReview;
+
+    public static ExhibitionReviewReply ofEmpty(Member member, ExhibitionReview exhibitionReview) {
+        return new ExhibitionReviewReply(null, "", LocalDateTime.now(),
+                LocalDateTime.now(), member, exhibitionReview);
+    }
 }

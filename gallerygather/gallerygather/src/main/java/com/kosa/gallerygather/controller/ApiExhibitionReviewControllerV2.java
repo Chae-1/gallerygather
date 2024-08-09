@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/exhibition/{exhibitionId}/review")
+//@RequestMapping("/api/exhibition/{exhibitionId}/review")
 public class ApiExhibitionReviewControllerV2 {
     private final ExhibitionReviewService exhibitionReviewService;
     // @ModelAttribute -> Request Parameter -> Object, value

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.regex.Pattern;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -81,23 +82,24 @@ public class ExhibitionListUpdateService {
                 for (ResourceApiResponse.Item item : items) {
                     System.out.println(item);
                     String[] split = item.getPeriod().split("~");
-                    LocalDate startDate = LocalDate.parse(split[0]);
-                    LocalDate endDate = LocalDate.parse(split[0]);
+                    LocalDate startDate = LocalDate.parse(split[0].trim());
+                    LocalDate endDate = LocalDate.parse(split[0].trim());
 
-                    repository.save(Exhibition.builder()
-                            .title(item.getTitle())
-                            .description(item.getDescription())
-                            .startDate(startDate)
-                            .endDate(endDate)
-                            .author(item.getAuthor())
-                            .imgUrl(item.getImageObject())
-                            .place(item.getEventSite())
-                            .charge(changeToCharge(item.getCharge()))
-                            .siteUrl(item.getUrl())
-                            .likeCount(0)
-                            .readCount(0)
-                            .reviewCount(0)
-                            .avgRating(0).build());
+                    repository.save(
+                            Exhibition.builder()
+                                    .title(item.getTitle())
+                                    .description(item.getDescription())
+                                    .startDate(startDate)
+                                    .endDate(endDate)
+                                    .author(item.getAuthor())
+                                    .imgUrl(item.getImageObject())
+                                    .place(item.getEventSite())
+                                    .charge(changeToCharge(item.getCharge()))
+                                    .siteUrl(item.getUrl())
+                                    .likeCount(0)
+                                    .readCount(0)
+                                    .reviewCount(0)
+                                    .avgRating(0).build());
                 }
             } catch (Exception ex1) {
                 ex1.printStackTrace();

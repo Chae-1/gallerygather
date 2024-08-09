@@ -1,6 +1,8 @@
-package com.kosa.gallerygather.entity;
+package com.kosa.gallerygather.dto;
 
 import lombok.*;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -12,4 +14,6 @@ public class ExhibitionCardDto {
     private String imageUrl;
     private String title;
     private String description;
+    private LocalDate startDate;
+    private LocalDate endDate;
 }

@@ -1,7 +1,7 @@
 package com.kosa.gallerygather.service;
 
 import com.kosa.gallerygather.dto.PageRequestDto;
-import com.kosa.gallerygather.entity.ExhibitionCardDto;
+import com.kosa.gallerygather.dto.ExhibitionCardDto;
 import com.kosa.gallerygather.repository.ExhibitionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

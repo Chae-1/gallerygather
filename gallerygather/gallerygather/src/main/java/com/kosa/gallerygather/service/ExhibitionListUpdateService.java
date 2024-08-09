@@ -82,8 +82,8 @@ public class ExhibitionListUpdateService {
                 for (ResourceApiResponse.Item item : items) {
                     System.out.println(item);
                     String[] split = item.getPeriod().split("~");
-                    LocalDate startDate = LocalDate.parse(split[0]);
-                    LocalDate endDate = LocalDate.parse(split[0]);
+                    LocalDate startDate = LocalDate.parse(split[0].trim());
+                    LocalDate endDate = LocalDate.parse(split[0].trim());
 
                     repository.save(
                             Exhibition.builder()

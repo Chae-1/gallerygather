@@ -59,6 +59,9 @@ export default {
         </div>
         <div class="card-info">
           <span>진행상태</span>
+          <div class="card-info-grade">
+            <em>별점</em>
+          </div>
         </div>
       </template>
     </b-card>
@@ -98,6 +101,7 @@ export default {
 .card-location::before {
   background-image: url("../../../assets/img/location.svg");
 }
+
 .card-footer > div {
   margin: 10px 0;
 }
@@ -105,4 +109,14 @@ export default {
 .card-footer > div:nth-of-type(1) {
   margin-top: 0;
 }
+
+.card-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-info > span + div {
+  margin: 0 10px;
+}
+
 </style>

@@ -16,6 +16,7 @@ class ExhibitionReviewRepositoryTest {
     void update() {
         // 1. 댓글을 작성한다.
         List<ExhibitionReview> hyeongil = exhibitionReviewRepository.findByContentContains("hyeongil");
+
     }
 
 

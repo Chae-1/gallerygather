@@ -35,10 +35,10 @@ public class ExhibitionReviewService {
                 .orElseThrow(() -> new IllegalArgumentException("작성되지 않은 전시글 입니다."));
 
         ExhibitionReview savedExhibitionReview = exhibitionReviewRepository.saveAndFlush(ExhibitionReview.ofNewReview(requestDto.getTitle(),
-                requestDto.getContent(),
-                requestDto.getRating(),
-                findExhibition, findMember));
+                        requestDto.getContent(),
+                        requestDto.getRating(),
+                        findExhibition, findMember));
 
-
+        exhibitionReviewRepository.findExhibitionReviewWithAllReplies();
     }
 }

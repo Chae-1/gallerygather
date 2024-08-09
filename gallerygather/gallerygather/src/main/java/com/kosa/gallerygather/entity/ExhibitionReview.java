@@ -51,11 +51,4 @@ public class ExhibitionReview {
         this.member = member;
     }
 
-    public static ExhibitionReview ofNewReview(String title, String content, Double rating,
-                                               Exhibition exhibition, Member member) {
-        return new ExhibitionReview(null, title, content, LocalDateTime.now(),
-                rating, LocalDateTime.now(), exhibition, member);
-    }
-
-
 }

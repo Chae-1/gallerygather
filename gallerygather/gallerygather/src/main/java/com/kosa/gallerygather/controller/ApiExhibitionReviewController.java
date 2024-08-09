@@ -16,12 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/exhibition/{exhibitionId}/review")
 public class ApiExhibitionReviewController {
     private final ExhibitionReviewService exhibitionReviewService;
-    // ?serviceKey=1234 ...
     // @ModelAttribute -> Request Parameter -> Object, value
     // @RequestBody -> Http Body -> Json -> Object, value
     @PostMapping
     public ResponseEntity<Page> postExhibitionReview(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                     @RequestParam Long exhibitionId,
+                                                     @PathVariable Long exhibitionId,
                                                      @ModelAttribute ExhibitionReviewRequestDto requestDto) {
         exhibitionReviewService.addReviewToExhibition(userDetails.getEmail(), exhibitionId, requestDto);
         return ResponseEntity.ok(null);

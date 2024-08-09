@@ -30,10 +30,15 @@ public class ExhibitionReviewService {
     public void addReviewToExhibition(String email, Long exhibitionId, ExhibitionReviewRequestDto requestDto) {
         Member findMember = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new MemberException("가입되지 않은 사용자 입니다."));
+
         Exhibition findExhibition = exhibitionRepository.findById(exhibitionId)
                 .orElseThrow(() -> new IllegalArgumentException("작성되지 않은 전시글 입니다."));
 
-        ExhibitionReview exhibitionReview = new ExhibitionReview();
+        ExhibitionReview savedExhibitionReview = exhibitionReviewRepository.saveAndFlush(ExhibitionReview.ofNewReview(requestDto.getTitle(),
+                requestDto.getContent(),
+                requestDto.getRating(),
+                findExhibition, findMember));
+
 
     }
 }

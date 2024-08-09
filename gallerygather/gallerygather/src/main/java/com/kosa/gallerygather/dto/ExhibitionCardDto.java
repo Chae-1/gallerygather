@@ -1,4 +1,4 @@
-package com.kosa.gallerygather.entity;
+package com.kosa.gallerygather.dto;
 
 import lombok.*;
 
@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class ExhibitionCardDto {
-    private Long exhibitionId;
+        private Long exhibitionId;
     private String imageUrl;
     private String title;
     private String description;

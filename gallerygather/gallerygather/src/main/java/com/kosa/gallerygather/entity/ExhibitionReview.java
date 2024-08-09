@@ -2,6 +2,7 @@ package com.kosa.gallerygather.entity;
 
 import com.kosa.gallerygather.dto.ExhibitionReviewRequestDto;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Table(name = "TBL_EXHIBIT_REVIEW")
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ExhibitionReview {
 
     @Id
@@ -25,7 +26,7 @@ public class ExhibitionReview {
 
     private LocalDateTime regDate;
 
-    private Long rating;
+    private Double rating;
 
     private LocalDateTime updateDate;
 
@@ -39,7 +40,7 @@ public class ExhibitionReview {
 
 
     private ExhibitionReview(Long id, String title, String content, LocalDateTime regDate,
-                            Long rating, LocalDateTime updateDate, Exhibition exhibition, Member member) {
+                            Double rating, LocalDateTime updateDate, Exhibition exhibition, Member member) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -50,8 +51,10 @@ public class ExhibitionReview {
         this.member = member;
     }
 
-    public static ExhibitionReview ofNewReview(String title, String content, Long rating) {
-        return new ExhibitionReview(null, title, content, )
+    public static ExhibitionReview ofNewReview(String title, String content, Double rating,
+                                               Exhibition exhibition, Member member) {
+        return new ExhibitionReview(null, title, content, LocalDateTime.now(),
+                rating, LocalDateTime.now(), exhibition, member);
     }
 
 

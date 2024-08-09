@@ -1,5 +1,6 @@
 package com.kosa.gallerygather.controller;
 
+import com.kosa.gallerygather.dto.ExhibitionDto;
 import com.kosa.gallerygather.dto.PageRequestDto;
 import com.kosa.gallerygather.entity.ExhibitionCardDto;
 import com.kosa.gallerygather.service.ExhibitionListUpdateService;
@@ -23,4 +24,8 @@ public class ApiExhibitionController {
         return ResponseEntity.ok(exhibitionService.getCardDto(page));
     }
 
+    @GetMapping("/details/{id}")
+    public ResponseEntity<ExhibitionDto> getExhibitionDetails(@PathVariable Long id) {
+        return ResponseEntity.ok(exhibitionService.getExhibitionDetail(id));
+    }
 }

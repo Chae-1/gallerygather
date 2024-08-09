@@ -15,8 +15,7 @@ class ExhibitionReviewRepositoryTest {
     @Test
     void update() {
         // 1. 댓글을 작성한다.
-        // 2.
-        List<ExhibitionReview> hyeongil = exhibitionReviewRepository.findByContent("hyeongil");
+        List<ExhibitionReview> hyeongil = exhibitionReviewRepository.findByContentContains("hyeongil");
     }
 
 

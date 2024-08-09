@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,11 +21,17 @@ public class ExhibitionReview {
 
     private String content;
 
-    private LocalDateTime regDate;
-
     private Long rating;
 
+    private LocalDate viewDate;
+
+    private LocalDateTime regDate;
+
     private LocalDateTime updateDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="member_id")
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exhibition_id")

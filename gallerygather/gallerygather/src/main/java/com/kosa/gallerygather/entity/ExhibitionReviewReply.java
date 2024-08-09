@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Table(name = "TBL_REVIEW_REPLY")
 @Getter
 @Setter
-public class ReviewReply {
+public class ExhibitionReviewReply {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

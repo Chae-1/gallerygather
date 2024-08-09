@@ -48,7 +48,7 @@ public class Member {
     private LocalDateTime updateDate;
 
     @OneToMany(mappedBy = "member")
-    private List<ReviewReply> replies = new ArrayList<>();
+    private List<ExhibitionReviewReply> replies = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "refresh_token_id")

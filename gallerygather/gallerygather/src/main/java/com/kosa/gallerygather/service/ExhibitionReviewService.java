@@ -3,9 +3,11 @@ package com.kosa.gallerygather.service;
 import com.kosa.gallerygather.dto.ExhibitionReviewRequestDto;
 import com.kosa.gallerygather.entity.Exhibition;
 import com.kosa.gallerygather.entity.ExhibitionReview;
+import com.kosa.gallerygather.entity.ExhibitionReviewReply;
 import com.kosa.gallerygather.entity.Member;
 import com.kosa.gallerygather.exception.member.MemberException;
 import com.kosa.gallerygather.repository.ExhibitionRepository;
+import com.kosa.gallerygather.repository.ExhibitionReviewReplyRepository;
 import com.kosa.gallerygather.repository.ExhibitionReviewRepository;
 import com.kosa.gallerygather.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,6 +26,7 @@ public class ExhibitionReviewService {
     private final ExhibitionReviewRepository exhibitionReviewRepository;
     private final ExhibitionRepository exhibitionRepository;
     private final MemberRepository memberRepository;
+    private final ExhibitionReviewReplyRepository exhibitionReviewReplyRepository;
 
     // insert data, 외래키 into exhibitionReview values
     // 회원이 전시에 리뷰를 작성한다.
@@ -40,5 +44,8 @@ public class ExhibitionReviewService {
                         findExhibition, findMember));
 
         exhibitionReviewRepository.findExhibitionReviewWithAllReplies();
+        List<ExhibitionReviewReply> exhibitionReviewReplies = exhibitionReviewReplyRepository.findByExhibitionId(savedExhibitionReview.getId());
+
+
     }
 }

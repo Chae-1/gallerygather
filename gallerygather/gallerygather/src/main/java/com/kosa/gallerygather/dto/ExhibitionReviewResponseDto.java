@@ -1,5 +1,6 @@
 package com.kosa.gallerygather.dto;
 
+<<<<<<< HEAD
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,4 +15,14 @@ public class ExhibitionReviewResponseDto {
     private String title;
     private String content;
     private Double rating;
+=======
+import lombok.Getter;
+
+@Getter
+public class ExhibitionReviewResponseDto {
+    private Long id;
+    private String title;
+    private String content;
+
+>>>>>>> 13f3f8230d0f8c8d7e80b3314d3e8bbb11cbaf9e
 }

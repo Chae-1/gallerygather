@@ -3,6 +3,7 @@ package com.kosa.gallerygather.service;
 import com.kosa.gallerygather.dto.*;
 import com.kosa.gallerygather.exception.member.ExistMemberException;
 import com.kosa.gallerygather.repository.MemberRepository;
+import com.kosa.gallerygather.security.UserDetailsImpl;
 import com.kosa.gallerygather.util.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,9 +34,9 @@ public class MemberService {
         // 필요시 refreshToken 을 발급해서 넘겨준다.
         // -> accessToken의 특성 상, 회원의 세션을 유지해줄 수 없기 때문이다.
         if (authenticate.isAuthenticated()) {
-            String[] emailAndNickName = authenticate.getName().split("/");
-            String email = emailAndNickName[0];
-            String nickName = emailAndNickName[0];
+            UserDetailsImpl userDetails = (UserDetailsImpl) authenticate.getPrincipal();
+            String email = userDetails.getEmail();
+            String nickName = userDetails.getNickName();
             return new JwtResponseDto(jwtService.generateToken(email), email, nickName);
         }
 

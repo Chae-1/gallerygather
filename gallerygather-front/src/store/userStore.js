@@ -22,6 +22,12 @@ export const userStore = defineStore({
                 name: null, accessToken: null,
             });
             sessionStorage.setItem('accessToken', null);
+            axios.post("http://localhost:8080/api/members/logout", {}, {
+                headers: {
+                    Authorization: localStorage.getItem('accessToken'),
+
+                }
+            })
         },
 
         async login(email, password) {
@@ -34,7 +40,7 @@ export const userStore = defineStore({
                 const accessToken = response.data.accessToken;
                 const nickName = response.data.nickName;
                 const email = response.data.email;
-                localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('accessToken', "Bearer " + accessToken);
                 this.$patch({
                     email: email,
                     accessToken: accessToken,

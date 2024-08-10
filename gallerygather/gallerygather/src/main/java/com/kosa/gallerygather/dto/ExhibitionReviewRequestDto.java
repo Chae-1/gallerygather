@@ -6,10 +6,13 @@ import com.kosa.gallerygather.entity.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
 public class ExhibitionReviewRequestDto {
 
     private String title;

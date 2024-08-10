@@ -44,7 +44,9 @@ public class JwtService {
     }
 
     private Boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+        Date extractExpiration = extractExpiration(token);
+        Date now = new Date();
+        return extractExpiration.before(now);
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
@@ -64,7 +66,7 @@ public class JwtService {
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+ (1000 * 60 * 1)))
+                .setExpiration(new Date(System.currentTimeMillis()+ (1000 * 60 * 30))) // 30분동안 토큰 유지
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
 

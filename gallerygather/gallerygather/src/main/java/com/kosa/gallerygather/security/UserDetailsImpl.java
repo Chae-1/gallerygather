@@ -17,7 +17,7 @@ public class UserDetailsImpl implements UserDetails {
 
     public UserDetailsImpl(Member findMember) {
         this.email = findMember.getEmail();
-        this.auth = findMember.getEmail();
+        this.auth = findMember.getAuth();
         this.password = findMember.getPassword();
         this.nickName = findMember.getNickName();
     }
@@ -34,10 +34,14 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email + "/" + nickName;
+        return email;
     }
 
     public String getEmail() {
         return email;
+    }
+
+    public String getNickName() {
+        return nickName;
     }
 }

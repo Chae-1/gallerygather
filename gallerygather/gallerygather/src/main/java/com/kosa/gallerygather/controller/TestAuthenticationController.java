@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestAuthenticationController {
 
     @GetMapping("/test/canaccess/logined")
-    @PreAuthorize("USER")
     public String canAccessAuthenticatedMember(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         // 서버에서 로그인된 회원 정보를 조회하고자 할 때, 사용해야하는 어노테이션
 

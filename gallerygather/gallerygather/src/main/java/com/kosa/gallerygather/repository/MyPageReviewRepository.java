@@ -5,10 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+public interface MyPageReviewRepository extends JpaRepository<ExhibitionReview, Long> {
 
-public interface ExhibitionReviewRepository extends JpaRepository<ExhibitionReview, Long> {
-
-    List<ExhibitionReview> findByContentContains(String content);
+    List<ExhibitionReview> findByMemberEmail(String email);
 
 }
-

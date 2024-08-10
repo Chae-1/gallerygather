@@ -1,13 +1,10 @@
 package com.kosa.gallerygather.dto;
 
-
+//유은
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/**
- * 작성자 : 박유은
- */
 @Getter
 @NoArgsConstructor//기본생성자
 @AllArgsConstructor//필드파라미터

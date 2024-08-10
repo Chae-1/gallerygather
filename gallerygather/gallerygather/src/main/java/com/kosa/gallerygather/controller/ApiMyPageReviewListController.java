@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class ApiMemberReviewListController {
+public class ApiMyPageReviewListController {
 
     private final MyPageListService myPageListService;
 

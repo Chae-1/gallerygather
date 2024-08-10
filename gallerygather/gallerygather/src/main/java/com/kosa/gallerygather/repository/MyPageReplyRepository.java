@@ -1,5 +1,5 @@
 package com.kosa.gallerygather.repository;
-
+//유은
 import com.kosa.gallerygather.entity.ExhibitionReviewReply;
 import org.springframework.data.jpa.repository.JpaRepository;
 

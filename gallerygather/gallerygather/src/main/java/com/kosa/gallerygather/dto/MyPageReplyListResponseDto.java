@@ -1,11 +1,10 @@
 package com.kosa.gallerygather.dto;
 
-//작성자 : 박유은
+//유은
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter

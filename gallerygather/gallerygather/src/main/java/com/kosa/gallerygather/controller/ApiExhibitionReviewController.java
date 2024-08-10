@@ -17,7 +17,7 @@ public class ApiExhibitionReviewController {
     @PostMapping("/api/exhibition/{exhibitionId}/review")
     public ResponseEntity<Long> createReview(@RequestBody ExhibitionReviewRequestDto requestDto,
                                              @AuthenticationPrincipal UserDetails userDetails,
-                                             @RequestParam Long exhibitionId) {
+                                             @PathVariable Long exhibitionId) {
         Long memberId = Long.valueOf(userDetails.getUsername());
         Long reviewId = reviewService.write(requestDto, memberId, exhibitionId);
         return ResponseEntity.ok(reviewId);

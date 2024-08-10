@@ -9,4 +9,6 @@ public interface ExhibitionReviewRepository extends JpaRepository<ExhibitionRevi
 
     List<ExhibitionReview> findByContentContains(String content);
 
+    List<ExhibitionReview> findByMemberEmail(String email);
+
 }

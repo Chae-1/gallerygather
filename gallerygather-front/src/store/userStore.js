@@ -10,18 +10,18 @@ async function requestLogin(email, password) {
 
 export const userStore = defineStore({
     id: 'user', state: () => ({
-        email: 'not login', accessToken: null, nickName: '',
+        email: 'not login', accessToken: sessionStorage.getItem('accessToken'), nickName: '',
     }), getters: {
         isAuthenticated(state) {
-            return state.token !== null;
+            return state.accessToken !== null;
         }
     }, actions: {
         logout() {
             // 서버에 logout을 호출
             this.$patch({
-                name: null, token: null,
+                name: null, accessToken: null,
             });
-            sessionStorage.setItem('token', null);
+            sessionStorage.setItem('accessToken', null);
         },
 
         async login(email, password) {

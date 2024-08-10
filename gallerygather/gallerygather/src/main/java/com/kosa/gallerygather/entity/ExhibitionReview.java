@@ -2,9 +2,14 @@ package com.kosa.gallerygather.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "TBL_EXHIBIT_REVIEW")
@@ -21,7 +26,7 @@ public class ExhibitionReview {
 
     private String content;
 
-    private Long rating;
+    private Double rating;
 
     private LocalDate viewDate;
 
@@ -37,23 +42,30 @@ public class ExhibitionReview {
     @JoinColumn(name = "exhibition_id")
     private Exhibition exhibition;
 
+    @OneToMany(mappedBy = "exhibitionReview", cascade = CascadeType.PERSIST)
+    private List<ExhibitionReviewReply> reviewReplies = new ArrayList<>();
+
     @Builder
-    private ExhibitionReview(String title, String content, Long rating, LocalDate viewDate, Member member, Exhibition exhibition) {
+    private ExhibitionReview(String title, String content, Double rating, LocalDate viewDate,
+                             LocalDateTime regDate, LocalDateTime updateDate, Member member, Exhibition exhibition) {
         this.title = title;
         this.content = content;
         this.rating = rating;
         this.viewDate = viewDate;
+        this.regDate = regDate;
+        this.updateDate = updateDate;
         this.member = member;
         this.exhibition = exhibition;
     }
 
-    public ExhibitionReview(String title, String content, Long rating, LocalDate viewDate, LocalDateTime regDate) {
-        this.title = title;
-        this.content = content;
-        this.rating = rating;
-        this.viewDate = viewDate;
-        this.regDate = LocalDateTime.now();
+    public static ExhibitionReview ofNewReview(String title, String content, Double rating, LocalDate viewDate, Member member, Exhibition exhibition) {
+        return new ExhibitionReview(title, content, rating, viewDate, LocalDateTime.now(), LocalDateTime.now(), member, exhibition);
+
     }
 
-
+    public void addReplies(ExhibitionReviewReply... replies) {
+        for (ExhibitionReviewReply reply : replies) {
+            this.reviewReplies.add(reply);
+        }
+    }
 }

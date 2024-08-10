@@ -49,7 +49,7 @@ const homeRoute = {
       component: PageReviewDetail
     },
     {
-      path: '/exhibitiondetails',
+      path: '/exhibitiondetails/:exhibitionId',
       name: 'ExhibitionDetails',
       component: PageExhibitionDetail
     },

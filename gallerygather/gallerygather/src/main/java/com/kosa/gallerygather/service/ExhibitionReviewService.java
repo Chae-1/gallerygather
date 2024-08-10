@@ -34,5 +34,25 @@ public class ExhibitionReviewService {
         return savedReview.getId();
     }
 
-    
+
+//    private final ExhibitionReviewReplyRepository exhibitionReviewReplyRepository;
+//
+//    @Transactional
+//    public ReviewDetailDto addReviewToExhibition(String email, Long exhibitionId, ExhibitionReviewRequestDto requestDto) {
+//        Member findMember = memberRepository.findByEmail(email)
+//                .orElseThrow(() -> new MemberException("가입되지 않은 사용자 입니다."));
+//
+//        Exhibition findExhibition = exhibitionRepository.findById(exhibitionId)
+//                .orElseThrow(() -> new IllegalArgumentException("작성되지 않은 전시글 입니다."));
+//
+//        ExhibitionReview savedExhibitionReview = exhibitionReviewRepository.saveAndFlush(ExhibitionReview.ofNewReview(requestDto.getTitle(),
+//                        requestDto.getContent(),
+//                        requestDto.getRating(),
+//                        findExhibition, findMember));
+//
+//        List<ExhibitionReviewReply> exhibitionReviewReplies = exhibitionReviewReplyRepository
+//                .findByExhibitReview(savedExhibitionReview);
+//
+//        return new ReviewDetailDto(findExhibition, exhibitionReviewReplies);
+//    }
 }

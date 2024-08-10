@@ -14,10 +14,8 @@ public class ExhibitionReviewRequestDto {
 
     private String title;
     private String content;
-    private Long rating;
+    private Double rating;
     private LocalDate viewDate;
-    private Member member;
-    private Exhibition exhibition;
 
     public ExhibitionReview toEntity(Member member, Exhibition exhibition){
         return ExhibitionReview.builder()
@@ -30,5 +28,4 @@ public class ExhibitionReviewRequestDto {
                 .build();
 
     }
-
 }

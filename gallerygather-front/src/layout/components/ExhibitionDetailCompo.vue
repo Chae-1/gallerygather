@@ -2,54 +2,52 @@
     <div class="exhibition">
         <div class="exhibition-poster">
             <div class="poster-wrapper">
-                <img src="../../assets/img/daniel_arsham.png" alt="Exhibition Poster Blurry" class="blurry-image" />
-                <img src="../../assets/img/daniel_arsham.png" alt="Exhibition Poster Clear" class="clear-image" />
+                <img :src="exhibitDetails.imgUrl" alt="Exhibition Poster Blurry" class="blurry-image" />
+                <img :src="exhibitDetails.imgUrl" alt="Exhibition Poster Clear" class="clear-image" />
             </div>
         </div>
         <div class="exhibition-info">
-            <span class="exhibition-status">{{exhibitDetails.status}}</span>
+            <span class="exhibition-status">진행중</span>
             <h1 class="exhibition-title">{{ exhibitDetails.title }}</h1>
             <div class="">
-                <p>{{exhibitDetails.startDate}} - {{ exhibitDetails.endDate }}</p>
+                <p>{{exhibitDetails.startDate}} ~ {{ exhibitDetails.endDate }}</p>
                 <p>{{exhibitDetails.place}}</p>
             </div>
             <div class="exhibition-desc">
-                {{ exhibitDetails.content }}
+                <div  v-html="exhibitDetails.description"></div>
             </div>
             <div class="exhibition-stats">
-                <span class="view">👁️ {{ exhibitDetails.view }}</span>
-                <span class="likes">❤️ {{ exhibitDetails.likes }}</span>
-                <span class="replies">💬 {{ exhibitDetails.replies }}</span>
+                <span class="view">👁️ {{ exhibitDetails.readCount }}</span>
+                <span class="likes">❤️ {{ exhibitDetails.likeCount }}</span>
+                <span class="replies">💬 {{ exhibitDetails.reviewCount }}</span>
             </div>
-            <button class="ticket-button">예매처 보기</button>
+            <a   :href="exhibitDetails.siteUrl" role="button" class="site-button">사이트 바로가기</a>
         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     data() {
         return {
-            exhibitDetails: {
-                status: "진행중",
-                title: "[미술] 국보순회전: 모두의 곁으로 ‘금관총 금관, 그리고 이사지왕’",
-                startDate: "2024.06.06",
-                endDate: "2024.09.01",
-                place: "보령석탄박물관",
-                content: "문화는어쩌고저쩌고",
-                view: 43,
-                likes: 10,
-                replies: 2,
-            }
-        }
+            exhibitionId: null,
+            exhibitDetails: {}
+        };
     },
     created() {
+        this.exhibitionId = this.$route.params.exhibitionId;
         this.getExhibitDetails();
+        // this.get();
+    },
+    mounted() {
     },
     methods: {
         async getExhibitDetails() {
-            // this.exhibitDetails = []; //await this.$api.만들어야함. 
-        }
+            axios.get(`http://localhost:8080/api/exhibitions/details/${this.exhibitionId}`).then((response) => {
+                this.exhibitDetails = response.data;
+            })
+        },
     }
 }
 </script>
@@ -139,7 +137,7 @@ export default {
     gap: 10px;
     margin-top: 10px;
 }
-
+/* 
 .ticket-button {
     margin-top: 20px;
     padding: 10px 15px;
@@ -150,5 +148,19 @@ export default {
 
 .ticket-button:hover {
     background-color: #e0e0e0;
+} */
+
+a {
+    color: #737373;
+}
+
+a:hover {
+    color:#669900;
+}
+.site-button {
+    padding: 10px 15px;
+    margin: 20px 0 0;
+    background-color: #e0e0e0;
+    border: 1px solid #ddd;
 }
 </style>

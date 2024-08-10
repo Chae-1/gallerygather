@@ -1,7 +1,8 @@
 package com.kosa.gallerygather.service;
 
-import com.kosa.gallerygather.dto.PageRequestDto;
 import com.kosa.gallerygather.dto.ExhibitionCardDto;
+import com.kosa.gallerygather.dto.ExhibitionDto;
+import com.kosa.gallerygather.dto.PageRequestDto;
 import com.kosa.gallerygather.repository.ExhibitionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,13 @@ public class ExhibitionService {
 
         return exhibitionRepository.fetchExhibitionsWithPagination(pageRequest)
                 .map(exhibition -> new ExhibitionCardDto(exhibition.getId(), exhibition.getImgUrl(),
-                        exhibition.getTitle(), exhibition.getDescription()));
+                        exhibition.getTitle(), exhibition.getDescription(),
+                        exhibition.getStartDate(), exhibition.getEndDate()));
+    }
+
+    public ExhibitionDto getExhibitionDetail(Long id) {
+        return  exhibitionRepository.findById(id)
+                .map(exhibition -> new ExhibitionDto(exhibition))
+                .orElseGet(() -> new ExhibitionDto());
     }
 }

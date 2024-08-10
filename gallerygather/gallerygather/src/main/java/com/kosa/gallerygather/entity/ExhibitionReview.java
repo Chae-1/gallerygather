@@ -1,11 +1,12 @@
 package com.kosa.gallerygather.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,37 +26,41 @@ public class ExhibitionReview {
 
     private String content;
 
-    private LocalDateTime regDate;
-
     private Double rating;
 
+    private LocalDate viewDate;
+
+    private LocalDateTime regDate;
+
     private LocalDateTime updateDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="member_id")
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exhibition_id")
     private Exhibition exhibition;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
     @OneToMany(mappedBy = "exhibitionReview", cascade = CascadeType.PERSIST)
     private List<ExhibitionReviewReply> reviewReplies = new ArrayList<>();
 
-
-    private ExhibitionReview(String title, String content, LocalDateTime regDate,
-                             Double rating, LocalDateTime updateDate, Exhibition exhibition, Member member) {
+    @Builder
+    private ExhibitionReview(String title, String content, Double rating, LocalDate viewDate,
+                             LocalDateTime regDate, LocalDateTime updateDate, Member member, Exhibition exhibition) {
         this.title = title;
         this.content = content;
-        this.regDate = regDate;
         this.rating = rating;
+        this.viewDate = viewDate;
+        this.regDate = regDate;
         this.updateDate = updateDate;
-        this.exhibition = exhibition;
         this.member = member;
+        this.exhibition = exhibition;
     }
 
-    public static ExhibitionReview ofNewReview(String title, String content, Double rating, Exhibition exhibition, Member member) {
-        return new ExhibitionReview(title, content, LocalDateTime.now(), rating, LocalDateTime.now(), exhibition, member);
+    public static ExhibitionReview ofNewReview(String title, String content, Double rating, LocalDate viewDate, Member member, Exhibition exhibition) {
+        return new ExhibitionReview(title, content, rating, viewDate, LocalDateTime.now(), LocalDateTime.now(), member, exhibition);
+
     }
 
     public void addReplies(ExhibitionReviewReply... replies) {
@@ -63,5 +68,4 @@ public class ExhibitionReview {
             this.reviewReplies.add(reply);
         }
     }
-
 }

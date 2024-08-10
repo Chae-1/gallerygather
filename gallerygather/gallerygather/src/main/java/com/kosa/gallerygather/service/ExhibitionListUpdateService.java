@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kosa.gallerygather.dto.ResourceApiResponse;
 import com.kosa.gallerygather.entity.Exhibition;
 import com.kosa.gallerygather.repository.ExhibitionRepository;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class ExhibitionListUpdateService {
 
     private static final Pattern INTEGER_PATTERN = Pattern.compile("-?\\d+");
 
-    //@PostConstruct
+    @PostConstruct
     public void init() {
         for (int pageNum = 0; pageNum < 22; pageNum++) {
             try {

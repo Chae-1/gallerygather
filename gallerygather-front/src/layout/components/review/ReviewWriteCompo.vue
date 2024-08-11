@@ -30,8 +30,8 @@
         </button>
         <div v-if="showDatePicker" class="date-picker-container">
           <v-date-picker
-            v-model="review.date"
-            @input="showDatePicker = false"
+          v-model="review.viewDate"
+          @input="showDatePicker = false"
             mode="single"
           ></v-date-picker>
         </div>
@@ -54,6 +54,7 @@ import QuillEditor from './QuillEditor.vue'
 import StarRating from 'vue-star-rating'
 import { ref } from 'vue';
 import VCalendar from 'v-calendar';
+import axios from 'axios';
 
 export default {
   components: {
@@ -74,13 +75,13 @@ export default {
       gtitle: '헬로키티 전시',
       period: '2024.01.01 ~ 2024.12.12',
       avgRating: '⭐ 3',
-      review: { id: '', title: '', content: '', date: new Date().toISOString().substr(0, 10), rating: 0, createdAt: '', updatedAt: '' }
+      review: {title: '', content: '', viewDate: new Date().toISOString().substr(0, 10), rating: 0 }
     }
   },
   computed: {
     formattedDate() {
-      if (!this.review.date) return '';
-      const date = new Date(this.review.date);
+      if (!this.review.viewDate) return '';
+      const date = new Date(this.review.viewDate);
       const year = date.getFullYear();
       const month = ('0' + (date.getMonth() + 1)).slice(-2);
       const day = ('0' + date.getDate()).slice(-2);
@@ -88,24 +89,40 @@ export default {
     }
   },
   methods: {
-    submit() {
-      console.log('제목:', this.review.title)
-      console.log('내용:', this.review.content)
-      console.log('평점:', this.review.rating)
-      console.log('날짜:', this.review.date)
-      this.$emit('review-submitted', {
-        title: this.review.title,
-        content: this.review.content,
-        rating: this.review.rating,
-        date: this.review.date
-      })
+    async submit() {
+      
+      const exhibitionId = this.$route.params.exhibitionId;
+      console.log('?????????????????????',exhibitionId)
 
-      // 라우팅 추가
-      this.$router.push({ name: 'ReviewDetail' })
-      this.review.title = ''
-      this.review.content = ''
-      this.review.rating = 0
-      this.review.date = new Date()
+      try {
+        console.log('URL:', `http://localhost:8080/api/exhibition/${exhibitionId}/review`);
+        console.log('Payload:', this.review);
+        // const token = localStorage.getItem('token');
+        // if (!token) {
+        //   console.error('JWT 토큰이 없습니다. 로그인 상태를 확인하세요.');
+        //   // 로그인 페이지로 리다이렉트 등 추가 작업 필요
+        //   return;
+        // }
+        // 서버로 POST 요청을 보내고, reviewId를 응답받습니다.
+        const response = await axios.post(`http://localhost:8080/api/exhibition/${exhibitionId}/review`, 
+          this.review
+        , {
+          headers: {
+            'Authorization': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZWVAbmF2ZXIuY29tIiwiaWF0IjoxNzIzMzU5ODAzLCJleHAiOjE3MjMzNjE2MDN9.m88eoFS-I0Phw8tbkipUbgSSEq6PNdlB4lcyXds24OI`
+          }
+        });
+        const reviewDetail = response.data;
+
+        console.log('!!!!!!!!!!!!!!!!!!!!!1111',reviewDetail)
+        const reviewId = reviewDetail.reviewId;
+        console.log('리뷰아이디', reviewId);
+        //const exhibitionId = reviewDetail.exhibitionId;
+
+        // 상세보기 페이지로 이동합니다.
+        this.$router.push(`/exhibition/${reviewDetail.exhibitionId}/review/${reviewDetail.reviewId}`);
+      } catch (error) {
+        console.error('리뷰 생성 실패:', error);
+      }
     }
   },
   watch: {

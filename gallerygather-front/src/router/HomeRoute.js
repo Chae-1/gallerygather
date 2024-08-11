@@ -35,12 +35,12 @@ const homeRoute = {
       component: HomeMain
     },
     {
-      path: '/review',
+      path: 'api/exhibition/:exhibitionId/review',
       name: 'ReviewWrite',
       component: Review
     },
     {
-      path: '/review/detail',
+      path: '/exhibition/:exhibitionId/review/:reviewId',
       name: 'ReviewDetail',
       component: ReviewDetail
     },

@@ -22,6 +22,7 @@ public class ExhibitionReview {
 
     private String title;
 
+    @Lob
     private String content;
 
     private LocalDateTime regDate;

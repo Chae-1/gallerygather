@@ -6,44 +6,23 @@
         </div>
         <div class="review-content">
             <ul class="review-list">
-                <li class="review-item">
+                <li class="review-item" v-for="(review, idx) in exhibitReviewList" :key="idx">
                     <div class="review-box">
-                        <a href="">
+                        <router-link :to="{ path: '/reviewdetails/' + review.id }">
                             <div class="reviewbox-title">
-                                <p>90세 노장 미셸 들라크루아가 그리는 파리의 예술</p>
+                                <p>{{ review.title }}</p>
                             </div>
-                            <span class="review_detail">어쩌구저쩌구 예술이 아주 그냥</span>
-                        </a>
+                            <span class="review_detail">{{ review.content }}</span>
+                        </router-link>
                         <div class="reviewbox-by">
-                            <span class="byname">홍길동</span>
+                            <span class="byname">{{ review.reviewer }}</span>
                         </div>
                         <div class="reviewbox-sub">
-                            <span class="text-date">2024-02-28</span>
+                            <span class="text-date">{{ review.regDate }}</span>
                             <div class="access-nums">
-                                <span class="view">👁️ 101</span>
-                                <span class="likes">❤️ 31</span>
-                                <span class="replies">💬 11</span>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="review-item">
-                    <div class="review-box">
-                        <a href="http://www.naver.com">
-                            <div class="reviewbox-title">
-                                <p>90세 노장 미셸 들라크루아가 그리는 파리의 예술</p>
-                            </div>
-                            <span class="review_detail">어쩌구저쩌구 예술이 아주 그냥</span>
-                        </a>
-                        <div class="reviewbox-by">
-                            <span class="byname">홍길동</span>
-                        </div>
-                        <div class="reviewbox-sub">
-                            <span class="text-date">2024-02-28</span>
-                            <div class="access-nums">
-                                <span class="view">👁️ 101</span>
-                                <span class="likes">❤️ 31</span>
-                                <span class="replies">💬 11</span>
+                                <span class="view">👁️ {{ review.rating }}</span>
+                                <span class="likes">❤️ {{ review.rating }}</span>
+                                <span class="replies">💬 {{ review.rating }}</span>
                             </div>
                         </div>
                     </div>
@@ -51,24 +30,53 @@
             </ul>
         </div>
     </div>
-    <pagination-compo></pagination-compo>
+    <pagination-compo
+        :currentPage="currentPage"
+        :perPage="perPage"
+        :totalRows="totalElement"
+        @page-changed="onPageChanged">
+
+    </pagination-compo>
 </template>
 
 <script>
 import PaginationCompo from './PaginationCompo.vue';
+import axios from 'axios';
 export default {
     components: {PaginationCompo},
     data() {
         return {
-            exhibitReviewList: []
+            totalElement: 4,
+            exhibitionId: null,
+            currentPage: 1,
+            perPage: 3,
+            exhibitReviewList: [],
         };
     },
     created() {
-        this.getExhibitReviewList;
+        console.log('created()');
+        this.exhibitionId = this.$route.params.exhibitionId;
+        console.log(`exhibitionId : ${this.exhibitionId}`);
+        this.getExhibitReviewList();
+    },
+    mounted() {
+        console.log('mounted()');
     },
     methods: {
         async getExhibitReviewList() {
-            this.exhibitReviewList = []; //await this.$api.만들어야함. 
+            try {
+                await axios.get(`http://localhost:8080/api/exhibition/${this.exhibitionId}/review?pageNo=${this.currentPage}&pagePer=${this.perPage}`)
+                    .then((response) => {
+                    this.exhibitReviewList = response.data;
+                    console.log(response.data.content);
+                    })
+            }catch (error) {
+                console.error("리뷰를 불러오는 중 오류가 발생했습니다.", error)
+            }
+        },
+        onPageChanged(newPage) {
+            this.currentPage = newPage;
+            this.getExhibitReviewList();
         }
     }
 }

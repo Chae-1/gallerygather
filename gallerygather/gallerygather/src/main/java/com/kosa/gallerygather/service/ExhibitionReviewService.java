@@ -3,14 +3,11 @@ package com.kosa.gallerygather.service;
 import com.kosa.gallerygather.dto.ExhibitionReviewDto;
 import com.kosa.gallerygather.dto.ExhibitionReviewRequestDto;
 import com.kosa.gallerygather.dto.PageRequestDto;
-import com.kosa.gallerygather.dto.ReviewDetailDto;
 import com.kosa.gallerygather.entity.Exhibition;
 import com.kosa.gallerygather.entity.ExhibitionReview;
 import com.kosa.gallerygather.entity.Member;
 import com.kosa.gallerygather.repository.ExhibitionRepository;
 import com.kosa.gallerygather.repository.MemberRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.kosa.gallerygather.repository.ExhibitionReviewRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ExhibitionReviewService {
@@ -56,8 +51,6 @@ public class ExhibitionReviewService {
         return exhibitionReviews.stream().map(ExhibitionReviewDto.RequestReviewList::new)
                 .collect(Collectors.toList());
     }
-
-//    private final ExhibitionReviewReplyRepository exhibitionReviewReplyRepository;
 //
 //    @Transactional
 //    public ReviewDetailDto addReviewToExhibition(String email, Long exhibitionId, ExhibitionReviewRequestDto requestDto) {

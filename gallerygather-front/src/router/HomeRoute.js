@@ -45,7 +45,7 @@ const homeRoute = {
       component: ReviewDetail
     },
     {
-      path: '/reviewdetails',
+      path: '/reviewdetails/:reviewId',
       component: PageReviewDetail
     },
     {

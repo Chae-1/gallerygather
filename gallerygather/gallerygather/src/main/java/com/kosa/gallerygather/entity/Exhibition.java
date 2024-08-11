@@ -2,6 +2,7 @@ package com.kosa.gallerygather.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -49,15 +50,19 @@ public class Exhibition {
     private String imgUrl;
 
     @Column(name = "like_count")
+    @ColumnDefault("0")
     private Integer likeCount;
 
     @Column(name = "read_count")
+    @ColumnDefault("0")
     private Integer readCount;
 
     @Column(name = "review_count")
+    @ColumnDefault("0")
     private Integer reviewCount;
 
     @Column(name = "avg_rating")
+    @ColumnDefault("0")
     private Integer avgRating;
 
 }

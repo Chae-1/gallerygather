@@ -23,7 +23,7 @@ public class ApiExhibitionController {
         return ResponseEntity.ok(exhibitionService.getCardDto(page));
     }
 
-    @GetMapping("/details/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ExhibitionDto> getExhibitionDetails(@PathVariable Long id) {
         return ResponseEntity.ok(exhibitionService.getExhibitionDetail(id));
     }

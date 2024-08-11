@@ -1,12 +1,18 @@
 package com.kosa.gallerygather.controller;
 
+import com.kosa.gallerygather.dto.ExhibitionReviewDto;
 import com.kosa.gallerygather.dto.ExhibitionReviewRequestDto;
+import com.kosa.gallerygather.dto.PageRequestDto;
+import com.kosa.gallerygather.dto.ReviewDetailDto;
+import com.kosa.gallerygather.security.UserDetailsImpl;
 import com.kosa.gallerygather.service.ExhibitionReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,14 +22,21 @@ public class ApiExhibitionReviewController {
 
     @PostMapping("/api/exhibition/{exhibitionId}/review")
     public ResponseEntity<Long> createReview(@RequestBody ExhibitionReviewRequestDto requestDto,
-                                             @AuthenticationPrincipal UserDetails userDetails,
+                                             @AuthenticationPrincipal UserDetailsImpl userDetails,
                                              @PathVariable Long exhibitionId) {
-        Long memberId = Long.valueOf(userDetails.getUsername());
+        String memberId = userDetails.getEmail();
         Long reviewId = reviewService.write(requestDto, memberId, exhibitionId);
         return ResponseEntity.ok(reviewId);
 
     }
 
+    @GetMapping
+    public ResponseEntity<List<ExhibitionReviewDto.RequestReviewList>> getExhibitionReview(@PathVariable Long exhibitionId,
+                                                                                           @ModelAttribute PageRequestDto pageRequestDto) {
+
+        List<ExhibitionReviewDto.RequestReviewList> reviewList = exhibitionReviewService.getExhibitionReviews(exhibitionId, pageRequestDto);
+        return ResponseEntity.ok(reviewList);
+    }
 //@Slf4j
 //@RequestMapping("/api/exhibition/{exhibitionId}/review")
 //public class ApiExhibitionReviewController {

@@ -43,20 +43,19 @@ export default {
   components: { PaginationCompo },
   data() {
     return {
+      exhibitionId: null,
+      totalElement: 101,
+      currentPage: 1,
+      perPage: 10,
       newReplyContent: '',
-      replies: []
+      replies: {},
     }
   },
   created() {
+    //exhigitionId 가져오기
+    this.exhibitionId = this.$route.params.exhibitionId;
     //데이터 불러오기
-    this.replies = [
-      {
-        content: '댓글 이러쿵 저렇궁궁\nEhㅇ\nㅇㄹㅇㄹ\nㅇㄹㅇㄹㅇ\nㅇㄹㅇㄹㅇㅇㄹㅇㄹ\nㅇㄹ',
-        date: '2024-07-24',
-        editable: false
-      },
-      { content: '댓글 이러쿵 저렇궁궁', date: '2024-07-24', editable: false }
-    ]
+    this.replies = this.getExhibitReviews();
   },
   mounted() {
     this.$nextTick(() => {
@@ -69,6 +68,13 @@ export default {
     })
   },
   methods: {
+    async getExhibitReviews() {
+      axios.get(`http:/localhost:8080/api/exhibition?exhibitionId=${this.exhibitionId}/review?pageNo=${this.currentPage}?pageNum=${this.perPage}`)
+      .then(response =>{
+        this.replies = response.data.content;
+        this.totalElement = response.data.totalElement;
+      })
+    },
     autoResize(event) {
       const textarea = event.target
       textarea.style.height = 'auto'

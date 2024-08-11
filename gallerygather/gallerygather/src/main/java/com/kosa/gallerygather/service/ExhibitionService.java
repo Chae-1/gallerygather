@@ -26,6 +26,8 @@ public class ExhibitionService {
                         exhibition.getStartDate(), exhibition.getEndDate()));
     }
 
+    // 작성자: 오지수
+    // 전시 상세 정보 페이지
     public ExhibitionDto getExhibitionDetail(Long id) {
         return  exhibitionRepository.findById(id)
                 .map(exhibition -> new ExhibitionDto(exhibition))

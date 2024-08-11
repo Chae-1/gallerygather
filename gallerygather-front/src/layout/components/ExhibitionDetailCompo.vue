@@ -44,7 +44,7 @@ export default {
     },
     methods: {
         async getExhibitDetails() {
-            axios.get(`http://localhost:8080/api/exhibitions/details/${this.exhibitionId}`).then((response) => {
+            axios.get(`http://localhost:8080/api/exhibitions/${this.exhibitionId}`).then((response) => {
                 this.exhibitDetails = response.data;
             })
         },

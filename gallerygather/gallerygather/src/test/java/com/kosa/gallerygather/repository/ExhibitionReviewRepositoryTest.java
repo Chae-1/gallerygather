@@ -9,6 +9,7 @@ import java.util.List;
 
 @SpringBootTest
 class ExhibitionReviewRepositoryTest {
+
     @Autowired
     ExhibitionReviewRepository exhibitionReviewRepository;
 

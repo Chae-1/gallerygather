@@ -1,11 +1,24 @@
 package com.kosa.gallerygather.service;
 
+import com.kosa.gallerygather.dto.ExhibitionReviewDto;
 import com.kosa.gallerygather.dto.ExhibitionReviewRequestDto;
+import com.kosa.gallerygather.dto.PageRequestDto;
+import com.kosa.gallerygather.dto.ReviewDetailDto;
 import com.kosa.gallerygather.entity.Exhibition;
 import com.kosa.gallerygather.entity.ExhibitionReview;
 import com.kosa.gallerygather.entity.Member;
 import com.kosa.gallerygather.repository.ExhibitionRepository;
 import com.kosa.gallerygather.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 import com.kosa.gallerygather.repository.ExhibitionReviewRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -24,16 +37,25 @@ public class ExhibitionReviewService {
     }
 
     @Transactional
-    public Long write(final ExhibitionReviewRequestDto requestDto, Long memberId, Long exhibitionId){
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("유저 ID 찾기 오류: " + memberId));
+    public Long write(final ExhibitionReviewRequestDto requestDto, String memberEmail, Long exhibitionId){
+        Member member = memberRepository.findByEmail(memberEmail)
+                .orElseThrow(() -> new IllegalArgumentException("유저 ID(Email) 찾기 오류: " + memberEmail));
         Exhibition exhibition = exhibitionRepository.findById(exhibitionId)
                 .orElseThrow(() -> new IllegalArgumentException("전시회 ID 찾기 오류: " + exhibitionId));
         ExhibitionReview exhibitionReview = requestDto.toEntity(member, exhibition);
-        ExhibitionReview savedReview = exhibitionReviewRepository.save(exhibitionReview);
+        ExhibitionReview savedReview = exhibitionReviewRepository.saveAndFlush(exhibitionReview);
         return savedReview.getId();
     }
 
+    // 작성자: 오지수
+    // 전시 상세 페이지에서 하단의 리뷰 리스트를 가져오는 Service
+    public List<ExhibitionReviewDto.RequestReviewList> getExhibitionReviews(Long exhibitionId, PageRequestDto pageRequestDto) {
+        Pageable pageable = PageRequest.of(pageRequestDto
+                .getPageNo()-1, pageRequestDto.getPagePer(), Sort.by("regDate").descending());
+        List<ExhibitionReview> exhibitionReviews = exhibitionReviewRepository.findByExhibitionId(exhibitionId, pageable);
+        return exhibitionReviews.stream().map(ExhibitionReviewDto.RequestReviewList::new)
+                .collect(Collectors.toList());
+    }
 
 //    private final ExhibitionReviewReplyRepository exhibitionReviewReplyRepository;
 //

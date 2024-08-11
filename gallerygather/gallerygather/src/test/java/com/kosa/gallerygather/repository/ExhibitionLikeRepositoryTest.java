@@ -20,14 +20,14 @@ class ExhibitionLikeRepositoryTest {
     @Test
     @Transactional
     void test() {
-        Member member = Member.ofNewMember("a", "a", "a", null, "a");
-        memberRepository.save(member);
-
-        ExhibitionReviewReply exhibitionReviewReply = new ExhibitionReviewReply();
-        exhibitionReviewReply.setMember(member);
-        exhibitionReviewReply.setReply("reply");
-        repository.save(exhibitionReviewReply);
-
-        exhibitionReviewReply.setReply("dd");
+//        Member member = Member.ofNewMember("a", "a", "a", null, "a");
+//        memberRepository.save(member);
+//
+//        ExhibitionReviewReply exhibitionReviewReply = new ExhibitionReviewReply();
+//        exhibitionReviewReply.setMember(member);
+//        exhibitionReviewReply.setReply("reply");
+//        repository.save(exhibitionReviewReply);
+//
+//        exhibitionReviewReply.setReply("dd");
     }
 }

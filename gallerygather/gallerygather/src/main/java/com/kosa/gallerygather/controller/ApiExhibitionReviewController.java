@@ -7,27 +7,27 @@ import com.kosa.gallerygather.dto.ReviewDetailDto;
 import com.kosa.gallerygather.security.UserDetailsImpl;
 import com.kosa.gallerygather.service.ExhibitionReviewService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
-@RequestMapping("/api/exhibition/{exhibitionId}/review")
 public class ApiExhibitionReviewController {
-    private final ExhibitionReviewService exhibitionReviewService;
-    // @ModelAttribute -> Request Parameter -> Object, value
-    // @RequestBody -> Http Body -> Json -> Object, value
-    @PostMapping
-    public ResponseEntity<ReviewDetailDto> postExhibitionReview(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                                @PathVariable Long exhibitionId,
-                                                                @ModelAttribute ExhibitionReviewRequestDto requestDto) {
-        ReviewDetailDto reviewDetailDto = exhibitionReviewService.addReviewToExhibition(userDetails.getEmail(), exhibitionId, requestDto);
-        return ResponseEntity.ok(reviewDetailDto);
+
+    private final ExhibitionReviewService reviewService;
+
+    @PostMapping("/api/exhibition/{exhibitionId}/review")
+    public ResponseEntity<Long> createReview(@RequestBody ExhibitionReviewRequestDto requestDto,
+                                             @AuthenticationPrincipal UserDetailsImpl userDetails,
+                                             @PathVariable Long exhibitionId) {
+        String memberId = userDetails.getEmail();
+        Long reviewId = reviewService.write(requestDto, memberId, exhibitionId);
+        return ResponseEntity.ok(reviewId);
+
     }
 
     @GetMapping
@@ -37,4 +37,18 @@ public class ApiExhibitionReviewController {
         List<ExhibitionReviewDto.RequestReviewList> reviewList = exhibitionReviewService.getExhibitionReviews(exhibitionId, pageRequestDto);
         return ResponseEntity.ok(reviewList);
     }
+//@Slf4j
+//@RequestMapping("/api/exhibition/{exhibitionId}/review")
+//public class ApiExhibitionReviewController {
+//    private final ExhibitionReviewService exhibitionReviewService;
+//    // @ModelAttribute -> Request Parameter -> Object, value
+//    // @RequestBody -> Http Body -> Json -> Object, value
+//    @PostMapping
+//    public ResponseEntity<ReviewDetailDto> postExhibitionReview(@AuthenticationPrincipal UserDetailsImpl userDetails,
+//                                                                @PathVariable Long exhibitionId,
+//                                                                @ModelAttribute ExhibitionReviewRequestDto requestDto) {
+//        ReviewDetailDto reviewDetailDto = exhibitionReviewService.addReviewToExhibition(userDetails.getEmail(), exhibitionId, requestDto);
+//        return ResponseEntity.ok(reviewDetailDto);
+//    }
+
 }

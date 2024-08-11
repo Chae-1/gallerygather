@@ -34,7 +34,7 @@ public class ApiExhibitionReviewController {
     public ResponseEntity<List<ExhibitionReviewDto.RequestReviewList>> getExhibitionReview(@PathVariable Long exhibitionId,
                                                                                            @ModelAttribute PageRequestDto pageRequestDto) {
 
-        List<ExhibitionReviewDto.RequestReviewList> reviewList = exhibitionReviewService.getExhibitionReviews(exhibitionId, pageRequestDto);
+        List<ExhibitionReviewDto.RequestReviewList> reviewList = reviewService.getExhibitionReviews(exhibitionId, pageRequestDto);
         return ResponseEntity.ok(reviewList);
     }
 //@Slf4j

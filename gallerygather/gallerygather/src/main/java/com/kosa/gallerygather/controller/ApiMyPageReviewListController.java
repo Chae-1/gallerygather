@@ -18,7 +18,7 @@ public class ApiMyPageReviewListController {
     private final MyPageListService myPageListService;
 
     // 로그인된 멤버의 이메일로 리뷰를 조회하는
-    @GetMapping("/api/reviews/member/{email}")
+    @GetMapping("/api/reviews/member")
     public ResponseEntity<List<MyPageReviewListResponseDto>> getReviewsByMemberEmail(
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 

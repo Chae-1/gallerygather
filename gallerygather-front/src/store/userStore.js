@@ -10,7 +10,10 @@ async function requestLogin(email, password) {
 
 export const userStore = defineStore({
     id: 'user', state: () => ({
-        email: 'not login', accessToken: sessionStorage.getItem('accessToken'), nickName: '',
+        email: 'not login',
+        accessToken: sessionStorage.getItem('accessToken'),
+        nickName: '',
+        refreshToken: sessionStorage.getItem('refreshToken')
     }), getters: {
         isAuthenticated(state) {
             return state.accessToken !== null;
@@ -25,13 +28,12 @@ export const userStore = defineStore({
             axios.post("http://localhost:8080/api/members/logout", {}, {
                 headers: {
                     Authorization: localStorage.getItem('accessToken'),
-
                 }
             })
         },
 
         async login(email, password) {
-            return await axios.post("http://localhost:8080/api/members/login", {
+            return await axios.post("http://localhost:8080/api/members/auth/login", {
                 email, password
             }, {
                 responseType: "json"
@@ -41,6 +43,7 @@ export const userStore = defineStore({
                 const nickName = response.data.nickName;
                 const email = response.data.email;
                 localStorage.setItem('accessToken', "Bearer " + accessToken);
+                localStorage.setItem('refreshToken', response.data.refreshToken);
                 this.$patch({
                     email: email,
                     accessToken: accessToken,
@@ -52,6 +55,12 @@ export const userStore = defineStore({
                 throw error;
             });
         },
+
+        async reLogin() {
+            return await axios.post("http://localhost:8080/api/members/login", {
+
+            })
+        }
     }
 
 });

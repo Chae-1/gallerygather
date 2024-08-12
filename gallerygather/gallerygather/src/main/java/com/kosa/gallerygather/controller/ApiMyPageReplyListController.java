@@ -4,6 +4,7 @@ import com.kosa.gallerygather.dto.MyPageReplyListResponseDto;
 import com.kosa.gallerygather.security.UserDetailsImpl;
 import com.kosa.gallerygather.service.MyPageListService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;

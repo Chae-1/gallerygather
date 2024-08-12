@@ -20,7 +20,7 @@ public class ApiExhibitionReviewController {
 
     private final ExhibitionReviewService reviewService;
 
-    @PostMapping("/api/exhibition/{exhibitionId}/review")
+//    @PostMapping("/api/exhibition/{exhibitionId}/review")
     public ResponseEntity<ReviewDetailDto> createReview(@RequestBody ExhibitionReviewRequestDto requestDto,
                                                         @AuthenticationPrincipal UserDetailsImpl userDetails,
                                                         @PathVariable Long exhibitionId) {
@@ -30,7 +30,7 @@ public class ApiExhibitionReviewController {
 
     }
 
-    @GetMapping("/api/exhibition/{exhibitionId}/review/{reviewId}")
+//    @GetMapping("/api/exhibition/{exhibitionId}/review/{reviewId}")
     public ResponseEntity<ReviewDetailDto> getReviewDetail(@PathVariable Long exhibitionId, @PathVariable Long reviewId) {
         ReviewDetailDto detailDto = reviewService.getReviewDetail(exhibitionId,reviewId);
         return ResponseEntity.ok(detailDto);

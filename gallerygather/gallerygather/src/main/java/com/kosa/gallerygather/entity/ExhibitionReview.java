@@ -58,6 +58,9 @@ public class ExhibitionReview {
     @JoinColumn(name = "exhibition_id")
     private Exhibition exhibition;
 
+    @OneToMany(mappedBy = "exhibitionReview", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReviewImage> images;
+
     @OneToMany(mappedBy = "exhibitionReview", cascade = CascadeType.PERSIST)
     private List<ExhibitionReviewReply> reviewReplies = new ArrayList<>();
 

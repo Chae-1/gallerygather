@@ -1,27 +1,22 @@
 package com.kosa.gallerygather.service;
 
-import com.kosa.gallerygather.dto.ExhibitionReviewDto;
-import com.kosa.gallerygather.dto.ExhibitionReviewRequestDto;
-import com.kosa.gallerygather.dto.ReviewDetailDto;
-import com.kosa.gallerygather.dto.PageRequestDto;
+import com.kosa.gallerygather.dto.*;
 import com.kosa.gallerygather.entity.Exhibition;
 import com.kosa.gallerygather.entity.ExhibitionReview;
 import com.kosa.gallerygather.entity.Member;
+import com.kosa.gallerygather.entity.ReviewImage;
 import com.kosa.gallerygather.repository.ExhibitionRepository;
 import com.kosa.gallerygather.repository.MemberRepository;
 import com.kosa.gallerygather.repository.ExhibitionReviewRepository;
+import com.kosa.gallerygather.repository.ReviewImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 public class ExhibitionReviewService {
@@ -30,18 +25,13 @@ public class ExhibitionReviewService {
     private final ExhibitionReviewRepository exhibitionReviewRepository;
     private final ExhibitionRepository exhibitionRepository;
     private final MemberRepository memberRepository;
-    private final ReviewImageService imageService;
+    @Autowired
+    private ReviewImageRepository reviewImageRepository;
 
-    public ExhibitionReviewService(ExhibitionReviewRepository exhibitionReviewRepository, ExhibitionRepository exhibitionRepository, MemberRepository memberRepository, ReviewImageService imageService) {
+    public ExhibitionReviewService(ExhibitionReviewRepository exhibitionReviewRepository, ExhibitionRepository exhibitionRepository, MemberRepository memberRepository) {
         this.exhibitionReviewRepository = exhibitionReviewRepository;
         this.exhibitionRepository = exhibitionRepository;
         this.memberRepository = memberRepository;
-        this.imageService = imageService;
-    }
-    
-    public ExhibitionReview findByExhibitionId(Long exhibitionId) {
-        return exhibitionReviewRepository.findById(exhibitionId)
-                .orElseThrow(() -> new IllegalArgumentException( "리뷰 Id 찾기 오류" + exhibitionId));
     }
 
     @Transactional
@@ -52,28 +42,39 @@ public class ExhibitionReviewService {
                 .orElseThrow(() -> new IllegalArgumentException("전시회 ID 찾기 오류: " + exhibitionId));
         ExhibitionReview exhibitionReview = requestDto.toEntity(member, exhibition);
         ExhibitionReview savedReview = exhibitionReviewRepository.saveAndFlush(exhibitionReview);
-        extractAndSaveImages(requestDto.getContent(), savedReview);
-        return new ReviewDetailDto(savedReview, member, exhibition);
+        System.out.println("======================================================="+savedReview);
+        // 3. 이미지 저장하고 tbl_review 와 연결
+        List<ReviewImage> images = requestDto.getImages().stream().map(ReviewImageRequestDto ->{
+            ReviewImage reviewImage = new ReviewImage();
+            reviewImage.setPath(ReviewImageRequestDto.getPath());
+            reviewImage.setOriginalName(ReviewImageRequestDto.getOriginalName());
+            reviewImage.setExhibitionReview(savedReview);
+            return reviewImageRepository.saveAndFlush(reviewImage);
+        }).collect(Collectors.toList());
+        // 4. 리뷰에 이미지 리스트 설정
+        savedReview.setImages(images);
+        return new ReviewDetailDto(savedReview, member, exhibition, images);
     }
 
-    private void extractAndSaveImages(String content, ExhibitionReview review){
-        List<String> imageUrls = extractImageUrls(content);
-        for (String imageUrl : imageUrls) {
-            imageService.createImage(imageUrl, review);
-        }
-    }
-    private List<String> extractImageUrls(String content) {
-        List<String> imageUrls = new ArrayList<>();
-        String imgTagPattern = "<img[^>]+src=\"([^\"]+)\"";
-        Pattern pattern = Pattern.compile(imgTagPattern);
-        Matcher matcher = pattern.matcher(content);
 
-        while (matcher.find()) {
-            String imageUrl = matcher.group(1);
-            imageUrls.add(imageUrl);
-        }
-        return imageUrls;
-    }
+//    private void extractAndSaveImages(String content, ExhibitionReview review){
+//        List<String> imageUrls = extractImageUrls(content);
+//        for (String imageUrl : imageUrls) {
+//            imageService.createImage(imageUrl, review);
+//        }
+//    }
+//    private List<String> extractImageUrls(String content) {
+//        List<String> imageUrls = new ArrayList<>();
+//        String imgTagPattern = "<img[^>]+src=\"([^\"]+)\"";
+//        Pattern pattern = Pattern.compile(imgTagPattern);
+//        Matcher matcher = pattern.matcher(content);
+//
+//        while (matcher.find()) {
+//            String imageUrl = matcher.group(1);
+//            imageUrls.add(imageUrl);
+//        }
+//        return imageUrls;
+//    }
 
     @Transactional
     public ReviewDetailDto getReviewDetail(Long exhibitionId, Long reviewId){
@@ -81,7 +82,7 @@ public class ExhibitionReviewService {
                 .orElseThrow(() -> new IllegalArgumentException("전시회 ID 찾기 오류: " + exhibitionId));
         ExhibitionReview review = exhibitionReviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("리뷰 ID 찾기 오류: " + reviewId));
-        return new ReviewDetailDto(review, review.getMember(), exhibition);
+        return new ReviewDetailDto(review, review.getMember(), exhibition, review.getImages());
     }
 
 // 작성자: 오지수

@@ -4,6 +4,7 @@ import com.kosa.gallerygather.dto.ExhibitionReviewDto;
 import com.kosa.gallerygather.dto.ExhibitionReviewRequestDto;
 import com.kosa.gallerygather.dto.ReviewDetailDto;
 import com.kosa.gallerygather.dto.PageRequestDto;
+import com.kosa.gallerygather.entity.ReviewImage;
 import com.kosa.gallerygather.security.UserDetailsImpl;
 import com.kosa.gallerygather.service.ExhibitionReviewService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class ApiExhibitionReviewController {
                                                         @PathVariable Long exhibitionId) {
         String memberId = userDetails.getEmail();
         ReviewDetailDto detailDto = reviewService.write(requestDto, memberId, exhibitionId);
+
         return ResponseEntity.ok(detailDto);
 
     }

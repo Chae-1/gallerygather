@@ -23,4 +23,10 @@ public class RefreshToken {
     @OneToOne(mappedBy = "refreshToken")
     private Member member;
 
+
+    // 현재 시간 보다 expiryDate가 이전이다.
+    // -> 이미 토근이 만료되었다.
+    public boolean isNotValidToken() {
+        return expiryDate.isBefore(Instant.now());
+    }
 }

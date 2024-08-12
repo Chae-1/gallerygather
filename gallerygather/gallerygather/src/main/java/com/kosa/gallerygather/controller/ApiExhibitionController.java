@@ -1,9 +1,11 @@
 package com.kosa.gallerygather.controller;
 
 import com.kosa.gallerygather.dto.ExhibitionDto;
+import com.kosa.gallerygather.dto.ExhibitionLikeDto;
 import com.kosa.gallerygather.dto.PageRequestDto;
 import com.kosa.gallerygather.dto.ExhibitionCardDto;
 import com.kosa.gallerygather.security.UserDetailsImpl;
+import com.kosa.gallerygather.service.ExhibitionLikeService;
 import com.kosa.gallerygather.service.ExhibitionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,7 @@ import java.util.Map;
 @RequestMapping("/api/exhibitions")
 public class ApiExhibitionController {
     private final ExhibitionService exhibitionService;
+    private final ExhibitionLikeService exhibitionLikeService;
 
     @GetMapping
     public ResponseEntity<Page<ExhibitionCardDto>> getCards(@ModelAttribute PageRequestDto page) {
@@ -43,5 +46,17 @@ public class ApiExhibitionController {
         Map<String, Object> response = exhibitionService.findExhibitionDetailWithLikes(exhibitonId, userDetails !=null ? userDetails.getId(): null);
 
         return ResponseEntity.ok().body(response);
+    }
+
+    /*
+    작성자: 오지수
+    전시 페이지 좋아요 클릭하기
+     */
+    @PostMapping("/{exhibitionId}/like")
+    public ResponseEntity<ExhibitionDto> likeExhibition(@PathVariable Long exhibitionId,
+                               @RequestBody ExhibitionLikeDto.RequestLike likeDto,
+                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.ok()
+                .body(exhibitionLikeService.clickExhibitionLike(likeDto.getIsLike(), new ExhibitionLikeDto.RequestExhibitionLike(exhibitionId, userDetails.getId())));
     }
 }

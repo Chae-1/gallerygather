@@ -26,7 +26,6 @@ public class ExhibitionLikeService {
     public ExhibitionDto clickExhibitionLike(boolean ifLike, ExhibitionLikeDto.RequestExhibitionLike dto) {
         Exhibition exhibition = exhibitionRepository.findById(dto.getExhibitionId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 전시입니다."));
-
         if (ifLike) { // 있으면 delete
             ExhibitionLike exhibitionLike = exhibitionLikeRepository.findExhibitionLikeByallId(dto.getMemberId(), dto.getExhibitionId())
                     .orElseThrow(() -> new IllegalArgumentException("잘못된 접근입니다."));

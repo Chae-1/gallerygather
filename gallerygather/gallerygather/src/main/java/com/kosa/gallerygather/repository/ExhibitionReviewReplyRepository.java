@@ -1,6 +1,5 @@
 package com.kosa.gallerygather.repository;
 
-import com.kosa.gallerygather.entity.Exhibition;
 import com.kosa.gallerygather.entity.ExhibitionReview;
 import com.kosa.gallerygather.entity.ExhibitionReviewReply;
 import com.kosa.gallerygather.entity.Member;
@@ -19,4 +18,5 @@ public interface ExhibitionReviewReplyRepository extends JpaRepository<Exhibitio
 
     @Query("select r from ExhibitionReviewReply r left join fetch r.member where r.exhibitionReview = :exhibitionReview")
     Page<ExhibitionReviewReply> findByExhibitionReviewWithMember(@Param("exhibitionReview") ExhibitionReview exhibitionReview, Pageable pageable);
+
 }

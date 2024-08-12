@@ -8,7 +8,9 @@ import { userStore } from '@/store/userStore.js'
 const pinia = createPinia();
 const store = userStore(pinia);
 
-export async function apiRequest(method, url, data = null, options = {}, isAuthRequest = true) {
+
+export async function apiRequest(method, url, data = null, options = {}) {
+  let isRefreshed = false;
   try {
     const response = await axios({
       method,
@@ -25,7 +27,7 @@ export async function apiRequest(method, url, data = null, options = {}, isAuthR
     if (error.response && error.response.status === 401) {
       console.log('토큰 재발급 중..')
       await handleTokenRefresh();
-      return apiRequest(method, url, data, options); // 재요청
+      return apiRequest(method, url, data, options);
     }
     console.error('Request error:', error);
     throw error;

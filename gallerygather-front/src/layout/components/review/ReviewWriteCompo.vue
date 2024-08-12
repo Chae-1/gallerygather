@@ -4,8 +4,8 @@
     <div class="exhibition-info">
       <img src="../../../assets/img/kitty.jpg" alt="전시 이미지" class="exhibition-image" />
       <div class="exhibition-detail">
-        <h3>{{ gtitle }}</h3>
-        <p>기간: {{ period }}</p>
+        <h3>{{ exhibitInfo.title }}</h3>
+        <p>기간: {{ exhibitInfo.startDate }} ~ {{ exhibitInfo.endDate }}</p>
         <p>평점: {{ avgRating }}</p>
       </div>
     </div>
@@ -84,9 +84,9 @@ export default {
   },
   data() {
     return {
-      gtitle: '헬로키티 전시',
-      period: '2024.01.01 ~ 2024.12.12',
-      avgRating: '⭐ 3',
+      exhibitInfo: {
+        
+      },
       review: {
         title: '',
         content: '',
@@ -96,6 +96,7 @@ export default {
       }
     }
   },
+    
   computed: {
     formattedDate() {
       if (!this.review.viewDate) return ''
@@ -150,25 +151,37 @@ export default {
         }
 
         // 서버로 POST 요청을 보내고, reviewId를 응답받습니다.
-        const response = await axios.post(
-          `http://localhost:8080/api/exhibition/${exhibitionId}/review`,
-          this.review,
-          {
-            headers: {
+        // const response = await axios.post(
+        //   `http://localhost:8080/api/exhibition/${exhibitionId}/review`,
+        //   this.review,
+        //   {
+        //     headers: {
               
-              'Authorization': token
-            }
-          }
-        )
-        const reviewDetail = response.data
+        //       'Authorization': token
+        //     }
+        //   }
+        // )
+        // const reviewDetail = response.data
 
-        console.log('!!!!!!!!!!!!!!!!!!!!!1111', reviewDetail)
-        const reviewId = reviewDetail.reviewId
-        console.log('리뷰아이디', reviewId)
-        //const exhibitionId = reviewDetail.exhibitionId;
+        // console.log('!!!!!!!!!!!!!!!!!!!!!1111', reviewDetail)
+        // const reviewId = reviewDetail.reviewId
+        // console.log('리뷰아이디', reviewId)
+        // //const exhibitionId = reviewDetail.exhibitionId;
 
-        // 상세보기 페이지로 이동합니다.
-        this.$router.push(`/api/exhibition/${exhibitionId}/review/${reviewDetail.reviewId}`)
+        // // 상세보기 페이지로 이동합니다.
+        // this.$router.push(`/api/exhibition/${exhibitionId}/review/${reviewDetail.reviewId}`)
+
+        apiRequest('post', `http://localhost:8080/api/exhibition/${exhibitionId}/review`, this.review)
+            .then((response) => {
+              const reviewDetail = response.data
+              console.log('!!!!!!!!!!!!!!!!!!!!!1111', reviewDetail)
+              const reviewId = reviewDetail.reviewId
+              console.log('리뷰아이디', reviewId)
+              //const exhibitionId = reviewDetail.exhibitionId;
+
+              // 상세보기 페이지로 이동합니다.
+              this.$router.push(`/api/exhibition/${exhibitionId}/review/${reviewDetail.reviewId}`)
+            })  
       } catch (error) {
         console.error('리뷰 생성 실패:', error)
       }

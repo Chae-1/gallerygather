@@ -35,7 +35,6 @@ public class ReviewDetailDto {
         this.regDate = review.getRegDate();
         this.updateDate = review.getUpdateDate();
         this.authorName = member.getNickName();
-        this.exhibitionId = exhibition.getId();
         this.exhibitionImgUrl = exhibition.getImgUrl();
         this.images = images.stream()
                 .map(ReviewImageRequestDto::new)

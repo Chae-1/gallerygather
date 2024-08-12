@@ -6,6 +6,11 @@ export default {
     isAuthenticated() {
       const store = userStore();
       return store.isAuthenticated;
+    },
+
+    logout() {
+      const store = userStore();
+      store.logout();
     }
     // 로그인한 상태에서 요청 정보
     // 마이페이지 ..
@@ -86,7 +91,7 @@ export default {
                 </a>
             </div>
             <div class="login-menu">
-              <a href="/logout" v-if="isAuthenticated">
+              <a href="/logout" v-if="isAuthenticated" @click="logout">
                 로그아웃
               </a>
               <a href="/login" v-else>

@@ -24,8 +24,9 @@ export const userStore = defineStore({
             this.$patch({
                 name: null, accessToken: null,
             });
-            sessionStorage.setItem('accessToken', null);
-            axios.post("http://localhost:8080/api/members/logout", {}, {
+            localStorage.setItem('accessToken', null);
+            localStorage.setItem('refreshToken', null);
+            axios.post("http://localhost:8080/api/members/auth/logout", {}, {
                 headers: {
                     Authorization: localStorage.getItem('accessToken'),
                 }

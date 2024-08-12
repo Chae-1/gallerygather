@@ -35,6 +35,8 @@
 
 <script>
 import axios from 'axios';
+import {apiRequest} from '../../util/RequestUtil';
+
 export default {
     // props: {
     //     isLoggedIn: {
@@ -65,18 +67,16 @@ export default {
     },
     methods: {
         async getExhibitDetails() {
-            axios.get(`http://localhost:8080/api/exhibitions/${this.exhibitionId}`, {
-                headers: {
-                    Authorization: localStorage.getItem("accessToken")
-                }
-            }).then((response) => {
-                console.log(`login : ${response.data.isLoggedIn}`);
-                console.log(`islike : ${response.data.isLike}`);
+            apiRequest('get', `http://localhost:8080/api/exhibitions/${this.exhibitionId}`)
+                .then((response) => {
+                    console.log(`login : ${response.data.isLoggedIn}`);
+                    console.log(`islike : ${response.data.isLike}`);
 
-                this.exhibitDetails = response.data.exhibition;
-                this.isLoggedIn = response.data.isLoggedIn;
-                this.isLike = response.data.isLike;
-            })
+                    this.exhibitDetails = response.data.exhibition;
+                    this.isLoggedIn = response.data.isLoggedIn;
+                    this.isLike = response.data.isLike;
+                }).catch(error => console.log(error));
+          
         },
         handleLikeClick() {
             if (this.isLoggedIn === false) {

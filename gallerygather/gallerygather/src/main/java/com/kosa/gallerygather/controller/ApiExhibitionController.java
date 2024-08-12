@@ -40,7 +40,6 @@ public class ApiExhibitionController {
                                                                     @AuthenticationPrincipal UserDetailsImpl userDetails) {
         // 1. exhibitonDetail
         // 2. 로그인 되었다면 이 전시를 like 했는지 여부
-        System.out.println("email: " + userDetails.getEmail());
         Map<String, Object> response = exhibitionService.findExhibitionDetailWithLikes(exhibitonId, userDetails !=null ? userDetails.getId(): null);
 
         return ResponseEntity.ok().body(response);

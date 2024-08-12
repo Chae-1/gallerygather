@@ -11,7 +11,12 @@
     </div>
     <form @submit.prevent="submit">
       별점을 입력하세요.
-      <star-rating v-model:rating="review.rating" :increment="0.5" :star-size="20" required></star-rating>
+      <star-rating
+        v-model:rating="review.rating"
+        :increment="0.5"
+        :star-size="20"
+        required
+      ></star-rating>
       <br />
       제목:
       <input
@@ -25,13 +30,19 @@
       <div class="visit-date">
         <label id="date-button">관람 일자 </label>
         <button type="button" class="date-button" @click="showDatePicker = !showDatePicker">
-          {{ showDatePicker ? (formattedDate ? formattedDate + ' [닫기]' : '날짜 선택 [닫기]') : (formattedDate || '날짜 선택하기') }}
+          {{
+            showDatePicker
+              ? formattedDate
+                ? formattedDate + ' [닫기]'
+                : '날짜 선택 [닫기]'
+              : formattedDate || '날짜 선택하기'
+          }}
           <span></span>
         </button>
         <div v-if="showDatePicker" class="date-picker-container">
           <v-date-picker
-          v-model="review.viewDate"
-          @input="showDatePicker = false"
+            v-model="review.viewDate"
+            @input="showDatePicker = false"
             mode="single"
           ></v-date-picker>
         </div>
@@ -40,6 +51,7 @@
       내용:
       <QuillEditor
         v-model:modelValue="review.content"
+        ref="quillEditor"
         placeholder="내용을 입력해 주세요."
         required
       ></QuillEditor>
@@ -52,9 +64,9 @@
 <script>
 import QuillEditor from './QuillEditor.vue'
 import StarRating from 'vue-star-rating'
-import { ref } from 'vue';
-import VCalendar from 'v-calendar';
-import axios from 'axios';
+import { ref } from 'vue'
+import VCalendar from 'v-calendar'
+import axios from 'axios'
 
 export default {
   components: {
@@ -63,65 +75,102 @@ export default {
     'v-date-picker': VCalendar.DatePicker
   },
   setup() {
-    const date = ref(new Date());
-    const showDatePicker = ref(false);
+    const date = ref(new Date())
+    const showDatePicker = ref(false)
     return {
       date,
       showDatePicker
-    };
+    }
   },
   data() {
     return {
       gtitle: '헬로키티 전시',
       period: '2024.01.01 ~ 2024.12.12',
       avgRating: '⭐ 3',
-      review: {title: '', content: '', viewDate: new Date().toISOString().substr(0, 10), rating: 0 }
+      review: {
+        title: '',
+        content: '',
+        viewDate: new Date().toISOString().substr(0, 10),
+        rating: 0,
+        images: []
+      }
     }
   },
   computed: {
     formattedDate() {
-      if (!this.review.viewDate) return '';
-      const date = new Date(this.review.viewDate);
-      const year = date.getFullYear();
-      const month = ('0' + (date.getMonth() + 1)).slice(-2);
-      const day = ('0' + date.getDate()).slice(-2);
-      return `${year}-${month}-${day}`;
+      if (!this.review.viewDate) return ''
+      const date = new Date(this.review.viewDate)
+      const year = date.getFullYear()
+      const month = ('0' + (date.getMonth() + 1)).slice(-2)
+      const day = ('0' + date.getDate()).slice(-2)
+      return `${year}-${month}-${day}`
     }
   },
   methods: {
+    // async handleImageAdded(file) {
+    //   try {
+    //     const formData = new FormData()
+    //     formData.append('image', file)
+
+    //     const response = await axios.post('http://localhost:8080/api/uploads', formData, {
+    //       headers: {
+    //         'Content-Type': 'multipart/form-data'
+    //       }
+    //     })
+
+    //     const imageUrl = response.data.url
+
+    //     // Quill 에디터에 이미지 삽입
+    //     const range = this.$refs.quillEditor.getEditor().getSelection()
+    //     this.$refs.quillEditor.getEditor().insertEmbed(range.index, 'image', imageUrl)
+    //     // 이미지 URL을 review.images 배열에 추가
+    //     this.review.images.push(imageUrl)
+    //   } catch (error) {
+    //     console.error('Image upload failed:', error)
+    //   }
+    // },
     async submit() {
-      
-      const exhibitionId = this.$route.params.exhibitionId;
-      console.log('?????????????????????',exhibitionId)
+      const exhibitionId = this.$route.params.exhibitionId
+      console.log('?????????????????????', exhibitionId)
 
       try {
-        console.log('URL:', `http://localhost:8080/api/exhibition/${exhibitionId}/review`);
-        console.log('Payload:', this.review);
-        // const token = localStorage.getItem('token');
-        // if (!token) {
-        //   console.error('JWT 토큰이 없습니다. 로그인 상태를 확인하세요.');
-        //   // 로그인 페이지로 리다이렉트 등 추가 작업 필요
-        //   return;
-        // }
-        // 서버로 POST 요청을 보내고, reviewId를 응답받습니다.
-        const response = await axios.post(`http://localhost:8080/api/exhibition/${exhibitionId}/review`, 
-          this.review
-        , {
-          headers: {
-            'Authorization': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZWVAbmF2ZXIuY29tIiwiaWF0IjoxNzIzMzkyNDA3LCJleHAiOjE3MjMzOTQyMDd9.zPk8WjTDXHXQVxldyRLfzVgmb8-ok9uCQDk1koLxFM8`
-          }
-        });
-        const reviewDetail = response.data;
+        // QuillEditor에서 이미지 업로드
+        const uploadUrls = await this.$refs.quillEditor.uploadImages()
+        this.review.images = uploadUrls
 
-        console.log('!!!!!!!!!!!!!!!!!!!!!1111',reviewDetail)
-        const reviewId = reviewDetail.reviewId;
-        console.log('리뷰아이디', reviewId);
+        console.log('리뷰객체 보내지는 값!!!!!!!!!!!!', this.review)
+
+        console.log('URL:', `http://localhost:8080/api/exhibition/${exhibitionId}/review`)
+        console.log('Payload:', this.review)
+        const token = localStorage.getItem('accessToken')
+        if (!token) {
+          console.error('JWT 토큰이 없습니다. 로그인 상태를 확인하세요.')
+          // 로그인 페이지로 리다이렉트 등 추가 작업 필요
+          return
+        }
+
+        // 서버로 POST 요청을 보내고, reviewId를 응답받습니다.
+        const response = await axios.post(
+          `http://localhost:8080/api/exhibition/${exhibitionId}/review`,
+          this.review,
+          {
+            headers: {
+              
+              'Authorization': token
+            }
+          }
+        )
+        const reviewDetail = response.data
+
+        console.log('!!!!!!!!!!!!!!!!!!!!!1111', reviewDetail)
+        const reviewId = reviewDetail.reviewId
+        console.log('리뷰아이디', reviewId)
         //const exhibitionId = reviewDetail.exhibitionId;
 
         // 상세보기 페이지로 이동합니다.
-        this.$router.push(`api/exhibition/${reviewDetail.exhibitionId}/review/${reviewDetail.reviewId}`);
+        this.$router.push(`/api/exhibition/${exhibitionId}/review/${reviewDetail.reviewId}`)
       } catch (error) {
-        console.error('리뷰 생성 실패:', error);
+        console.error('리뷰 생성 실패:', error)
       }
     }
   },
@@ -131,7 +180,7 @@ export default {
     },
     'review.rating': function (newRating) {
       console.log('Parent component review.rating changed:', newRating)
-    },
+    }
   },
   mounted() {
     console.log('Mounted with initial review:', this.review)

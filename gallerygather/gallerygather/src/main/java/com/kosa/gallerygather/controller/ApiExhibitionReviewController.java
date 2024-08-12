@@ -38,6 +38,10 @@ public class ApiExhibitionReviewController {
         return ResponseEntity.ok(detailDto);
     }
 
+    /*
+    작성자: 오지수
+    전시 상세 페이지에서 페이지네이션으로 리뷰 정보 가져오기
+     */
     @GetMapping
     public ResponseEntity<List<ExhibitionReviewDto.RequestReviewList>> getExhibitionReview(@PathVariable Long exhibitionId,
                                                                                            @ModelAttribute PageRequestDto pageRequestDto) {

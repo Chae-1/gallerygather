@@ -1,6 +1,5 @@
 package com.kosa.gallerygather.repository;
 
-import com.kosa.gallerygather.entity.Exhibition;
 import com.kosa.gallerygather.entity.ExhibitionReview;
 import com.kosa.gallerygather.entity.ExhibitionReviewReply;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +12,5 @@ public interface ExhibitionReviewReplyRepository extends JpaRepository<Exhibitio
 
     @Query("select r from ExhibitionReviewReply r where r.exhibitionReview = :exhibitionReview")
     List<ExhibitionReviewReply> findByExhibitReview(@Param("exhibitionReview") ExhibitionReview ExhibitionReview);
+
 }

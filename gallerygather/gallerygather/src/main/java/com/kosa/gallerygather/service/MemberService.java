@@ -1,7 +1,9 @@
 package com.kosa.gallerygather.service;
 
 import com.kosa.gallerygather.dto.*;
+import com.kosa.gallerygather.entity.RefreshToken;
 import com.kosa.gallerygather.exception.member.ExistMemberException;
+import com.kosa.gallerygather.exception.token.RefreshTokenExpirationException;
 import com.kosa.gallerygather.repository.MemberRepository;
 import com.kosa.gallerygather.security.UserDetailsImpl;
 import com.kosa.gallerygather.util.JwtService;
@@ -27,17 +29,26 @@ public class MemberService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
+    private final RefreshTokenService refreshTokenService;
 
-    public JwtResponseDto doLogin(LoginRequest request) {
+    public SuccessfulLoginResultDto doLogin(LoginRequest request) {
         log.info("인증 확인 중...");
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-        // 필요시 refreshToken 을 발급해서 넘겨준다.
-        // -> accessToken의 특성 상, 회원의 세션을 유지해줄 수 없기 때문이다.
+
+        // 인증된 회원이라면, refreshToken과 accessToken을 발급한다.
         if (authenticate.isAuthenticated()) {
             UserDetailsImpl userDetails = (UserDetailsImpl) authenticate.getPrincipal();
             String email = userDetails.getEmail();
             String nickName = userDetails.getNickName();
-            return new JwtResponseDto(jwtService.generateToken(email), email, nickName);
+            RefreshToken refreshToken = refreshTokenService.createRefreshToken(email);
+
+            return SuccessfulLoginResultDto
+                    .builder()
+                    .email(email)
+                    .accessToken(jwtService.generateToken(email))
+                    .refreshToken(refreshToken.getToken())
+                    .nickName(nickName)
+                    .build();
         }
 
         log.info("인증 실패 !!");
@@ -70,5 +81,18 @@ public class MemberService {
                 memberRepository.findByEmail(email)
                         .orElse(null)
         );
+    }
+
+    public SuccessfulLoginResultDto reissueToken(RefreshTokenDto refreshTokenDto) {
+        return refreshTokenService.findByToken(refreshTokenDto.getRefreshToken())
+                .map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getMember)
+                .map(member -> SuccessfulLoginResultDto
+                        .builder()
+                        .email(member.getEmail())
+                        .nickName(member.getNickName())
+                        .accessToken(jwtService.generateToken(member.getEmail()))
+                        .refreshToken(refreshTokenDto.getRefreshToken()).build())
+                .orElseThrow(() -> new RefreshTokenExpirationException());
     }
 }

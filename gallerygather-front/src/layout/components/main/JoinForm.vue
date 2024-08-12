@@ -6,7 +6,7 @@ import axios from "axios";
 
 function canNotJoin(email) {
   let canJoin = true;
-  let result = axios.post('http://localhost:8080/api/members/emails/check', {
+  let result = axios.post('http://localhost:8080/api/members/check', {
     email: email
   }, {
     responseType: "json",

@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.*;
 public class ApiMemberController {
     private final MemberService memberService;
     // 작성자 : 채형일
-    @PostMapping("/login")
-    public ResponseEntity<JwtResponseDto> login(@RequestBody LoginRequest loginRequest) {
+    @PostMapping("/auth/login")
+    public ResponseEntity<SuccessfulLoginResultDto> login(@RequestBody LoginRequest loginRequest) {
         log.info("{}", loginRequest);
-        JwtResponseDto jwtResponseDto = memberService.doLogin(loginRequest);
-        return ResponseEntity.ok(jwtResponseDto);
+        SuccessfulLoginResultDto successfulLoginResultDto = memberService.doLogin(loginRequest);
+        return ResponseEntity.ok(successfulLoginResultDto);
     }
 
     @PostMapping("/join")
@@ -30,9 +30,16 @@ public class ApiMemberController {
         return ResponseEntity.ok(dto);
     }
 
-    @PostMapping("/emails/check")
+    @PostMapping("/check")
     public ResponseEntity<MemberDuplicationCheckDto> checkDuplicatedEmail(@RequestBody String email) {
         return ResponseEntity.ok(memberService.checkDuplicatedEmail(email));
+    }
+
+    // refreshToken이 만료되면 해당 API를 호출한 이후 본 요청을 다시 요청해야한다.
+    // 요청처리하는 부분을 JS에서 메서드로 만들어야 한다.
+    @PostMapping("/auth/refresh")
+    public SuccessfulLoginResultDto reissueToken(@RequestBody RefreshTokenDto refreshTokenDto) {
+        return memberService.reissueToken(refreshTokenDto);
     }
 }
 

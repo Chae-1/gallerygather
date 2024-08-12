@@ -44,4 +44,19 @@ public class ExhibitionDto {
         this.reviewCount = exhibition.getReviewCount();
         this.avgRating = exhibition.getAvgRating();
     }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
+    public static class ExhibitionCardDto {
+        private Long exhibitionId;
+        private String imageUrl;
+        private String title;
+        private String description;
+        private LocalDate startDate;
+        private LocalDate endDate;
+    }
+
 }

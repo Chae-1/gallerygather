@@ -4,8 +4,8 @@
     <div class="exhibition-info">
       <img src="../../../assets/img/kitty.jpg" alt="전시 이미지" class="exhibition-image" />
       <div class="exhibition-detail">
-        <h3>{{ gtitle }}</h3>
-        <p>기간: {{ period }}</p>
+        <h3>{{ exhibitInfo.title }}</h3>
+        <p>기간: {{ exhibitInfo.startDate }} ~ {{ exhibitInfo.endDate }}</p>
         <p>평점: {{ avgRating }}</p>
       </div>
     </div>
@@ -84,9 +84,8 @@ export default {
   },
   data() {
     return {
-      gtitle: '헬로키티 전시',
-      period: '2024.01.01 ~ 2024.12.12',
-      avgRating: '⭐ 3',
+      exhibitInfo: { 
+      },
       review: {
         title: '',
         content: '',
@@ -96,6 +95,7 @@ export default {
       }
     }
   },
+    
   computed: {
     formattedDate() {
       if (!this.review.viewDate) return ''

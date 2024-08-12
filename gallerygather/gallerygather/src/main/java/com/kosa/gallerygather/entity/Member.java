@@ -72,6 +72,5 @@ public class Member {
                 dateOfBirth, LocalDateTime.now(), LocalDateTime.now(), nickName);
     }
 
-
 }
 

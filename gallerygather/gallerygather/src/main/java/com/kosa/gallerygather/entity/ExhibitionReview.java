@@ -45,7 +45,7 @@ public class ExhibitionReview {
     private int viewCount;
 
     @ColumnDefault("0")
-    private int readCount;
+    private int replyCount;
 
     @ColumnDefault("0")
     private int likeCount;

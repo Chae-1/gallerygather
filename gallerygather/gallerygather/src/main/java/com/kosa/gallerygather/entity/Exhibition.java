@@ -65,4 +65,17 @@ public class Exhibition {
     @ColumnDefault("0")
     private Integer avgRating;
 
+    public boolean increaseReadCount(){
+        readCount++;
+        return true;
+    }
+
+    public void increaseLikeCount(){
+        likeCount++;
+    }
+
+    public void decreaseLikeCount(){
+        likeCount--;
+    }
+
 }

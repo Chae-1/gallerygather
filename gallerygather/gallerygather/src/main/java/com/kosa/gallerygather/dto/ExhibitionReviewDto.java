@@ -18,16 +18,22 @@ public class ExhibitionReviewDto {
         private long id;
         private String title;
         private String content;
-        private LocalDateTime regDate;
+        private LocalDate regDate;
         private Double rating;
         private String reviewer;
+        private int viewCount;
+        private int likeCount;
+        private int replyCount;
 
         public RequestReviewList(ExhibitionReview review) {
             this.id = review.getId();
             this.title = review.getTitle();
             this.content = review.getContent();
-            this.regDate = review.getRegDate();
+            this.regDate = review.getRegDate().toLocalDate();
             this.rating = review.getRating();
+            this.viewCount = review.getViewCount();
+            this.likeCount = review.getLikeCount();
+            this.replyCount = review.getReplyCount();
             this.reviewer = review.getMember().getName();
 
         }

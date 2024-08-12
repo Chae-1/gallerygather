@@ -45,6 +45,8 @@ public class ExhibitionDto {
         this.avgRating = exhibition.getAvgRating();
     }
 
+
+
     @Getter
     @Setter
     @NoArgsConstructor

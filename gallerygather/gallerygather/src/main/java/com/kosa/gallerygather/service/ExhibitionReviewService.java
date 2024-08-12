@@ -22,9 +22,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-//@NoArgsConstructor No Args 생성자 생성
-//@AllArgsConstructor All Args 생성자 생성
-@RequiredArgsConstructor// final 필드 생성자 생성
+@RequiredArgsConstructor
+// final 필드 생성자 생성
 public class ExhibitionReviewService {
 
     private final ExhibitionReviewRepository exhibitionReviewRepository;
@@ -63,8 +62,6 @@ public class ExhibitionReviewService {
         return new ReviewDetailDto(review, review.getMember(), exhibition, review.getImages());
     }
 
-    // 작성자: 오지수
-    // 전시 상세 페이지에서 하단의 리뷰 리스트를 가져오는 Service
     public List<ExhibitionReviewDto.RequestReviewList> getExhibitionReviews(Long exhibitionId, PageRequestDto pageRequestDto) {
         Pageable pageable = PageRequest.of(pageRequestDto
                 .getPageNo() - 1, pageRequestDto.getPagePer(), Sort.by("regDate").descending());
@@ -72,27 +69,4 @@ public class ExhibitionReviewService {
         return exhibitionReviews.stream().map(ExhibitionReviewDto.RequestReviewList::new)
                 .collect(Collectors.toList());
     }
-
-
-//    private final ExhibitionReviewReplyRepository exhibitionReviewReplyRepository;
-
-//
-//    @Transactional
-//    public ReviewDetailDto addReviewToExhibition(String email, Long exhibitionId, ExhibitionReviewRequestDto requestDto) {
-//        Member findMember = memberRepository.findByEmail(email)
-//                .orElseThrow(() -> new MemberException("가입되지 않은 사용자 입니다."));
-//
-//        Exhibition findExhibition = exhibitionRepository.findById(exhibitionId)
-//                .orElseThrow(() -> new IllegalArgumentException("작성되지 않은 전시글 입니다."));
-//
-//        ExhibitionReview savedExhibitionReview = exhibitionReviewRepository.saveAndFlush(ExhibitionReview.ofNewReview(requestDto.getTitle(),
-//                        requestDto.getContent(),
-//                        requestDto.getRating(),
-//                        findExhibition, findMember));
-//
-//        List<ExhibitionReviewReply> exhibitionReviewReplies = exhibitionReviewReplyRepository
-//                .findByExhibitReview(savedExhibitionReview);
-//
-//        return new ReviewDetailDto(findExhibition, exhibitionReviewReplies);
-//    }
 }

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +14,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class ExhibitionReviewReply {
 
     @Id
@@ -22,11 +23,11 @@ public class ExhibitionReviewReply {
     @Column(name = "reply")
     private String reply;
 
-    @CreationTimestamp
+    @CreatedDate
     @Column(name = "reg_date")
     private LocalDateTime regDate;
 
-    @UpdateTimestamp
+    @LastModifiedDate
     @Column(name = "update_date")
     private LocalDateTime updateDate;
 
@@ -38,10 +39,20 @@ public class ExhibitionReviewReply {
     @JoinColumn(name = "exhibit_review_id")
     private ExhibitionReview exhibitionReview;
 
-    public static ExhibitionReviewReply ofEmpty(Member member, ExhibitionReview exhibitionReview) {
-        return new ExhibitionReviewReply(null, "", LocalDateTime.now(),
-                LocalDateTime.now(), member, exhibitionReview);
+    public ExhibitionReviewReply(String reply, Member member, ExhibitionReview exhibitionReview) {
+        this.reply = reply;
+        this.member = member;
+        this.exhibitionReview = exhibitionReview;
     }
+
+    public static ExhibitionReviewReply ofNewReply(Member member, ExhibitionReview exhibitionReview, String reply) {
+        return new ExhibitionReviewReply(reply, member, exhibitionReview);
+    }
+
+    public static ExhibitionReviewReply ofEmpty(Member member, ExhibitionReview review) {
+        return new ExhibitionReviewReply(null, member, review);
+    }
+
     public Long getReplyReviewId() {
         return exhibitionReview != null ? exhibitionReview.getId() : null;
     }

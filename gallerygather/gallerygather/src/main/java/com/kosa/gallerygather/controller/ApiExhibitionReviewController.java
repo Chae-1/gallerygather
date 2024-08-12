@@ -49,13 +49,12 @@ public class ApiExhibitionReviewController {
     @PostMapping("/review/{reviewId}/replies")
     public ResponseEntity<Page<ExhibitionReviewReplyDto.ExhibitionReviewReplyResponseDto>> addCommentToReview(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                                                                               @PathVariable Long reviewId,
-                                                                                                              @PathVariable Long exhibitionId,
                                                                                                               @RequestBody ExhibitionReviewReplyDto.ExhibitionReviewRequestDto request) {
         if (userDetails == null) {
             throw new UsernameNotFoundException("회원 정보를 확인할 수 없습니다.");
         }
 
-        return ResponseEntity.ok(reviewReplyService.addCommentToReview(userDetails.getEmail(), reviewId, exhibitionId, request));
+        return ResponseEntity.ok(reviewReplyService.addCommentToReview(userDetails.getEmail(), reviewId, request));
     }
 
 }

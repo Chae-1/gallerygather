@@ -60,7 +60,6 @@ export default {
     created() {
         this.exhibitionId = this.$route.params.exhibitionId;
         this.getExhibitDetails();
-        // this.get();
     },
     mounted() {
 
@@ -194,7 +193,7 @@ export default {
 
 .red-button {
     background-color: red;
-    color: whi
+    color: white;
 }
 
 a {

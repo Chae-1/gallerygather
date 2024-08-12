@@ -25,15 +25,12 @@ public class ExhibitionReviewReplyService {
     private final ExhibitionRepository exhibitionRepository;
 
     @Transactional
-    public Page<ExhibitionReviewReplyDto.ExhibitionReviewReplyResponseDto> addCommentToReview(String email, Long reviewId, Long exhibitionId,
+    public Page<ExhibitionReviewReplyDto.ExhibitionReviewReplyResponseDto> addCommentToReview(String email, Long reviewId,
                                                                                               ExhibitionReviewReplyDto.ExhibitionReviewRequestDto replyDto) {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
         ExhibitionReview exhibitionReview = exhibitionReviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 리뷰입니다."));
-        Exhibition exhibition = exhibitionRepository.findById(exhibitionId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 전시 정보입니다."));
-
         ExhibitionReviewReply reply = reviewReplyRepository
                 .save(ExhibitionReviewReply.ofNewReply(member, exhibitionReview, replyDto.getReply()));
 

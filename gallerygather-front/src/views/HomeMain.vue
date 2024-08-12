@@ -3,9 +3,18 @@
     <HomeMainCarousel />
 
     <article class="main-content">
-      <HomeMainConditionSearchBar />
+      <HomeMainConditionSearchBar :totalElements="totalElement"/>
       <div>
-        <CardComponent />
+        <CardComponent :currentPage="currentPage" :cards="cardItems" :perPage="perPage" @onPageClick="updatePageNum"/>
+        <div class="mt-3">
+          <h6>Large Pills</h6>
+          <b-pagination v-model="currentPage"
+                        :per-page="perPage"
+                        @page-click="updatePageNum"
+                        pills :total-rows="totalElement"
+                        size="lg" align="fill">
+          </b-pagination>
+        </div>
       </div>
     </article>
   </div>
@@ -13,14 +22,49 @@
 
 <script>
 
-import { defineComponent } from "vue";
-import HomeMainCarousel from "@/layout/components/main/HomeMainCarousel.vue";
-import HomeMainConditionSearchBar from "@/layout/components/main/HomeMainConditionSearchBar.vue";
-import CardComponent from "@/layout/components/main/CardComponent.vue";
+import { defineComponent } from 'vue'
+import HomeMainCarousel from '@/layout/components/main/HomeMainCarousel.vue'
+import HomeMainConditionSearchBar from '@/layout/components/main/HomeMainConditionSearchBar.vue'
+import CardComponent from '@/layout/components/main/CardComponent.vue'
+import { apiRequest } from '@/util/RequestUtil.js'
 
-export default defineComponent({
-  components: {CardComponent, HomeMainConditionSearchBar, HomeMainCarousel}
-})
+export default {
+  data() {
+    return {
+      totalElement: 101,
+      currentPage: 1,
+      perPage: 12,
+      cardItems: [],
+      conditions: [],
+    };
+  },
+
+  components: { CardComponent, HomeMainConditionSearchBar, HomeMainCarousel },
+
+  methods: {
+    fetchNewItems() {
+      apiRequest('get', `http://localhost:8080/api/exhibitions?pageNo=${this.currentPage}&pagePer=${this.perPage}`)
+        .then(response => {
+          this.cardItems = response.data.content;
+          this.totalElement = response.data.totalElements;
+          console.log(response)
+        })
+        .catch(ex => {
+          console.log(ex)
+        })
+    },
+
+    updatePageNum(pageEvent, pageNo) {
+      this.currentPage = pageNo;
+      this.fetchNewItems();
+    }
+  },
+
+  mounted() {
+    this.fetchNewItems();
+  },
+
+}
 </script>
 
 <style>

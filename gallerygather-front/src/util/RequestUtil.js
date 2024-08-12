@@ -8,7 +8,7 @@ import { userStore } from '@/store/userStore.js'
 const pinia = createPinia();
 const store = userStore(pinia);
 
-export async function apiRequest(method, url, data = null, options = {}) {
+export async function apiRequest(method, url, data = null, options = {}, isAuthRequest = true) {
   try {
     const response = await axios({
       method,

@@ -8,7 +8,7 @@
             <ul class="review-list">
                 <li class="review-item" v-for="(review, idx) in exhibitReviewList" :key="idx">
                     <div class="review-box">
-                        <router-link :to="{ path: '/reviewdetails/' + review.id }">
+                        <router-link :to="{ path: '/exhibitiondetails/'+ exhibitionId +'/reviewdetails/' + review.id }">
                             <div class="reviewbox-title">
                                 <p>{{ review.title }}</p>
                             </div>

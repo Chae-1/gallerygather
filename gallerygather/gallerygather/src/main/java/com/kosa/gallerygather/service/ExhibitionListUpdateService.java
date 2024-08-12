@@ -32,7 +32,7 @@ public class ExhibitionListUpdateService {
 
     private static final Pattern INTEGER_PATTERN = Pattern.compile("-?\\d+");
 
-//    @PostConstruct
+    //@PostConstruct
     public void init() {
         for (int pageNum = 0; pageNum < 22; pageNum++) {
             try {
@@ -100,7 +100,7 @@ public class ExhibitionListUpdateService {
                                     .likeCount(0)
                                     .readCount(0)
                                     .reviewCount(0)
-                                    .avgRating(0).build());
+                                    .avgRating(0D).build());
                 }
             } catch (Exception ex1) {
                 ex1.printStackTrace();

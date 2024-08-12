@@ -10,5 +10,4 @@ import lombok.*;
 public class PageRequestDto {
     private Integer pagePer;
     private Integer pageNo;
-
 }

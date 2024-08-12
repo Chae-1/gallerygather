@@ -12,25 +12,4 @@ public interface ExhibitionRepository extends JpaRepository<Exhibition, Long> {
     @Query("select e from Exhibition e")
     Page<Exhibition> fetchExhibitionsWithPagination(PageRequest pageRequest);
 
-//    @Modifying
-//    @Query("update Exhibition e SET e.readCount = e.readCount + 1 WHERE e.id = :id")
-//    void increaseReadCount(Long id);
-//
-//    @Modifying
-//    @Query("update Exhibition e SET e.reviewCount = e.reviewCount + 1 WHERE e.id = :id")
-//    void increaseReviewCount(Long id);
-//
-//    @Modifying
-//    @Query("update Exhibition e SET e.reviewCount = e.reviewCount - 1 WHERE e.id = :id")
-//    void decreaseReviewCount(Long id);
-//
-//    @Modifying
-//    @Query("update Exhibition e SET e.likeCount = e.likeCount + 1 WHERE e.id = :id")
-//    void increaseLikeCount(Long id);
-//
-//    @Modifying
-//    @Query("update Exhibition e SET e.likeCount = e.likeCount - 1 WHERE e.id = :id")
-//    void decreaseLikeCount(Long id);
-
-
 }

@@ -1,7 +1,6 @@
 package com.kosa.gallerygather.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 public class ExhibitionLikeDto {
 
@@ -10,5 +9,16 @@ public class ExhibitionLikeDto {
     public static class RequestExhibitionLike {
         private long exhibitionId;
         private long memberId;
+    }
+
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Setter
+    public static class RequestLike {
+        private boolean isLike;
+
+        public boolean getIsLike(){
+            return isLike;
+        }
     }
 }

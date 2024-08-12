@@ -34,6 +34,5 @@ public class ExhibitionReviewRequestDto {
                 .member(member)
                 .exhibition(exhibition)
                 .build();
-
     }
 }

@@ -1,6 +1,8 @@
 package com.kosa.gallerygather.controller;
 
 import com.kosa.gallerygather.dto.ExhibitionReviewRequestDto;
+import com.kosa.gallerygather.dto.ReviewDetailDto;
+import com.kosa.gallerygather.security.UserDetailsImpl;
 import com.kosa.gallerygather.service.ExhibitionReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +17,19 @@ public class ApiExhibitionReviewController {
     private final ExhibitionReviewService reviewService;
 
     @PostMapping("/api/exhibition/{exhibitionId}/review")
-    public ResponseEntity<Long> createReview(@RequestBody ExhibitionReviewRequestDto requestDto,
-                                             @AuthenticationPrincipal UserDetails userDetails,
-                                             @PathVariable Long exhibitionId) {
-        Long memberId = Long.valueOf(userDetails.getUsername());
-        Long reviewId = reviewService.write(requestDto, memberId, exhibitionId);
-        return ResponseEntity.ok(reviewId);
+    public ResponseEntity<ReviewDetailDto> createReview(@RequestBody ExhibitionReviewRequestDto requestDto,
+                                                        @AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                        @PathVariable Long exhibitionId) {
+        String memberId = userDetails.getEmail();
+        ReviewDetailDto detailDto = reviewService.write(requestDto, memberId, exhibitionId);
+        return ResponseEntity.ok(detailDto);
 
+    }
+
+    @GetMapping("/api/exhibition/{exhibitionId}/review/{reviewId}")
+    public ResponseEntity<ReviewDetailDto> getReviewDetail(@PathVariable Long exhibitionId, @PathVariable Long reviewId) {
+        ReviewDetailDto detailDto = reviewService.getReviewDetail(exhibitionId,reviewId);
+        return ResponseEntity.ok(detailDto);
     }
 
 //@Slf4j

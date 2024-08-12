@@ -20,9 +20,9 @@
                         <div class="reviewbox-sub">
                             <span class="text-date">{{ review.regDate }}</span>
                             <div class="access-nums">
-                                <span class="view">👁️ {{ review.rating }}</span>
-                                <span class="likes">❤️ {{ review.rating }}</span>
-                                <span class="replies">💬 {{ review.rating }}</span>
+                                <span class="view">👁️ {{ review.viewCount }}</span>
+                                <span class="like">❤️{{ review.likeCount }} </span>
+                                <span class="replies">💬 {{ review.replyCount }}</span>
                             </div>
                         </div>
                     </div>
@@ -51,6 +51,7 @@ export default {
             currentPage: 1,
             perPage: 3,
             exhibitReviewList: [],
+            
         };
     },
     created() {
@@ -170,6 +171,5 @@ export default {
     display: inline-block;
     /* content: url('view-icon-url'); */
 }
-
 
 </style>

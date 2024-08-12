@@ -1,16 +1,15 @@
 package com.kosa.gallerygather.entity;
 
+import com.kosa.gallerygather.dto.ExhibitionLikeDto;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name="TBL_EXHIBITLIKE")
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class ExhibitionLike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,4 +23,14 @@ public class ExhibitionLike {
     @JoinColumn(name = "exhibition_id")
     private Exhibition exhibition;
 
+    public static ExhibitionLike setExhibitionLike(ExhibitionLikeDto.RequestExhibitionLike dto) {
+        ExhibitionLike exhibitionLike = new ExhibitionLike();
+        Exhibition exhibition = new Exhibition();
+        exhibition.setId(dto.getExhibitionId());
+        Member member = new Member();
+        member.setId(dto.getMemberId());
+        exhibitionLike.member = member;
+        exhibitionLike.exhibition = exhibition;
+        return exhibitionLike;
+    }
 }

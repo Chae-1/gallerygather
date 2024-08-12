@@ -8,6 +8,7 @@
         </div>
         <div class="exhibition-info">
             <span class="exhibition-status">진행중</span>
+            <span> {{ isLoggedIn }} | {{ isLike }}</span>
             <h1 class="exhibition-title">{{ exhibitDetails.title }}</h1>
             <div class="">
                 <p>{{exhibitDetails.startDate}} ~ {{ exhibitDetails.endDate }}</p>
@@ -18,7 +19,13 @@
             </div>
             <div class="exhibition-stats">
                 <span class="view">👁️ {{ exhibitDetails.readCount }}</span>
-                <span class="likes">❤️ {{ exhibitDetails.likeCount }}</span>
+                <button 
+                    class="{'gray-button': !isLike, 'red-button':isLike}"
+                    @click="handleLikeClick"
+                    >
+                    {{ isLike ? '❤️' : '🩶'}} {{ exhibitDetails.likeCount }}
+                </button>
+                <!-- <span class="likes">❤️ {{ exhibitDetails.likeCount }}</span> -->
                 <span class="replies">💬 {{ exhibitDetails.reviewCount }}</span>
             </div>
             <a   :href="exhibitDetails.siteUrl" role="button" class="site-button">사이트 바로가기</a>
@@ -29,10 +36,23 @@
 <script>
 import axios from 'axios';
 export default {
+    // props: {
+    //     isLoggedIn: {
+    //         type: Boolean,
+    //         required: true
+    //     },
+    //     hasLike: {
+    //         type: Boolean,
+    //         required: true
+    //     }
+    // },
     data() {
         return {
             exhibitionId: null,
-            exhibitDetails: {}
+            exhibitDetails: [],
+            isLike: null,
+            ifLoggedIn: null,
+            
         };
     },
     created() {
@@ -41,13 +61,31 @@ export default {
         // this.get();
     },
     mounted() {
+
     },
     methods: {
         async getExhibitDetails() {
-            axios.get(`http://localhost:8080/api/exhibitions/${this.exhibitionId}`).then((response) => {
-                this.exhibitDetails = response.data;
+            axios.get(`http://localhost:8080/api/exhibitions/${this.exhibitionId}`, {
+                headers: {
+                    Authorization: localStorage.getItem("accessToken")
+                }
+            }).then((response) => {
+                console.log(`login : ${response.data.isLoggedIn}`);
+                console.log(`islike : ${response.data.isLike}`);
+
+                this.exhibitDetails = response.data.exhibition;
+                this.isLoggedIn = response.data.isLoggedIn;
+                this.isLike = response.data.isLike;
             })
         },
+        handleLikeClick() {
+            if (this.isLoggedIn === false) {
+                alert("로그인 후 이용 가능합니다.");
+            } else {
+                this.isLike = !this.isLike;
+                // 추가해야함
+            }
+        }
     }
 }
 </script>
@@ -149,6 +187,15 @@ export default {
 .ticket-button:hover {
     background-color: #e0e0e0;
 } */
+.gray-button {
+    background-color: gray;
+    color: white;
+}
+
+.red-button {
+    background-color: red;
+    color: whi
+}
 
 a {
     color: #737373;

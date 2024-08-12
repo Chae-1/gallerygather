@@ -10,12 +10,14 @@ import java.util.List;
 
 public class UserDetailsImpl implements UserDetails {
 
+    private Long id;
     private String email;
     private String password;
     private String nickName;
     private String auth;
 
     public UserDetailsImpl(Member findMember) {
+        this.id = findMember.getId();
         this.email = findMember.getEmail();
         this.auth = findMember.getAuth();
         this.password = findMember.getPassword();
@@ -44,4 +46,6 @@ public class UserDetailsImpl implements UserDetails {
     public String getNickName() {
         return nickName;
     }
+
+    public Long getId() {return id;}
 }

@@ -6,6 +6,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,15 +28,27 @@ public class ExhibitionReview {
 
     private String title;
 
+    @Lob
     private String content;
 
     private Double rating;
 
     private LocalDate viewDate;
 
+    @CreationTimestamp
     private LocalDateTime regDate;
 
+    @UpdateTimestamp
     private LocalDateTime updateDate;
+
+    @ColumnDefault("0")
+    private int viewCount;
+
+    @ColumnDefault("0")
+    private int readCount;
+
+    @ColumnDefault("0")
+    private int likeCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")

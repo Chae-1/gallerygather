@@ -2,6 +2,8 @@ package com.kosa.gallerygather.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -20,9 +22,11 @@ public class ExhibitionReviewReply {
     @Column(name = "reply")
     private String reply;
 
+    @CreationTimestamp
     @Column(name = "reg_date")
     private LocalDateTime regDate;
 
+    @UpdateTimestamp
     @Column(name = "update_date")
     private LocalDateTime updateDate;
 

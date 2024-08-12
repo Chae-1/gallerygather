@@ -40,7 +40,7 @@ const homeRoute = {
       component: Review
     },
     {
-      path: '/exhibition/:exhibitionId/review/:reviewId',
+      path: 'api/exhibition/:exhibitionId/review/:reviewId',
       name: 'ReviewDetail',
       component: ReviewDetail
     },

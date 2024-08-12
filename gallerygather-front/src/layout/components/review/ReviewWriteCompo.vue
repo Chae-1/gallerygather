@@ -108,7 +108,7 @@ export default {
           this.review
         , {
           headers: {
-            'Authorization': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZWVAbmF2ZXIuY29tIiwiaWF0IjoxNzIzMzU5ODAzLCJleHAiOjE3MjMzNjE2MDN9.m88eoFS-I0Phw8tbkipUbgSSEq6PNdlB4lcyXds24OI`
+            'Authorization': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZWVAbmF2ZXIuY29tIiwiaWF0IjoxNzIzMzkyNDA3LCJleHAiOjE3MjMzOTQyMDd9.zPk8WjTDXHXQVxldyRLfzVgmb8-ok9uCQDk1koLxFM8`
           }
         });
         const reviewDetail = response.data;
@@ -119,7 +119,7 @@ export default {
         //const exhibitionId = reviewDetail.exhibitionId;
 
         // 상세보기 페이지로 이동합니다.
-        this.$router.push(`/exhibition/${reviewDetail.exhibitionId}/review/${reviewDetail.reviewId}`);
+        this.$router.push(`api/exhibition/${reviewDetail.exhibitionId}/review/${reviewDetail.reviewId}`);
       } catch (error) {
         console.error('리뷰 생성 실패:', error);
       }

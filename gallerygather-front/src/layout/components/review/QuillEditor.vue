@@ -7,7 +7,7 @@
 <script>
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
-import axois from 'axios';
+import axios from 'axios';
 
 export default {
   props: {
@@ -73,13 +73,14 @@ export default {
 
         try {
           // 서버에 이미지를 업로드합니다.
-          const response = await axios.post('/api/upload', formData, {
+          const response = await axios.post('http://localhost:8080/api/upload', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
           });
 
           const url = response.data.url; // 서버에서 반환된 이미지 URL을 가져옵니다.
+          console.log("이미지 url::::::",url)
           const range = this.quill.getSelection();
           this.quill.insertEmbed(range.index, 'image', url); // 이미지 URL을 에디터에 삽입합니다.
         } catch (error) {

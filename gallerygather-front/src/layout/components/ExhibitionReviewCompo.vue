@@ -2,7 +2,7 @@
     <div class="exhibition-reviews">
         <div>
             <span>리뷰 목록</span>
-            <button>리뷰 쓰기</button>
+            <button @click="goToWrite">리뷰 쓰기</button>
         </div>
         <div class="review-content">
             <ul class="review-list">
@@ -78,6 +78,9 @@ export default {
         onPageChanged(newPage) {
             this.currentPage = newPage;
             this.getExhibitReviewList();
+        },
+        goToWrite() {
+            this.$router.push({ name: 'ReviewWrite'})
         }
     }
 }

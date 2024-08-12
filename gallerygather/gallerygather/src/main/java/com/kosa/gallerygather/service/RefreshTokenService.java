@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -24,11 +25,14 @@ public class RefreshTokenService {
     private final MemberRepository memberRepository;
 
     // 새로운 정보를 발급해야할 때 생성
+    @Transactional
     public RefreshToken createRefreshToken(String email) {
 
         // email로 조회했을 때 refreshToken이 존재한다면, 해당 RefreshToken을 반환해주면 된다.
         RefreshToken findRefreshToken = refreshTokenRepository.findByUserEmail(email);
         if (findRefreshToken != null) {
+            LocalDateTime expiryDate = LocalDateTime.now().plusHours(3);
+            findRefreshToken.setExpiryDate(expiryDate);
             return findRefreshToken;
         }
 

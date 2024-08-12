@@ -11,9 +11,9 @@ async function requestLogin(email, password) {
 export const userStore = defineStore({
     id: 'user', state: () => ({
         email: 'not login',
-        accessToken: sessionStorage.getItem('accessToken'),
+        accessToken: localStorage.getItem('accessToken'),
         nickName: '',
-        refreshToken: sessionStorage.getItem('refreshToken')
+        refreshToken: localStorage.getItem('refreshToken')
     }), getters: {
         isAuthenticated(state) {
             return state.accessToken !== null;
@@ -57,9 +57,9 @@ export const userStore = defineStore({
         },
 
         async reLogin() {
-            return await axios.post("http://localhost:8080/api/members/login", {
-
-            })
+           axios.post("http://localhost:8080/api/members/auth/refresh", {
+                refreshToken: localStorage.getItem('refreshToken')
+           }).then()
         }
     }
 

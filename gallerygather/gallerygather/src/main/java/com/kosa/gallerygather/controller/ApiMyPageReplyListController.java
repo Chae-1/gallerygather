@@ -24,14 +24,14 @@ public class ApiMyPageReplyListController {
     @GetMapping("/api/replys/member/reply")
     public ResponseEntity<List<MyPageReplyListResponseDto>> getReplyList(
             @AuthenticationPrincipal UserDetailsImpl userDetails){
-
+        System.out.println("getReplyList호출완료 ");
         // 로그인된 사용자의 이메일
         String email = userDetails.getEmail();
         System.out.println("댓글 작성시 email값 확인: " + email); // 콘솔 확인
 
         //메서드호출
         List<MyPageReplyListResponseDto> replys = myPageListService.getMyPageReplyRepository(email);
-        System.out.println("댓글 작성시 replys : " + replys); // 콘솔 확인
+        System.out.println("댓글 작성시 replys에 담긴것 : " + replys); // 콘솔 확인
 
         // 조회된 리뷰 리스트를 클라이언트에 응답으로 반환
         return ResponseEntity.ok(replys);

@@ -2,6 +2,7 @@ package com.kosa.gallerygather.service;
 
 import com.kosa.gallerygather.dto.MyPageReplyListResponseDto;
 import com.kosa.gallerygather.dto.MyPageReviewListResponseDto;
+import com.kosa.gallerygather.entity.Exhibition;
 import com.kosa.gallerygather.entity.ExhibitionReview;
 import com.kosa.gallerygather.entity.ExhibitionReviewReply;
 import com.kosa.gallerygather.repository.MyPageReplyRepository;
@@ -34,6 +35,7 @@ public class MyPageListService {
 
         //주입된 레포지토리로 reply를 조회
         List<ExhibitionReviewReply> replys = myPageReplyRepository.findByMemberEmail(email);
+        System.out.println("가져온 댓글 데이터: " + replys);
 
         //그릇
         List<MyPageReplyListResponseDto> replysDto = new ArrayList<>();
@@ -43,8 +45,11 @@ public class MyPageListService {
             MyPageReplyListResponseDto dto = new MyPageReplyListResponseDto(
                     reply.getReply(),
                     reply.getRegDate(),
-                    reply.getUpdateDate()
+                    reply.getUpdateDate(),
+                    reply.getReplyReviewId(),
+                    reply.getReviewTitle()
             );
+            System.out.println("댓글에서 가져온 전시제목(서비스단): "+ reply.getReviewTitle());
             replysDto.add(dto); // 변환된 DTO를 리스트에 추가합니다.
         }
 
@@ -56,17 +61,28 @@ public class MyPageListService {
 
         // 주입된 ExhibitionReview 사용하여 리뷰 엔티티 목록을 조회합니다.
         List<ExhibitionReview> reviews = myPageReviewRepository.findByMemberEmail(email);
+        System.out.println("가져온 리뷰 데이터: " + reviews);
 
         // 리뷰 DTO를 담을 리스트를 생성합니다.
         List<MyPageReviewListResponseDto> responseDtos = new ArrayList<>();
 
         // 각 리뷰 엔티티를 DTO로 변환하여 리스트에 추가합니다.
         for (ExhibitionReview review : reviews) {
+            Exhibition exhibition = review.getExhibition();
+            String exhibitionTitle = exhibition != null ? exhibition.getTitle() : "No Title";
+            Long exhibitId = exhibition != null ? exhibition.getId() : null;
+
             MyPageReviewListResponseDto dto = new MyPageReviewListResponseDto(
+                    review.getId(),
                     review.getTitle(), // 리뷰 제목
                     review.getContent(), // 리뷰 내용
-                    review.getRating() // 리뷰 평점
+                    review.getRating(),// 리뷰 평점
+                   exhibitionTitle,// 전시 제목
+                    exhibitId
             );
+            System.out.println("가져온 전시제목(서비스): " + exhibitionTitle);
+            System.out.println("가져온 전시번호(서비스): " + exhibitId);
+            System.out.println("가져온 리뷰번호(서비스): " + review.getId());
             responseDtos.add(dto); // 변환된 DTO를 리스트에 추가합니다.
         }
 

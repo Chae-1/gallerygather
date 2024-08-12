@@ -42,4 +42,15 @@ public class ExhibitionReviewReply {
         return new ExhibitionReviewReply(null, "", LocalDateTime.now(),
                 LocalDateTime.now(), member, exhibitionReview);
     }
+    public Long getReplyReviewId() {
+        return exhibitionReview != null ? exhibitionReview.getId() : null;
+    }
+
+    public String getReviewTitle() {
+        if (exhibitionReview != null && exhibitionReview.getExhibition() != null) {
+            return exhibitionReview.getExhibition().getTitle();
+        }
+        return "No Title";
+    }
+
 }

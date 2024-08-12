@@ -8,6 +8,8 @@ import { userStore } from '@/store/userStore.js'
 const pinia = createPinia();
 const store = userStore(pinia);
 
+let isRefreshed = false;
+
 export async function apiRequest(method, url, data = null, options = {}) {
   try {
     const response = await axios({
@@ -22,13 +24,16 @@ export async function apiRequest(method, url, data = null, options = {}) {
     });
     return response;
   } catch (error) {
-    if (error.response && error.response.status === 401) {
+    if (error.response && error.response.status === 401 && !isRefreshed) {
       console.log('토큰 재발급 중..')
       await handleTokenRefresh();
+      isRefreshed = true;
       return apiRequest(method, url, data, options); // 재요청
     }
     console.error('Request error:', error);
     throw error;
+  } finally {
+    isRefreshed = false;
   }
 }
 

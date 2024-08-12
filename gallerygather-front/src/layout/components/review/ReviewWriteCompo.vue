@@ -84,7 +84,8 @@ export default {
   },
   data() {
     return {
-      exhibitInfo: { 
+      exhibitInfo: {
+        
       },
       review: {
         title: '',
@@ -150,25 +151,37 @@ export default {
         }
 
         // 서버로 POST 요청을 보내고, reviewId를 응답받습니다.
-        const response = await axios.post(
-          `http://localhost:8080/api/exhibition/${exhibitionId}/review`,
-          this.review,
-          {
-            headers: {
+        // const response = await axios.post(
+        //   `http://localhost:8080/api/exhibition/${exhibitionId}/review`,
+        //   this.review,
+        //   {
+        //     headers: {
               
-              'Authorization': token
-            }
-          }
-        )
-        const reviewDetail = response.data
+        //       'Authorization': token
+        //     }
+        //   }
+        // )
+        // const reviewDetail = response.data
 
-        console.log('!!!!!!!!!!!!!!!!!!!!!1111', reviewDetail)
-        const reviewId = reviewDetail.reviewId
-        console.log('리뷰아이디', reviewId)
-        //const exhibitionId = reviewDetail.exhibitionId;
+        // console.log('!!!!!!!!!!!!!!!!!!!!!1111', reviewDetail)
+        // const reviewId = reviewDetail.reviewId
+        // console.log('리뷰아이디', reviewId)
+        // //const exhibitionId = reviewDetail.exhibitionId;
 
-        // 상세보기 페이지로 이동합니다.
-        this.$router.push(`/api/exhibition/${exhibitionId}/review/${reviewDetail.reviewId}`)
+        // // 상세보기 페이지로 이동합니다.
+        // this.$router.push(`/api/exhibition/${exhibitionId}/review/${reviewDetail.reviewId}`)
+
+        apiRequest('post', `http://localhost:8080/api/exhibition/${exhibitionId}/review`, this.review)
+            .then((response) => {
+              const reviewDetail = response.data
+              console.log('!!!!!!!!!!!!!!!!!!!!!1111', reviewDetail)
+              const reviewId = reviewDetail.reviewId
+              console.log('리뷰아이디', reviewId)
+              //const exhibitionId = reviewDetail.exhibitionId;
+
+              // 상세보기 페이지로 이동합니다.
+              this.$router.push(`/api/exhibition/${exhibitionId}/review/${reviewDetail.reviewId}`)
+            })  
       } catch (error) {
         console.error('리뷰 생성 실패:', error)
       }

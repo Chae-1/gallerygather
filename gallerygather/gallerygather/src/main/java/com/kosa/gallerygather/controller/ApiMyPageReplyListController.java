@@ -21,7 +21,7 @@ public class ApiMyPageReplyListController {
     private final MyPageListService myPageListService;
     
     //로그인된 멤버의 이메일로 댓글 조회
-    @GetMapping("/api/replys/member/{email}/reply")
+    @GetMapping("/api/replys/member/reply")
     public ResponseEntity<List<MyPageReplyListResponseDto>> getReplyList(
             @AuthenticationPrincipal UserDetailsImpl userDetails){
 

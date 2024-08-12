@@ -17,6 +17,7 @@
     "bootstrap-icons": "^1.11.3",
     "bootstrap-vue": "^2.23.1",
     "bootstrap-vue-3": "^0.5.1",
+    "dompurify": "^3.1.6",
     "flatpickr": "^4.6.13",
     "pinia": "^2.2.1",
     "primeicons": "^7.0.0",
@@ -24,6 +25,7 @@
     "quill": "^2.0.2",
     "v-calendar": "^3.1.2",
     "vue": "^3.4.35",
+    "vue-dompurify-html": "^5.1.0",
     "vue-router": "^4.3.3",
     "vue-star-rating": "^2.1.0",
     "vuetify": "^3.6.14"

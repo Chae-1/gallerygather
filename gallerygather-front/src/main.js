@@ -9,6 +9,8 @@ import axios from "axios";
 import {createPinia} from "pinia";
 import VCalendar from 'v-calendar'
 import 'v-calendar/style.css';
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
 // import { createVuetify } from 'vuetify'
 // import 'vuetify/styles' // Vuetify 스타일 로드
 // import * as components from 'vuetify/components'

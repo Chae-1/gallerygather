@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,6 +20,7 @@ public class ExhibitionReviewRequestDto {
     private String content;
     private Double rating;
     private LocalDate viewDate;
+    private LocalDateTime regDate = LocalDateTime.now();
 
     public ExhibitionReview toEntity(Member member, Exhibition exhibition){
         return ExhibitionReview.builder()
@@ -26,6 +28,7 @@ public class ExhibitionReviewRequestDto {
                 .content(content)
                 .rating(rating)
                 .viewDate(viewDate)
+                .regDate(regDate)
                 .member(member)
                 .exhibition(exhibition)
                 .build();

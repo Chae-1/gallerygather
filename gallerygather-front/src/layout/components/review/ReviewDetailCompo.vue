@@ -4,13 +4,13 @@
             <div class="review-box">
                 <p>후기 상세보기</p>
                 <br/>
-                <h2 class="title">헬로키티 전시회 보고왔어용</h2>
+                <h2 class="title">{{ reviewDetail.title }}</h2>
                 <div class="review-info">
-                    <span class="reviewer">안수영</span>
-                    <span class="scope"> | ⭐⭐⭐</span>
+                    <span class="reviewer"> {{ reviewDetail.authorName }} </span>
+                    <span class="scope"> | ⭐ {{ reviewDetail.rating }}</span>
                 </div>
                 <div>
-                    후기 작성일자: <span class="review-date">2024-04-18</span>
+                    관람일자 | <span class="review-date">{{ reviewDetail.viewDate }}</span>
                     <br/>
                     <span class="view">👓 89</span>
                     <br/>
@@ -20,15 +20,20 @@
                 </div>
             </div>
             <div class="exhibit-img">
-                <img src="../../../assets/img/daniel_arsham.png" alt="daniel_arsham">
+                <img :src="reviewDetail.exhibitionImgUrl" alt="exhibitionImgUrl">
             </div>
         </div>
         <div class="review">      
             <div class="review-content">
-                <p>진짜 재밌더라고요~ 우하하</p>
+                <div class="ql-editor">
+                    <div v-html="safeContent"></div>
+                </div>
+                <!-- <div v-dompurify-html="reviewDetail.content"></div> -->
                 <!-- <quill-editor v-model="content" placeholder="게시글이 없습니다."></quill-editor> -->
             </div>
             <div class="button-container">
+                
+                <span>후기 작성일 {{ reviewDetail.regDate }}</span>
                 <button type= "button" class="editButton" @click="editReview">수정</button>
                 <button type= "button" class="deleteButton">삭제</button>
                 <button type="button" class="likeButton">❤️</button>
@@ -39,8 +44,9 @@
 </template>
 
 <script>
-
+import axios from 'axios';
 import ReviewRepliesCompo from './ReviewRepliesCompo.vue'
+import DOMPurify from 'dompurify';
 // import QuillEditor from './QuillEditor.vue'
 
 export default { 
@@ -48,6 +54,34 @@ export default {
         ReviewRepliesCompo,
         // QuillEditor
     },
+    data() {
+        return {
+            reviewDetail: {}
+        };
+    },
+    computed: {
+    safeContent() {
+      return DOMPurify.sanitize(this.reviewDetail.content);
+    }
+  },
+
+    async created(){
+        if (this.$route.params.reviewDetail) {
+            this.reviewDetail = this.$route.params.reviewDetail;
+        } else {
+            const { exhibitionId, reviewId } = this.$route.params;
+
+            try {
+                const response = await axios.get(`http://localhost:8080/api/exhibition/${exhibitionId}/review/${reviewId}`);
+                this.reviewDetail = response.data;
+            } catch (error) {
+                console.error('Failed to fetch review detail:', error);
+                // 오류 처리 로직 추가 가능 (예: 에러 메시지 표시, 다른 페이지로 리다이렉트 등)
+            }
+            }
+        
+    },
+
     methods: {
     editReview() {
       // 리뷰 수정 페이지로 이동
@@ -62,6 +96,7 @@ export default {
 </script>
 
 <style scoped>
+
 .review-details {
     display: flex;
     flex-direction: column;

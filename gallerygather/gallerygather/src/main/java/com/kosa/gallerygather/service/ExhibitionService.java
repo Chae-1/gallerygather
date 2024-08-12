@@ -35,8 +35,10 @@ public class ExhibitionService {
         return exhibitionRepository.fetchExhibitionsWithPagination(pageRequest)
                 .map(exhibition -> new ExhibitionCardDto(exhibition.getId(), exhibition.getImgUrl(),
                         exhibition.getTitle(), exhibition.getDescription(),
-                        exhibition.getStartDate(), exhibition.getEndDate()));
+                        exhibition.getStartDate(), exhibition.getEndDate(),
+                        exhibition.getAvgRating(), exhibition.getPlace()));
     }
+
 
     // 작성자: 오지수
     // 전시 상세 정보 페이지 가져오기

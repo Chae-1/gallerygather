@@ -50,8 +50,7 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<ExhibitionReviewReply> replies = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "refresh_token_id")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "member")
     private RefreshToken refreshToken;
 
     private Member(String name, String password, String email, String auth, LocalDate dateOfBirth,

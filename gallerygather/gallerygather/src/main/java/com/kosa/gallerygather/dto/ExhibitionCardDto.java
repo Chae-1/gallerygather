@@ -16,4 +16,6 @@ public class ExhibitionCardDto {
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Double rating;
+    private String place;
 }

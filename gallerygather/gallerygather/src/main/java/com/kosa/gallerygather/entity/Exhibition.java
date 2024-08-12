@@ -63,7 +63,7 @@ public class Exhibition {
 
     @Column(name = "avg_rating")
     @ColumnDefault("0")
-    private Integer avgRating;
+    private Double avgRating;
 
     public boolean increaseReadCount(){
         readCount++;

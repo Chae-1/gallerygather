@@ -9,8 +9,7 @@ const pinia = createPinia();
 const store = userStore(pinia);
 
 
-export async function apiRequest(method, url, data = null, options = {}) {
-  let isRefreshed = false;
+export async function apiRequest(method, url, data = null, options = {}, isAuthenticatedRequest) {
   try {
     const response = await axios({
       method,

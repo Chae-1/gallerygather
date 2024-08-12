@@ -33,7 +33,13 @@
         </li>
       </ul>
     </div>
-    <pagination-compo></pagination-compo>
+    <b-pagination v-model="currentPage"
+                  :per-page="perPage"
+                  @page-click="updatePageNum"
+                  pills :total-rows="totalElement"
+                  size="lg" align="fill">
+    </b-pagination>
+<!--    <pagination-compo></pagination-compo>-->
   </div>
 </template>
 
@@ -62,22 +68,31 @@ export default {
   },
 
   mounted() {
-    this.$nextTick(() => {
-      this.replies.forEach((reply, index) => {
-        const textarea = this.$el.querySelectorAll('.reply-item .reply-content textarea')[index]
-        if (textarea) {
-          this.autoResize({ target: textarea })
-        }
-      })
-    })
+    //   this.$nextTick(() => {
+    //     this.replies.forEach((reply, index) => {
+    //       const textarea = this.$el.querySelectorAll('.reply-item .reply-content textarea')[index]
+    //       if (textarea) {
+    //         this.autoResize({ target: textarea })
+    //       }
+    //     })
+    //   })
+    // }
   },
   methods: {
-    async getExhibitReviews() {
+    getExhibitReviews() {
       axios.get(`http:/localhost:8080/api/exhibition?exhibitionId=${this.exhibitionId}/review?pageNo=${this.currentPage}?pageNum=${this.perPage}`)
       .then(response =>{
+        console.log(response);
         this.replies = response.data.content;
         this.totalElement = response.data.totalElement;
+      }).catch(error => {
+        console.log(error);
       })
+    },
+
+    updatePageNum(pageEvent, no) {
+      this.currentPage = no;
+      getExhibitReviews();
     },
 
     autoResize(event) {

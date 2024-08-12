@@ -67,6 +67,7 @@ import StarRating from 'vue-star-rating'
 import { ref } from 'vue'
 import VCalendar from 'v-calendar'
 import axios from 'axios'
+import { apiRequest } from '@/util/RequestUtil.js'
 
 export default {
   components: {
@@ -180,7 +181,8 @@ export default {
               //const exhibitionId = reviewDetail.exhibitionId;
 
               // 상세보기 페이지로 이동합니다.
-              this.$router.push(`/api/exhibition/${exhibitionId}/review/${reviewDetail.reviewId}`)
+              ///exhibitiondetails/:exhibitionId/reviewdetails/:reviewId
+              this.$router.push(`/exhibitiondetails/${exhibitionId}/reviewdetails/${reviewDetail.reviewId}`)
             })  
       } catch (error) {
         console.error('리뷰 생성 실패:', error)

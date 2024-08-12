@@ -43,7 +43,7 @@ export default {
 
   methods: {
     fetchNewItems() {
-      apiRequest('get', `http://localhost:8080/api/exhibitions?pageNo=${this.currentPage}&pagePer=${this.perPage}`)
+      apiRequest('get', `http://localhost:8080/api/exhibitions?pageNo=${this.currentPage}&pagePer=${this.perPage}`, null)
         .then(response => {
           this.cardItems = response.data.content;
           this.totalElement = response.data.totalElements;

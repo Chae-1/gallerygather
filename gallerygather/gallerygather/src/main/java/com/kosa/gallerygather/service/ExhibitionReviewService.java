@@ -85,15 +85,15 @@ public class ExhibitionReviewService {
         return new ReviewDetailDto(review, review.getMember(), exhibition, review.getImages());
     }
 
-// 작성자: 오지수
-        // 전시 상세 페이지에서 하단의 리뷰 리스트를 가져오는 Service
-        public List<ExhibitionReviewDto.RequestReviewList> getExhibitionReviews(Long exhibitionId, PageRequestDto pageRequestDto) {
-            Pageable pageable = PageRequest.of(pageRequestDto
-                    .getPageNo()-1, pageRequestDto.getPagePer(), Sort.by("regDate").descending());
-            List<ExhibitionReview> exhibitionReviews = exhibitionReviewRepository.findByExhibitionId(exhibitionId, pageable);
-            return exhibitionReviews.stream().map(ExhibitionReviewDto.RequestReviewList::new)
-                    .collect(Collectors.toList());
-        }
+    // 작성자: 오지수
+    // 전시 상세 페이지에서 하단의 리뷰 리스트를 가져오는 Service
+    public List<ExhibitionReviewDto.RequestReviewList> getExhibitionReviews(Long exhibitionId, PageRequestDto pageRequestDto) {
+        Pageable pageable = PageRequest.of(pageRequestDto
+                .getPageNo()-1, pageRequestDto.getPagePer(), Sort.by("regDate").descending());
+        List<ExhibitionReview> exhibitionReviews = exhibitionReviewRepository.findByExhibitionId(exhibitionId, pageable);
+        return exhibitionReviews.stream().map(ExhibitionReviewDto.RequestReviewList::new)
+                .collect(Collectors.toList());
+    }
 
 
 //    private final ExhibitionReviewReplyRepository exhibitionReviewReplyRepository;

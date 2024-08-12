@@ -48,6 +48,10 @@ public class ApiExhibitionController {
         return ResponseEntity.ok().body(response);
     }
 
+    /*
+    작성자: 오지수
+    전시 페이지 좋아요 클릭하기
+     */
     @PostMapping("/{exhibitionId}/like")
     public ResponseEntity<ExhibitionDto> likeExhibition(@PathVariable Long exhibitionId,
                                @RequestBody ExhibitionLikeDto.RequestLike likeDto,

@@ -84,7 +84,8 @@ public class MemberService {
     }
 
     public SuccessfulLoginResultDto reissueToken(RefreshTokenDto refreshTokenDto) {
-        return refreshTokenService.findByToken(refreshTokenDto.getRefreshToken())
+        log.info("{}", refreshTokenDto.getRefreshToken());
+        return refreshTokenService.findByToken(refreshTokenDto.getRefreshToken().trim())
                 .map(refreshTokenService::verifyExpiration)
                 .map(RefreshToken::getMember)
                 .map(member -> SuccessfulLoginResultDto

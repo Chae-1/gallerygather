@@ -66,7 +66,7 @@ public class JwtService {
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+ (1000 * 60 * 30))) // 30분동안 토큰 유지
+                .setExpiration(new Date(System.currentTimeMillis()+ (1000 * 20))) // 30분동안 토큰 유지
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
 

@@ -2,15 +2,25 @@
 import {userStore} from "@/store/userStore.js";
 
 export default {
+  data() {
+    return {
+      store: userStore(),
+    }
+  },
+
   computed: {
     isAuthenticated() {
-      const store = userStore();
-      return store.isAuthenticated;
+      console.log(this.store.isAuthenticated);
+      return this.store.isAuthenticated;
     }
-    // 로그인한 상태에서 요청 정보
-    // 마이페이지 ..
   },
-};
+
+  methods: { userStore,
+    logout() {
+      this.userStore().logout();
+    }},
+
+  };
 </script>
 
 <template>
@@ -86,7 +96,7 @@ export default {
                 </a>
             </div>
             <div class="login-menu">
-              <a href="/logout" v-if="isAuthenticated">
+              <a v-if="isAuthenticated" @click="logout">
                 로그아웃
               </a>
               <a href="/login" v-else>

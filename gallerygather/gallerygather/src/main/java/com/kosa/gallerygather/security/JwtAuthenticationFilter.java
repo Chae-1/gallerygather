@@ -1,6 +1,7 @@
 package com.kosa.gallerygather.security;
 
 import com.kosa.gallerygather.util.JwtService;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -18,6 +19,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+
 @RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -33,8 +36,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String username = null;
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            token = authHeader.substring(7);
-            username = jwtService.extractUsername(token);
+            try {
+                token = authHeader.substring(7);
+                username = jwtService.extractUsername(token);
+            } catch (ExpiredJwtException e) {
+                response.sendError(SC_UNAUTHORIZED, "토큰 유효기간이 초과 되었습니다. 다시 인증해주세요.");
+                return;
+            }
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

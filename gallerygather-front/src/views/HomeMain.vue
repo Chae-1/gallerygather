@@ -3,7 +3,7 @@
     <HomeMainCarousel />
 
     <article class="main-content">
-      <HomeMainConditionSearchBar :totalElements="totalElement"/>
+      <HomeMainConditionSearchBar :search="search" :conditions="conditions" :totalElements="totalElement" @onClickSortOption="selectSortOptionAndInput"/>
       <div>
         <CardComponent :currentPage="currentPage" :cards="cardItems" :perPage="perPage" @onPageClick="updatePageNum"/>
         <div class="mt-3">
@@ -35,7 +35,8 @@ export default {
       currentPage: 0,
       perPage: 12,
       cardItems: [],
-      conditions: [],
+      conditions: '',
+      search: ''
     };
   },
 
@@ -60,6 +61,10 @@ export default {
       this.currentPage = pageNo;
       this.fetchNewItems();
     }
+  },
+
+  selectSortOptionAndInput(value) {
+    this.selectedButton = value;
   },
 
   created() {

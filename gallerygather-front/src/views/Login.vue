@@ -1,7 +1,9 @@
 <script>
 // 작성자: 채형일
 import {userStore} from "@/store/userStore.js";
-import extractUserInfoFrom from "@/util/jwtUtil.js";
+import previousRoute from '@/router/index.js'
+import { apiRequest } from '@/util/RequestUtil.js'
+import { prevPathStore } from '@/store/prevStore.js'
 
 export default {
   name: "Login.vue",
@@ -15,20 +17,19 @@ export default {
   methods: {
     login() {
       console.log("login 요청 중");
-      const store = userStore();
-      store.login(this.email, this.password)
-          .then(response => {
-            console.log(response);
-            const accessToken = response.data.accessToken;
-            const nickName = response.data.nickName;
-            const email = response.data.email;
-            console.log(accessToken, nickName, email);
-            this.$router.push('/main');
-          })
-          .catch((error) => console.log(error));
-    }
-  }
+      const user = userStore();
+      const prevStore = prevPathStore();
 
+      apiRequest('post', 'http://localhost:8080/api/members/auth/login', {
+        email: this.email,
+        password: this.password,
+      }).then(response => {
+        user.setUserInfo(response.data);
+        const prev = prevStore.getPreviousRoute;
+        this.$router.push(prev);
+      })
+    }
+  },
 }
 </script>
 

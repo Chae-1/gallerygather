@@ -5,7 +5,6 @@ import BootstrapVue3 from 'bootstrap-vue-3'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
-import axios from "axios";
 import {createPinia} from "pinia";
 import VCalendar from 'v-calendar'
 import 'v-calendar/style.css';
@@ -21,11 +20,10 @@ const pinia = createPinia()
 //   components,
 //   directives
 // }) // Vuetify 초기화
-const app = createApp(App)
-app.use(router);
+const app = createApp(App);
 app.use(pinia);
+app.use(router);
 app.use(BootstrapVue3);
 app.use(VCalendar,{});
-// app.use(vuetify)
 
 app.mount('#app')

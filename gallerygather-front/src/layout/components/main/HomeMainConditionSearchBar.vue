@@ -21,9 +21,7 @@ export default {
     toggleDetailSearchMenu() {
       this.toggle = !this.toggle
     },
-    handleClick(value) {
-      this.selectedButton = value;
-    },
+
 
     mounted() {
     }
@@ -184,13 +182,15 @@ p {
 
 .search-box .o-btn-search {
   position: absolute;
-  padding: 3px;
+  padding: 10px;
   border-radius: 0;
   vertical-align: middle;
   background: url('https://png.pngtree.com/png-clipart/20190705/original/pngtree-vector-search-icon-png-image_4271228.jpg');
   background-repeat: no-repeat;
   background-size: 18px auto;
   flex-shrink: 0;
+  top: 0;
+  right: 0;
 }
 
 .search-box {

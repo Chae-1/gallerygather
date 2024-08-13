@@ -11,6 +11,7 @@ export const userStore = defineStore({
     email: 'not login',
     nickName: '',
     auth: localStorage.getItem('accessToken') !== null,
+    prevPageUrl: ''
   }),
 
   getters: {
@@ -20,18 +21,6 @@ export const userStore = defineStore({
   },
 
   actions: {
-    logout() {
-      // 서버에 logout을 호출
-
-      localStorage.removeItem('accessToken')
-      localStorage.removeItem('refreshToken')
-
-      this.$patch({
-        name: null,
-        email: null,
-        auth: localStorage.getItem('accessToken') !== null
-      })
-    },
 
     setUserInfo(successfulUserInfo) {
       const accessToken = successfulUserInfo.accessToken;
@@ -48,6 +37,15 @@ export const userStore = defineStore({
       })
     },
 
+    clearUserInfo() {
+      localStorage.clear();
+      this.$patch({
+        email: null,
+        nickName: null,
+        auth: null,
+      });
+    },
+
     async login(email, password) {
       return await axios.post('http://localhost:8080/api/members/auth/login', {
         email, password
@@ -62,19 +60,6 @@ export const userStore = defineStore({
       })
     },
 
-    async reLogin() {
-      return await axios.post('http://localhost:8080/api/members/auth/refresh', {
-        refreshToken: localStorage.getItem('refreshToken'),
-      }).then(response => {
-        console.log("재 로그인 요청")
-        this.setUserInfo(response.data);
-        return response;
-      }).catch(error => {
-        // 에러가 발생한다면 유효하지 않은 refreshToken, 해당 요청이 결국 실패한다.
-        console.log(error.data);
-        throw error;
-      })
-    }
   }
 
 })

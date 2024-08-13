@@ -2,11 +2,6 @@
  * 작성자: 채형일
  */
 import axios from 'axios'
-import { createPinia, defineStore } from 'pinia'
-import { userStore } from '@/store/userStore.js'
-
-const pinia = createPinia();
-const store = userStore(pinia);
 
 
 export async function apiRequest(method, url, data = null, options = {}, isAuthenticatedRequest) {
@@ -17,9 +12,9 @@ export async function apiRequest(method, url, data = null, options = {}, isAuthe
       data,
       headers: {
         Authorization: localStorage.getItem('accessToken'),
-        ...options.headers,
+        ...options.headers
       },
-      ...options,
+      ...options
     });
     return response;
   } catch (error) {
@@ -35,6 +30,14 @@ export async function apiRequest(method, url, data = null, options = {}, isAuthe
 
 // 토큰 재발급 유틸리티 함수
 async function handleTokenRefresh() {
-  const store = userStore();
-  await store.reLogin(); // 토큰 재발급 처리
+  return await axios.post('http://localhost:8080/api/members/auth/refresh', {
+    refreshToken: localStorage.getItem('refreshToken'),
+  }).then(response => {
+    console.log('재 로그인 요청');
+    return response;
+  }).catch(error => {
+    // 에러가 발생한다면 유효하지 않은 refreshToken, 해당 요청이 결국 실패한다.
+    console.log(error.data);
+    throw error;
+  }) // 토큰 재발급 처리
 }

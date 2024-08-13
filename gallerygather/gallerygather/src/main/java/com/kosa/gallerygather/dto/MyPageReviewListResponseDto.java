@@ -15,5 +15,6 @@ public class MyPageReviewListResponseDto {
     private Double rating;
     private String exhibitTitle;
     private Long exhibitId;
+    private int reviewCount;
 
 }

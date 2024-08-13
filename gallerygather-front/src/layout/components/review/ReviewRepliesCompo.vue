@@ -20,6 +20,7 @@
             </div>
             <div class="reply-content">
               <textarea
+                :class="{'editable-text' : reply.editable, 'uneditable-text' : !reply.editable}"
                 :readonly="!reply.editable"
                 v-model="reply.replyContent"
                 @input="autoResize($event)"
@@ -29,11 +30,10 @@
               <span class="date">{{ reply.replyRegDate }}</span>
             </div>
           </div>
-          <div class="reply-manage" >
-            <button @click="editReply(index, reply.replyId)">{{ reply.editable ? '저장' : '수정' }}</button>
-            
-            <!-- <button @click="editReply(reply.replyId)">수정</button> -->
-            <button @click="deleteReply(reply.replyId)">삭제</button>
+          <div class="reply-manage" v-if="userEmail == reply.replyAuthorEmail">
+            <button v-if="!reply.editable" @click="editReply(index)">수정</button>
+            <button v-if="!reply.editable" @click="deleteReply(reply.replyId)">삭제</button>
+            <button v-if="reply.editable" @click="updateReply(reply.replyId, reply.replyContent)">저장</button>
           </div>
         </li>
       </ul>
@@ -70,6 +70,8 @@ export default {
     //exhigitionId 가져오기
     this.reviewId = this.$route.params.reviewId; // undefined
     this.exhibitionId = this.$route.params.exhibitionId;
+    const store = userStore();
+    this.userEmail = store.getUser();
     console.log(this.reviewId);
     console.log(this.exhibitionId);
     //데이터 불러오기
@@ -80,14 +82,14 @@ export default {
 
   },
   methods: {
-    // totalElement: 101,
-    // currentPage: 1,
-    // perPage: 5,
+    getUser() {
+      const store = userStore();
+      return store.getUser();
+    },
 
     setReplies(response) {
       this.replies = response.data.content;
       this.totalElement = response.data.totalElements;
-      // this.currentPage = response.data.number+1;
       console.log(`pageNo: ${this.currentPage}`);
       console.log(`total: ${this.totalElement}`);
     },
@@ -114,23 +116,31 @@ export default {
       textarea.style.height = textarea.scrollHeight + 'px'
     },
 
-    addReply() {
+    async addReply() {
       const store = userStore();
-      if (store.loginCheck()) {
-        apiRequest('post', `http://localhost:8080/api/exhibition/review/${this.reviewId}/replies`, {
-          reply: this.newReplyContent
-        }).then(response => {
-          this.setReplies(response)
-          console.log(response)
-          this.newReplyContent = '';
-        })
-      } else {
+      if (store.loginCheck()) { //로그인 한 상태라면 댓글 등록 가능
+        try {
+          apiRequest('post', `http://localhost:8080/api/exhibition/review/${this.reviewId}/replies`, {
+            reply: this.newReplyContent
+          }).then(response => {
+            if (response.status === 201) { //정상적으로 댓글 등록 성공
+              this.currentPage = 1;
+              this.getExhibitReviews(); //데이터 다시 가져오기
+              this.newReplyContent = '';
+            }
+          })
+
+        } catch (error) {
+          console.log(error);
+        }
+
+      } else { // 로그인 X ->  댓글등록 불가
         alert("로그인 후 이용해 주세요.");
       }
     },
 
-    editReply(index, replyId) {
-      console.log(`index, replyid: ${index} ${replyId}`);
+    editReply(index) {
+      console.log(`index, replyid: ${index}`);
       const reply = this.replies[index]
       reply.editable = !reply.editable //true
       if (reply.editable) {
@@ -143,9 +153,51 @@ export default {
       }
     },
 
-    deleteReply(replyId) {
+    async deleteReply(replyId) {
+      const store = userStore();
+      if (store.loginCheck()) { //로그인 상태 다시 체크
+        try {
+          await apiRequest("delete", `http://localhost:8080/api/exhibition/reviews/${this.reviewId}/replies/${replyId}`)
+          .then(response => {
+            if (response.status == 201) {
+              this.getExhibitReviews();
+            } else {
+              alert("댓글 삭제에 실패하였습니다. 잠시 후 다시 시도해주세요.")
+            }
+          })
+        } catch (error) {
+          console.log(error);
+          alert("잠시 후 다시 시도해주세요.");
+        }
+      } else {
+        alert("로그아웃된 사용자입니다.");
+      }
+
       console.log(`삭제: ${replyId}`);
       this.replies.splice(replyId, 1);
+    },
+
+    async updateReply(replyId, replyContent) {
+      console.log("전달 받는 데이터가 수정된 데이터냐 :" +replyContent);
+      const store = userStore();
+      if (store.loginCheck) { //로그인 여부 한 번 더 체크
+        try {
+          await apiRequest("put", `http://localhost:8080/api/exhibition/reviews/${this.reviewId}/replies/${replyId}`, {
+            replyContent: replyContent
+          }).then(response => {
+            if (response.status == 201) { //정상적으로 수정되었다면,
+              this.getExhibitReviews();
+            } else {
+              alert("댓글 수정에 실패하였습니다. 잠시 후 다시 시도해주세요.");
+            }
+          })
+        } catch(error) {
+          console.log(error);
+          alert("댓글 수정에 실패하였습니다. 잠시 후 다시 시도해주세요.");
+        }
+      } else { //로그인 해제 됐다면
+        alert("로그인 후 수정해주세요.");
+      }
     }
   }
 }
@@ -180,6 +232,15 @@ export default {
   color: #3d3b3a;
   background-color: #f8f5eb;
 }
+
+.editable-text {
+  border: 1px solid darkslategray;
+  ;
+}
+
+/* .uneditable-text {
+  background-color: blue;
+} */
 
 .reply-register button {
   position: absolute;

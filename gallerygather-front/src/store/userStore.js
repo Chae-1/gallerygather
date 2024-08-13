@@ -44,13 +44,15 @@ export const userStore = defineStore({
         auth: null
       })
     },
+    
+    loginCheck() {
+      return this.auth
+    },
+  
+    getUser() {
+      return this.email
+    }
+
   },
 
-  loginCheck() {
-    return this.auth
-  },
-
-  getUser() {
-    return this.email
-  }
 });

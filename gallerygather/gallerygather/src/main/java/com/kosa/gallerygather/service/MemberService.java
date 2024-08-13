@@ -6,18 +6,25 @@ import com.kosa.gallerygather.exception.member.ExistMemberException;
 import com.kosa.gallerygather.exception.member.MemberException;
 import com.kosa.gallerygather.exception.token.RefreshTokenExpirationException;
 import com.kosa.gallerygather.repository.MemberRepository;
+import com.kosa.gallerygather.repository.MyPageInfoRepository;
 import com.kosa.gallerygather.security.UserDetailsImpl;
 import com.kosa.gallerygather.util.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.kosa.gallerygather.entity.Member;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -35,6 +42,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final RefreshTokenService refreshTokenService;
+    private final MyPageInfoRepository myPageInfoRepository;
     private final BlockListManager blockListManager;
 
     public AuthDto.SuccessfulLoginResultDto doLogin(LoginRequest request) {
@@ -123,11 +131,78 @@ public class MemberService {
         member.setPassword(passwordEncoder.encode(request.getNewPassword()));
         System.out.println("set후 get된 비밀번호(서비스) "+member.getPassword());
 
-
         // 변경된 회원 정보를 데이터베이스에 저장
         memberRepository.save(member);
-
     }//MyPageChangePasswordDto
+
+    //유은 - 닉네임 중복확인
+    public boolean isNickNameDuplicate(String nickName) {
+        boolean exists = myPageInfoRepository.findByNickName(nickName).isPresent();
+        System.out.println("중복확인(서비스): " + nickName + ", 존재여부: " + exists);
+        return exists;
+    }
+
+    //유은 - 정보 업데이트
+    @Transactional
+    public Member updateMember(MyPageDto dto) {
+
+        // SecurityContextHolder를 사용하여 현재 인증된 사용자의 정보를 가져옴
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = userDetails.getUsername(); // JWT 토큰에서 가져온 이메일
+
+        // 이메일을 통해 사용자 검색
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
+        if (optionalMember.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "유저를 찾을 수 없음: " + email);
+        }
+
+        Member member = optionalMember.get();
+
+        // 사용자 정보 업데이트
+        member.setNickName(dto.getNickName());
+        member.setName(dto.getName());
+        member.setDateOfBirth(dto.getDateOfBirth());
+        member.setAddress(dto.getAddress());
+
+        // 업데이트된 사용자 저장
+        return memberRepository.save(member);
+    }
+
+    // 유은 - 기존정보
+    @Transactional(readOnly = true)
+    public MyPageDto getCurrentMemberInfo() {
+
+        // 현재 인증된 사용자 정보를 가져옴
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = userDetails.getUsername();
+        System.out.println("기존사용자 정보에서 로그인된 이메일 : "+email);
+
+        // 이메일을 통해 사용자 검색
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
+        if (optionalMember.isEmpty()) {
+            throw new RuntimeException("유저를 찾을 수 없음: " + email);
+        }
+
+        Member member = optionalMember.get();
+        return new MyPageDto(member.getEmail(), member.getNickName(), member.getName(), member.getDateOfBirth(), member.getAddress());
+    }
+
+    // 유은 - 가져온 사용자의 이메일로 회원 ID 조회 - 좋아요 연결에 member_id가 필요함
+    public Long getCurrentMemberId() {
+        String email = getCurrentUserEmail();
+        Optional<Member> member = memberRepository.findByEmail(email);
+        return member.map(Member::getId)
+                .orElseThrow(() -> new IllegalArgumentException("로그인된 사용자를 찾을 수 없습니다."));
+    }
+    //현제 로그인한 사용자이메일정보가져오기
+    private String getCurrentUserEmail() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        } else {
+            return principal.toString();
+        }
+    }
 
 
     @Transactional

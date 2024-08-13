@@ -37,6 +37,9 @@ public class MyPageListService {
         List<ExhibitionReviewReply> replys = myPageReplyRepository.findByMemberEmail(email);
         System.out.println("가져온 댓글 데이터: " + replys);
 
+        // 댓글의 개수를 계산
+        int replycount = replys.size();
+
         //그릇
         List<MyPageReplyListResponseDto> replysDto = new ArrayList<>();
 
@@ -47,7 +50,8 @@ public class MyPageListService {
                     reply.getRegDate(),
                     reply.getUpdateDate(),
                     reply.getReplyReviewId(),
-                    reply.getReviewTitle()
+                    reply.getReviewTitle(),
+                    replycount
             );
             System.out.println("댓글에서 가져온 전시제목(서비스단): "+ reply.getReviewTitle());
             replysDto.add(dto); // 변환된 DTO를 리스트에 추가합니다.
@@ -62,6 +66,9 @@ public class MyPageListService {
         // 주입된 ExhibitionReview 사용하여 리뷰 엔티티 목록을 조회합니다.
         List<ExhibitionReview> reviews = myPageReviewRepository.findByMemberEmail(email);
         System.out.println("가져온 리뷰 데이터: " + reviews);
+
+        // 리뷰의 개수를 계산
+        int reviewcount = reviews.size();
 
         // 리뷰 DTO를 담을 리스트를 생성합니다.
         List<MyPageReviewListResponseDto> responseDtos = new ArrayList<>();
@@ -78,7 +85,8 @@ public class MyPageListService {
                     review.getContent(), // 리뷰 내용
                     review.getRating(),// 리뷰 평점
                    exhibitionTitle,// 전시 제목
-                    exhibitId
+                    exhibitId,
+                    reviewcount
             );
             System.out.println("가져온 전시제목(서비스): " + exhibitionTitle);
             System.out.println("가져온 전시번호(서비스): " + exhibitId);

@@ -93,6 +93,7 @@ public class ApiExhibitionController {
         // 조회된 좋아요 개수를 클라이언트에 응답으로 반환
         return ResponseEntity.ok(likeCount);
     }
-    
+
+
 
 }

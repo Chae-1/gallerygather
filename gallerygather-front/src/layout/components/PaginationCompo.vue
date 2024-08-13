@@ -6,6 +6,7 @@
       v-model="localCurrentPage"
       :per-page="perPage"
       pills="true"
+      @page-click="handleClick"
       :total-rows="totalRows"
       size="lg"
       align="center">
@@ -36,45 +37,38 @@ export default {
   },
   watch: {
     currentPage(newVal) {
-      this.localCurrentPage = newVal;
+      this.localCurrentPage = newVal
     }
   },
   mounted() {
-    this.addClickListeners();
+    this.addClickListeners()
   },
   methods: {
     addClickListeners() {
-      const paginationButtons = this.$refs.pagination.$el.querySelectorAll('li.page-item');
+      const paginationButtons = this.$refs.pagination.$el.querySelectorAll('li.page-item')
       paginationButtons.forEach(button => {
-        button.addEventListener('click', this.handleClick);
-      });
+        button.addEventListener('click', this.handleClick)
+      })
     },
-    handleClick(event) {
-      const pageNum = Number(event.target.textContent);
-      console.log(`pagination에서 클릭한 번호: ${pageNum}`);
-      if (!isNaN(pageNum)) {
-        console.log(`if 잘 되나 pagination에서`);
-        this.localCurrentPage = pageNum;
-        this.$emit('page-changed', pageNum);
-        
-      }
+    handleClick(event, pageNo) {
+      this.$emit('onclick-change', pageNo)
     }
   },
   beforeDestroy() {
-    const paginationButtons = this.$refs.pagination.$el.querySelectorAll('li.page-item');
+    const paginationButtons = this.$refs.pagination.$el.querySelectorAll('li.page-item')
     paginationButtons.forEach(button => {
-      button.removeEventListener('click', this.handleClick);
-    });
+      button.removeEventListener('click', this.handleClick)
+    })
   }
 }
 </script>
 
 <style scoped>
-  .pagination {
-    margin: 0 auto;
-  }
+.pagination {
+  margin: 0 auto;
+}
 
-  .pagination > .page-item {
-    background-color: red;
-  }
+.pagination > .page-item {
+  background-color: red;
+}
 </style>

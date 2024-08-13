@@ -41,7 +41,7 @@
     <pagination-compo :currentPage="currentPage"
                       :perPage="perPage"
                       :totalRows="totalElement"
-                      @page-click="onPageChanged"
+                      @onclick-change="onPageChanged"
                       >
     </pagination-compo>
   </div>
@@ -93,8 +93,7 @@ export default {
     },
 
     async getExhibitReviews() {
-
-      axios.get(`http://localhost:8080/api/exhibition/${this.exhibitionId}/review/${this.reviewId}/replies?page=${this.currentPage-1}?size=${this.perPage}`)
+      axios.get(`http://localhost:8080/api/exhibition/${this.exhibitionId}/review/${this.reviewId}/replies?page=${this.currentPage-1}&size=${this.perPage}&sort=regDate,desc`)
         .then(response => {
           console.log(response)
           this.setReplies(response)
@@ -178,7 +177,7 @@ export default {
 .reply-register textarea {
   width: calc(100% - 60px);
   /* background-color: transparent; */
-  color: 3d3b3a;
+  color: #3d3b3a;
   background-color: #f8f5eb;
 }
 

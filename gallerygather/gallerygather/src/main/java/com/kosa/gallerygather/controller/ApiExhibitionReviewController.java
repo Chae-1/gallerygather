@@ -71,9 +71,9 @@ public class ApiExhibitionReviewController {
             .ExhibitionReviewReplyResponseDto>> findAllRepliesOnReview(
             @PathVariable Long reviewId,
             @PathVariable Long exhibitionId,
-            @PageableDefault(sort={"regDate"}, direction = Sort.Direction.ASC) Pageable pageable
+            Pageable pageable
             ) {
-
+        System.out.println("페이지 ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ " + pageable);
         return ResponseEntity.ok(reviewReplyService.findAllRepliesAboutReview(reviewId, pageable));
     }
 

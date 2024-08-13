@@ -18,23 +18,21 @@ export default {
 
   methods: {
     async logout() {
-      const currentPath = this.$route.fullPath;
-      apiRequest('post', "http://localhost:8080/api/members/auth/logout", {
-        accessToken: localStorage.getItem('accessToken'),
-        refreshToken: localStorage.getItem('refreshToken')
-      }).then(response => {
-        console.log(currentPath);
-        console.log(response);
+      try {
+        await apiRequest('post', "http://localhost:8080/api/members/auth/logout", {
+          accessToken: localStorage.getItem('accessToken'),
+          refreshToken: localStorage.getItem('refreshToken')
+        })
+      } finally {
         this.store.clearUserInfo();
+        console.log("finally 호출");
+        const currentPath = this.$route.fullPath;
         if (currentPath.includes('mypage')) {
           this.$router.push('/login');
           return;
         }
         this.$router.push(currentPath);
-      }).catch(error => {
-        console.log(error);
-        console.log("로그아웃 실패");
-      })
+      }
 
     }
   }

@@ -3,6 +3,7 @@ package com.kosa.gallerygather.service;
 import com.kosa.gallerygather.dto.*;
 import com.kosa.gallerygather.entity.RefreshToken;
 import com.kosa.gallerygather.exception.member.ExistMemberException;
+import com.kosa.gallerygather.exception.member.MemberException;
 import com.kosa.gallerygather.exception.token.RefreshTokenExpirationException;
 import com.kosa.gallerygather.repository.MemberRepository;
 import com.kosa.gallerygather.security.UserDetailsImpl;
@@ -16,6 +17,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.kosa.gallerygather.entity.Member;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 /*
     작성자: 채형일
@@ -30,8 +35,9 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final RefreshTokenService refreshTokenService;
+    private final BlockListManager blockListManager;
 
-    public SuccessfulLoginResultDto doLogin(LoginRequest request) {
+    public AuthDto.SuccessfulLoginResultDto doLogin(LoginRequest request) {
         log.info("인증 확인 중...");
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
@@ -42,7 +48,7 @@ public class MemberService {
             String nickName = userDetails.getNickName();
             RefreshToken refreshToken = refreshTokenService.createRefreshToken(email);
 
-            return SuccessfulLoginResultDto
+            return AuthDto.SuccessfulLoginResultDto
                     .builder()
                     .email(email)
                     .accessToken(jwtService.generateToken(email))
@@ -122,4 +128,18 @@ public class MemberService {
         memberRepository.save(member);
 
     }//MyPageChangePasswordDto
+
+
+    @Transactional
+    public AuthDto.LogoutResultDto logout(TokenDto tokenDto, String email) {
+        // 1. 명시적인 로그아웃을 시도했을 때 jwt 토큰을 블랙리스트에 추가한다.
+        // 인증과정에서 엑세스 토큰이 블랙리스트에 존재한다면, 차단한다.
+        blockListManager.addBlockList(tokenDto.getAccessToken());
+        // 2. 로그아웃 대상 유저의 refreshToken을 제거한다.
+        // member의 Id와 token을 대상으로 삭제한다.
+        if (refreshTokenService.deleteToken(tokenDto.getRefreshToken())) {
+            return AuthDto.LogoutResultDto.ofSuccess();
+        }
+        return AuthDto.LogoutResultDto.ofFailure();
+    }
 }

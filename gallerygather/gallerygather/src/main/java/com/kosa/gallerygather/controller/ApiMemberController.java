@@ -1,12 +1,14 @@
 package com.kosa.gallerygather.controller;
 
 import com.kosa.gallerygather.dto.*;
+import com.kosa.gallerygather.security.UserDetailsImpl;
 import com.kosa.gallerygather.service.MemberService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,10 +22,17 @@ public class ApiMemberController {
     private final MemberService memberService;
 
     @PostMapping("/auth/login")
-    public ResponseEntity<SuccessfulLoginResultDto> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<AuthDto.SuccessfulLoginResultDto> login(@RequestBody LoginRequest loginRequest) {
         log.info("{}", loginRequest);
-        SuccessfulLoginResultDto successfulLoginResultDto = memberService.doLogin(loginRequest);
+        AuthDto.SuccessfulLoginResultDto successfulLoginResultDto = memberService.doLogin(loginRequest);
         return ResponseEntity.ok(successfulLoginResultDto);
+    }
+
+    @PostMapping("/auth/logout")
+    public ResponseEntity<AuthDto.LogoutResultDto> logout(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                 @RequestBody TokenDto tokenDto) {
+        AuthDto.LogoutResultDto logout = memberService.logout(tokenDto, userDetails.getEmail());
+        return ResponseEntity.ok(logout);
     }
 
     @PostMapping("/join")

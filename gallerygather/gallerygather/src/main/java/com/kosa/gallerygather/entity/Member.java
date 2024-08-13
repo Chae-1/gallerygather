@@ -27,7 +27,7 @@ public class Member {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "nick_name")
+    @Column(name = "nick_name", unique = true)
     private String nickName;
 
     @Column(name = "password")
@@ -46,6 +46,9 @@ public class Member {
 
     @Column(name = "update_date")
     private LocalDateTime updateDate;
+
+    @Column(name = "address")
+    private String address;
 
     @OneToMany(mappedBy = "member")
     private List<ExhibitionReviewReply> replies = new ArrayList<>();

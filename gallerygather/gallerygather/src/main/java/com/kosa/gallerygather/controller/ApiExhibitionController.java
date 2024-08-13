@@ -25,6 +25,7 @@ import java.util.Map;
 @Slf4j
 @RequestMapping("/api/exhibitions")
 public class ApiExhibitionController {
+
     private final ExhibitionService exhibitionService;
     private final ExhibitionLikeService exhibitionLikeService;
 

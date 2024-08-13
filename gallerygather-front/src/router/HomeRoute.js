@@ -61,11 +61,12 @@ const homeRoute = {
     {
       path: '/mypage',
       component: MypageView,
+      redirect: '/mypage/mypagecompo',
       children: [
-        { path: '/mypagecompo', component: MypageViewCompo1 }, // 마이페이지
-        { path: '/mylikecompo', component: MypageViewCompo2 }, // 마이페이지
-        { path: '/myreviewcompo', component: MypageViewCompo3 }, // 마이페이지
-        { path: '/myreplycompo', component: MypageViewCompo4 } // 마이페이지
+        { path: 'mypagecompo', component: MypageViewCompo1 }, // 마이페이지
+        { path: 'mylikecompo', component: MypageViewCompo2 }, // 마이페이지
+        { path: 'myreviewcompo', component: MypageViewCompo3 }, // 마이페이지
+        { path: 'myreplycompo', component: MypageViewCompo4 } // 마이페이지
       ]
     },
     {

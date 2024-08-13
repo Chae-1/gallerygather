@@ -44,7 +44,7 @@ public class ApiMemberController {
         return memberService.reissueToken(refreshTokenDto);
     }
 
-    //유은
+    //유은 - 비밀번호 변경
     @PostMapping("/change-password")
     public ResponseEntity<String> ChangePassword(@RequestBody MyPageChangePasswordDto request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

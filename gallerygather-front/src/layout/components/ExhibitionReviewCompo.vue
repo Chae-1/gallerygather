@@ -38,7 +38,7 @@
         :currentPage="currentPage"
         :perPage="perPage"
         :totalRows="totalElement"
-        @page-changed="onPageChanged">
+        @onclick-change="onPageChanged">
     </pagination-compo>
 </template>
 

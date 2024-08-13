@@ -1,7 +1,7 @@
 <template>
   <div class="reviews">
     <div class="container">
-      <!-- 행을 사용하여 탭 버튼들을 정렬 -->
+      <h3>내가 작성한 리뷰 확인</h3>
       <div class="row">
         <!-- 버튼 토글을 사용하여 탭을 만듭니다 -->
         <div class="btn-toggle">
@@ -22,29 +22,25 @@
       </div>
 
       <!-- 리뷰리스트 시작 -->
-      <div class="row">
+      <div class="reviewlist">
         <!-- 리뷰 항목을 반복하여 생성 -->
-        <div class="col-12" v-for="(review, index) in reviews" :key="index">
+        <div  v-for="(review, index) in reviews" :key="index" class="card">
           <!-- 각 리뷰 항목을 카드 형식으로 표시 -->
-          <div class="card my-2">
-            <div class="row align-center">
+          <div class="card-content">
               <!-- 선택 체크박스 -->
-              <div class="col-auto checkbox-container">
-                <input type="checkbox" v-model="review.selected" @click.stop />
-              </div>
-              <!-- 리뷰 이미지 -->
-              <div class="col-auto">
-                <img :src="review.image" class="review-image" />
-              </div>
+                <input type="checkbox" v-model="review.selected" class="checkbox" @click.stop />
+              <!-- 리뷰 이미지 보류-->
+<!--              <div class="review-pic">-->
+<!--                <img :src="review.image" class="review-image" />-->
+<!--              </div>-->
               <!-- 리뷰 내용 -->
-              <div class="col content" @click="goToDetail(review)">
+              <div class="content-text" @click="goToDetail(review)">
                 <!-- 리뷰 제목 -->
                 <div class="review-title">{{ review.title }}</div>
                 <!-- 리뷰 내용 텍스트 -->
                 <div>{{ review.exhibitTitle }}</div>
                 <div class="text-grey update-date">{{ review.date }}</div>
               </div>
-            </div>
           </div>
         </div>
       </div>
@@ -124,7 +120,6 @@ export default {
 </script>
 
 <style scoped>
-/* 외부 컨테이너를 중간에 배치 */
 .container {
   width: 60%;
   margin: 0 auto;
@@ -148,46 +143,32 @@ h3 {
 }
 
 .deletebtn {
-  background-color: #f44336;
-  color: white;
+  color: black;
   border: none;
   padding: 8px 12px;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
-  margin-left: auto;
 }
 
-.row.align-center {
-  display: flex;
-  align-items: center;
-}
-
-.col {
-  padding: 5px;
-}
-
-.checkbox-container {
-  display: flex;
-  align-items: center;
-  margin-right: 15px; /* 이미지와 체크박스 간의 간격 */
-}
-
-.review-image {
-  max-width: 100px;
-  max-height: 100px;
-  border-radius: 8px;
-  object-fit: cover;
-}
-
-.card {
+.reviewlist .card {
   border: 1px solid #ddd;
   border-radius: 4px;
-  padding: 15px;
   margin-bottom: 15px;
+  padding: 10px;
   display: flex;
   align-items: center;
-  background-color: #f9f9f9;
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.checkbox {
+  margin-right: 15px;
+  flex-shrink: 0;
 }
 
 .review-title {
@@ -206,4 +187,5 @@ h3 {
   font-size: 14px;
   color: #333;
 }
+
 </style>

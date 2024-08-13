@@ -2,7 +2,7 @@
   <div class="mt-3">
     <b-pagination
       ref="pagination"
-      class="pagination"
+      class="custom-pagination"
       v-model="localCurrentPage"
       :per-page="perPage"
       pills="true"
@@ -51,9 +51,12 @@ export default {
     },
     handleClick(event) {
       const pageNum = Number(event.target.textContent);
+      console.log(`pagination에서 클릭한 번호: ${pageNum}`);
       if (!isNaN(pageNum)) {
+        console.log(`if 잘 되나 pagination에서`);
         this.localCurrentPage = pageNum;
         this.$emit('page-changed', pageNum);
+        
       }
     }
   },
@@ -69,5 +72,9 @@ export default {
 <style scoped>
   .pagination {
     margin: 0 auto;
+  }
+
+  .pagination > .page-item {
+    background-color: red;
   }
 </style>

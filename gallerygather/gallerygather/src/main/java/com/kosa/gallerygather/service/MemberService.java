@@ -96,4 +96,30 @@ public class MemberService {
                         .refreshToken(refreshTokenDto.getRefreshToken()).build())
                 .orElseThrow(() -> new RefreshTokenExpirationException());
     }
+
+    //유은 - 비밀번호 변경
+    public void changePassword(MyPageChangePasswordDto request, String userEmail) {
+        //이메일확인
+        System.out.println("로그인된 이메일 :  "+userEmail);
+        System.out.println("getCurrentPassword"+request.getCurrentPassword()+"getNewPassword"+request.getNewPassword());
+
+        Member member = memberRepository.findByEmail(userEmail).orElseThrow(()->
+        new IllegalArgumentException("회원이 존재하지 않습니다."));
+
+
+        //현재 비밀번호 확인
+        if (!passwordEncoder.matches(request.getCurrentPassword(), member.getPassword())) {
+            throw  new IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.");
+        }
+
+        //새 비밀번호 설정
+        System.out.println("get된 비밀번호(서비스) "+member.getPassword());
+        member.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        System.out.println("set후 get된 비밀번호(서비스) "+member.getPassword());
+
+
+        // 변경된 회원 정보를 데이터베이스에 저장
+        memberRepository.save(member);
+
+    }//MyPageChangePasswordDto
 }

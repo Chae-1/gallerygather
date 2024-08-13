@@ -42,7 +42,7 @@ const homeRoute = {
     {
       path: '/exhibitiondetails/:exhibitionId/reviewdetails/:reviewId',
       name: 'ReviewDetail',
-      component: ReviewDetailCompo
+      component: PageReviewDetail,
     },
     {//유은
       path: '/api/exhibition/:exhibitionId',

@@ -10,7 +10,7 @@
     </div>
     <div class="reply-lists-container">
       <ul class="reply-list">
-        <li class="reply-item" v-for="(reply, idx) in replies" :key="reply.replyAuthorId">
+        <li class="reply-item" v-for="(reply) in replies" :key="reply.replyAuthorId">
           <div class="reply-box">
             <div class="reply-info">
               <span class="replyer">{{ reply.replyAuthorNickName }}</span>
@@ -33,11 +33,11 @@
         </li>
       </ul>
     </div>
-    <pagination-compo :current-page="currentPage"
-                      :per-page="perPage"
-                      @page-click="updatePageNum"
-                      pills :total-rows="totalElement"
-                      size="lg">
+    <pagination-compo :currentPage="currentPage"
+                      :perPage="perPage"
+                      @page-changed="updatePageNum"
+                      :totalRows="totalElement"
+                      >
     </pagination-compo>
     <!--    <pagination-compo></pagination-compo>-->
   </div>
@@ -96,9 +96,9 @@ export default {
       })
     },
 
-    updatePageNum(pageEvent, no) {
-      this.currentPage = no
-      this.getExhibitReviews()
+    updatePageNum(no) {
+      this.currentPage = no;
+      this.getExhibitReviews();
     },
 
     autoResize(event) {

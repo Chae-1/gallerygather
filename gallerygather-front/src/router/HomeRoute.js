@@ -11,6 +11,7 @@ import MypageViewCompo2 from '@/layout/components/mypage/MypageViewCompo2.vue'
 import MypageViewCompo3 from '@/layout/components/mypage/MypageViewCompo3.vue'
 import MypageViewCompo4 from '@/layout/components/mypage/MypageViewCompo4.vue'
 import JoinSuccessComment from "@/layout/components/main/JoinSuccessComment.vue";
+import ReviewDetail from '@/layout/components/review/ReviewDetailCompo.vue'
 
 const homeRoute = {
   path: '/',

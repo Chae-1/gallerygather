@@ -11,6 +11,10 @@ import com.kosa.gallerygather.repository.ExhibitionReviewRepository;
 import com.kosa.gallerygather.repository.ReviewImageRepository;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.parser.Parser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -79,30 +83,22 @@ public class ExhibitionReviewService {
         Pageable pageable = PageRequest.of(pageRequestDto
                 .getPageNo()-1, pageRequestDto.getPagePer(), Sort.by("regDate").descending());
         List<ExhibitionReview> exhibitionReviews = exhibitionReviewRepository.findByExhibitionId(exhibitionId, pageable);
-        return exhibitionReviews.stream().map(ExhibitionReviewDto.RequestReviewList::new)
+        return exhibitionReviews.stream().map(this::changeDtoRemoveImgTags)
                 .collect(Collectors.toList());
     }
 
+    /*
+    작성자: 오지수
+    ExhibitionReview를 받아서 Content에서 img 태그를 없애고 ExhibitionReviewDto로 반환
+     */
+    private ExhibitionReviewDto.RequestReviewList changeDtoRemoveImgTags(ExhibitionReview review) {
+        Document document = Jsoup.parse(review.getContent());
+        for (Element img: document.select("img")) {
+            img.remove();
+        }
+        review.setContent(document.text().replaceAll("\\s+", " ").trim());
+        return new ExhibitionReviewDto.RequestReviewList(review);
+    }
 
-//    private final ExhibitionReviewReplyRepository exhibitionReviewReplyRepository;
 
-//
-//    @Transactional
-//    public ReviewDetailDto addReviewToExhibition(String email, Long exhibitionId, ExhibitionReviewRequestDto requestDto) {
-//        Member findMember = memberRepository.findByEmail(email)
-//                .orElseThrow(() -> new MemberException("가입되지 않은 사용자 입니다."));
-//
-//        Exhibition findExhibition = exhibitionRepository.findById(exhibitionId)
-//                .orElseThrow(() -> new IllegalArgumentException("작성되지 않은 전시글 입니다."));
-//
-//        ExhibitionReview savedExhibitionReview = exhibitionReviewRepository.saveAndFlush(ExhibitionReview.ofNewReview(requestDto.getTitle(),
-//                        requestDto.getContent(),
-//                        requestDto.getRating(),
-//                        findExhibition, findMember));
-//
-//        List<ExhibitionReviewReply> exhibitionReviewReplies = exhibitionReviewReplyRepository
-//                .findByExhibitReview(savedExhibitionReview);
-//
-//        return new ReviewDetailDto(findExhibition, exhibitionReviewReplies);
-//    }
 }

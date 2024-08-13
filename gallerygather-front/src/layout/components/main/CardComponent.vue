@@ -14,7 +14,7 @@ export default {
   <b-card-group deck >
     <router-link v-for="item in cards" 
                 :to="{path: '/exhibitiondetails/' + item.exhibitionId}"
-                :key="item.exhibitionId" >
+                :key="item.exhibitionId">
       <b-card class="b-card"
               title-tag="h6"
               :title="item.title" style="max-width: 20rem; font-weight:700; margin: auto; flex: 25%;" img-width="400px"

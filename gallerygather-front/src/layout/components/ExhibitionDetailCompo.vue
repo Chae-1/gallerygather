@@ -26,7 +26,7 @@
                 </button>
                 <span class="replies">💬 {{ exhibitDetails.reviewCount }}</span>
             </div>
-            <a :href="exhibitDetails.siteUrl" role="button" class="site-button">사이트 바로가기</a>
+            <router-link :href="exhibitDetails.siteUrl" role="button" class="site-button">사이트 바로가기</router-link>
         </div>
     </div>
 </template>
@@ -42,7 +42,7 @@ export default {
             exhibitDetails: [],
             isLike: null,
             ifLoggedIn: null,
-            
+
         };
     },
     created() {
@@ -79,10 +79,11 @@ export default {
             }).catch(error =>{
                 console.log(error);
             })
-        }
-        this.isLike = !this.isLike;
-        console.log("클릭 핸들링: " +this.isLike);
-        this.exhibitDetails.likeCount += this.isLike ? 1: -1;
+            this.isLike = !this.isLike;
+            console.log("클릭 핸들링: " +this.isLike);
+            this.exhibitDetails.likeCount += this.isLike ? 1: -1;
+            }
+        
         }
     }
 }

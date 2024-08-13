@@ -44,20 +44,24 @@ const homeRoute = {
       name: 'ReviewDetail',
       component: PageReviewDetail,
     },
+
     {//유은
       path: '/api/exhibition/:exhibitionId',
       name: 'ReviewDetailReply',
       component: ReviewDetailCompo
     },
+
     {
       path: '/reviewdetails/:reviewId',
       component: PageReviewDetail
     },
+
     {
       path: '/exhibitiondetails/:exhibitionId',
       name: 'ExhibitionDetails',
       component: PageExhibitionDetail
     },
+
     {
       path: '/mypage',
       component: MypageView,

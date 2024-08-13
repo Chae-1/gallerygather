@@ -3,6 +3,7 @@ package com.kosa.gallerygather.service;
 import com.kosa.gallerygather.dto.*;
 import com.kosa.gallerygather.entity.RefreshToken;
 import com.kosa.gallerygather.exception.member.ExistMemberException;
+import com.kosa.gallerygather.exception.member.MemberException;
 import com.kosa.gallerygather.exception.token.RefreshTokenExpirationException;
 import com.kosa.gallerygather.repository.MemberRepository;
 import com.kosa.gallerygather.repository.MyPageInfoRepository;
@@ -25,6 +26,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
+import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
+
 /*
     작성자: 채형일
  */
@@ -39,8 +43,9 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final RefreshTokenService refreshTokenService;
     private final MyPageInfoRepository myPageInfoRepository;
+    private final BlockListManager blockListManager;
 
-    public SuccessfulLoginResultDto doLogin(LoginRequest request) {
+    public AuthDto.SuccessfulLoginResultDto doLogin(LoginRequest request) {
         log.info("인증 확인 중...");
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
@@ -51,7 +56,7 @@ public class MemberService {
             String nickName = userDetails.getNickName();
             RefreshToken refreshToken = refreshTokenService.createRefreshToken(email);
 
-            return SuccessfulLoginResultDto
+            return AuthDto.SuccessfulLoginResultDto
                     .builder()
                     .email(email)
                     .accessToken(jwtService.generateToken(email))
@@ -130,14 +135,14 @@ public class MemberService {
         memberRepository.save(member);
     }//MyPageChangePasswordDto
 
-    //닉네임 중복확인
+    //유은 - 닉네임 중복확인
     public boolean isNickNameDuplicate(String nickName) {
         boolean exists = myPageInfoRepository.findByNickName(nickName).isPresent();
         System.out.println("중복확인(서비스): " + nickName + ", 존재여부: " + exists);
         return exists;
     }
 
-    //정보 업데이트
+    //유은 - 정보 업데이트
     @Transactional
     public Member updateMember(MyPageDto dto) {
 
@@ -163,7 +168,7 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    // 기존정보
+    // 유은 - 기존정보
     @Transactional(readOnly = true)
     public MyPageDto getCurrentMemberInfo() {
 
@@ -182,4 +187,16 @@ public class MemberService {
         return new MyPageDto(member.getEmail(), member.getNickName(), member.getName(), member.getDateOfBirth(), member.getAddress());
     }
 
+    @Transactional
+    public AuthDto.LogoutResultDto logout(TokenDto tokenDto, String email) {
+        // 1. 명시적인 로그아웃을 시도했을 때 jwt 토큰을 블랙리스트에 추가한다.
+        // 인증과정에서 엑세스 토큰이 블랙리스트에 존재한다면, 차단한다.
+        blockListManager.addBlockList(tokenDto.getAccessToken());
+        // 2. 로그아웃 대상 유저의 refreshToken을 제거한다.
+        // member의 Id와 token을 대상으로 삭제한다.
+        if (refreshTokenService.deleteToken(tokenDto.getRefreshToken())) {
+            return AuthDto.LogoutResultDto.ofSuccess();
+        }
+        return AuthDto.LogoutResultDto.ofFailure();
+    }
 }

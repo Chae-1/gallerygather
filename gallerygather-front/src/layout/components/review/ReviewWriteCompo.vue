@@ -97,18 +97,18 @@ export default {
       try {
         console.log('URL:', `http://localhost:8080/api/exhibition/${exhibitionId}/review`);
         console.log('Payload:', this.review);
-        // const token = localStorage.getItem('token');
-        // if (!token) {
-        //   console.error('JWT 토큰이 없습니다. 로그인 상태를 확인하세요.');
-        //   // 로그인 페이지로 리다이렉트 등 추가 작업 필요
-        //   return;
-        // }
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+          console.error('JWT 토큰이 없습니다. 로그인 상태를 확인하세요.');
+          // 로그인 페이지로 리다이렉트 등 추가 작업 필요
+          return;
+        }
         // 서버로 POST 요청을 보내고, reviewId를 응답받습니다.
         const response = await axios.post(`http://localhost:8080/api/exhibition/${exhibitionId}/review`, 
           this.review
         , {
           headers: {
-            'Authorization': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZWVAbmF2ZXIuY29tIiwiaWF0IjoxNzIzMzkyNDA3LCJleHAiOjE3MjMzOTQyMDd9.zPk8WjTDXHXQVxldyRLfzVgmb8-ok9uCQDk1koLxFM8`
+            'Authorization': token
           }
         });
         const reviewDetail = response.data;

@@ -1,7 +1,11 @@
 <template>
   <div class="reply">
     <div class="container">
+      <br/>
+      <br/>
       <h3>내가 작성한 댓글 확인</h3>
+      <br/>
+      <br/>
       <div class="btn-toggle">
         <button @click="selectedTab = 'reply'" :class="{ active: selectedTab === 'reply' }">
           댓글리스트
@@ -109,7 +113,7 @@ export default {
 </script>
 <style scoped>
 .container {
-  width: 60%;
+  width: 80%;
   margin: 0 auto;
 }
 

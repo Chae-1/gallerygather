@@ -187,6 +187,24 @@ public class MemberService {
         return new MyPageDto(member.getEmail(), member.getNickName(), member.getName(), member.getDateOfBirth(), member.getAddress());
     }
 
+    // 유은 - 가져온 사용자의 이메일로 회원 ID 조회 - 좋아요 연결에 member_id가 필요함
+    public Long getCurrentMemberId() {
+        String email = getCurrentUserEmail();
+        Optional<Member> member = memberRepository.findByEmail(email);
+        return member.map(Member::getId)
+                .orElseThrow(() -> new IllegalArgumentException("로그인된 사용자를 찾을 수 없습니다."));
+    }
+    //현제 로그인한 사용자이메일정보가져오기
+    private String getCurrentUserEmail() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        } else {
+            return principal.toString();
+        }
+    }
+
+
     @Transactional
     public AuthDto.LogoutResultDto logout(TokenDto tokenDto, String email) {
         // 1. 명시적인 로그아웃을 시도했을 때 jwt 토큰을 블랙리스트에 추가한다.

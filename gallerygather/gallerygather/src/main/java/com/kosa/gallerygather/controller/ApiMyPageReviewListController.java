@@ -33,4 +33,24 @@ public class ApiMyPageReviewListController {
         // 조회된 리뷰 리스트를 클라이언트에 응답으로 반환
         return ResponseEntity.ok(reviews);
     }
+
+    // 로그인된 멤버의 이메일로 리뷰 개수 조회
+    @GetMapping("/api/reviews/member/review-count")
+    public ResponseEntity<Integer> getReviewCount(
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        System.out.println("getReviewCount 호출 완료");
+        // 로그인된 사용자의 이메일
+        String email = userDetails.getEmail();
+        System.out.println("리뷰 개수 조회 시 email 값 확인: " + email); // 콘솔 확인
+
+        // MyPageListService 메서드 호출하여 리뷰 리스트 조회
+        List<MyPageReviewListResponseDto> reviews = myPageListService.getReviewsByMemberEmail(email);
+        int reviewCount = reviews.isEmpty() ? 0 : reviews.get(0).getReviewCount();
+        System.out.println("리뷰 개수: " + reviewCount); // 콘솔 확인
+
+        // 조회된 리뷰 개수를 클라이언트에 응답으로 반환
+        return ResponseEntity.ok(reviewCount);
+    }
+
+
 }

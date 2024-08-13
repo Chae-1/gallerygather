@@ -29,6 +29,7 @@ public class ExhibitionReviewReplyDto {
         public ExhibitionReviewReplyResponseDto(ExhibitionReviewReply rp) {
             this.replyAuthorId = rp.getMember().getId();
             this.replyAuthorNickName = rp.getMember().getNickName();
+            this.replyAuthorEmail = rp.getMember().getEmail();
             this.replyId = rp.getId();
             this.replyRegDate = rp.getRegDate() == null ? null : rp.getRegDate().toLocalDate();
             this.replyContent = rp.getReply();
@@ -39,5 +40,12 @@ public class ExhibitionReviewReplyDto {
     @Getter
     public static class ExhibitionReviewRequestDto {
         private String reply;
+    }
+
+    @Setter
+    @Getter
+    public static class updateReplyDto {
+        private Long replyId;
+        private String replyContent;
     }
 }

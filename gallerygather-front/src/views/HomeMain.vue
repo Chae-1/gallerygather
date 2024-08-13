@@ -8,6 +8,7 @@
         <CardComponent :currentPage="currentPage" :cards="cardItems" :perPage="perPage" @onPageClick="updatePageNum"/>
         <div class="mt-3">
           <b-pagination v-model="currentPage"
+                        :first-class="test"
                         :per-page="perPage"
                         @page-click="updatePageNum"
                         pills :total-rows="totalElement"
@@ -82,4 +83,6 @@ export default {
   display: flex;
   flex-direction: column;
 }
+
+
 </style>

@@ -1,7 +1,6 @@
 package com.kosa.gallerygather.service;
 
 import com.kosa.gallerygather.dto.ExhibitionReviewReplyDto;
-import com.kosa.gallerygather.entity.Exhibition;
 import com.kosa.gallerygather.entity.ExhibitionReview;
 import com.kosa.gallerygather.entity.ExhibitionReviewReply;
 import com.kosa.gallerygather.entity.Member;
@@ -12,6 +11,7 @@ import com.kosa.gallerygather.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +37,19 @@ public class ExhibitionReviewReplyService {
         PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("regDate").descending());
 
         return reviewReplyRepository.findByExhibitionReviewWithMember(exhibitionReview, pageRequest)
+                .map(ExhibitionReviewReplyDto.ExhibitionReviewReplyResponseDto::new);
+    }
+
+    public Page<ExhibitionReviewReplyDto.ExhibitionReviewReplyResponseDto> findAllRepliesAboutReview(Long reviewId,
+                                                                                                     Pageable pageable) {
+
+        System.out.println("============== 댓글리스트 조회 ===================");
+        ExhibitionReview exhibitionReview = exhibitionReviewRepository.findById(reviewId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 리뷰입니다."));
+        Page<ExhibitionReviewReply> allRepliesAboutReview = reviewReplyRepository
+                .findAllRepliesAboutReview(exhibitionReview, pageable);
+        System.out.println("================ 댓글리스트 조회 종료 ==================");
+        return allRepliesAboutReview
                 .map(ExhibitionReviewReplyDto.ExhibitionReviewReplyResponseDto::new);
     }
 }

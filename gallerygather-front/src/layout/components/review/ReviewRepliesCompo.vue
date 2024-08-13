@@ -10,15 +10,15 @@
     </div>
     <div class="reply-lists-container">
       <ul class="reply-list">
-        <li class="reply-item" v-for="(reply, idx) in replies" :key="idx">
+        <li class="reply-item" v-for="(reply, idx) in replies" :key="reply.replyAuthorId">
           <div class="reply-box">
             <div class="reply-info">
-              <span class="replyer">작성자</span>
+              <span class="replyer">{{ reply.replyAuthorNickName }}</span>
             </div>
             <div class="reply-content">
               <textarea
                 :readonly="!reply.editable"
-                v-model="reply.content"
+                v-model="reply.replyContent"
                 @input="autoResize($event)"
               ></textarea>
             </div>
@@ -27,19 +27,19 @@
             </div>
           </div>
           <div class="reply-manage">
-            <button @click="editReply(idx)">{{ reply.editable ? '저장' : '수정' }}</button>
-            <button @click="deleteReply(idx)">삭제</button>
+            <button @click="editReply(reply.replyId)">{{ reply.editable ? '저장' : '수정' }}</button>
+            <button @click="deleteReply(reply.replyId)">삭제</button>
           </div>
         </li>
       </ul>
     </div>
-    <b-pagination v-model="currentPage"
-                  :per-page="perPage"
-                  @page-click="updatePageNum"
-                  pills :total-rows="totalElement"
-                  size="lg" align="fill">
-    </b-pagination>
-<!--    <pagination-compo></pagination-compo>-->
+    <pagination-compo :current-page="currentPage"
+                      :per-page="perPage"
+                      @page-click="updatePageNum"
+                      pills :total-rows="totalElement"
+                      size="lg">
+    </pagination-compo>
+    <!--    <pagination-compo></pagination-compo>-->
   </div>
 </template>
 
@@ -47,52 +47,58 @@
 import PaginationCompo from '../PaginationCompo.vue'
 import axios from 'axios'
 import { apiRequest } from '@/util/RequestUtil.js'
+
 export default {
   components: { PaginationCompo },
   data() {
     return {
       reviewId: null,
+      exhibitionId: null,
       totalElement: 101,
       currentPage: 1,
-      perPage: 10,
+      perPage: 5,
       newReplyContent: '',
-      replies: {},
+      replies: {}
     }
   },
   created() {
     //exhigitionId 가져오기
-    this.reviewId = this.$route.params.reviewId; // undefined
+    this.reviewId = this.$route.params.reviewId // undefined
+    this.exhibitionId = this.$route.params.exhibitionId
     console.log(this.reviewId)
+    console.log(this.exhibitionId)
     //데이터 불러오기
-    this.replies = this.getExhibitReviews();
+    this.replies = this.getExhibitReviews()
   },
 
   mounted() {
-    //   this.$nextTick(() => {
-    //     this.replies.forEach((reply, index) => {
-    //       const textarea = this.$el.querySelectorAll('.reply-item .reply-content textarea')[index]
-    //       if (textarea) {
-    //         this.autoResize({ target: textarea })
-    //       }
-    //     })
-    //   })
-    // }
+
   },
   methods: {
+    // totalElement: 101,
+    // currentPage: 1,
+    // perPage: 5,
+
+    setReplies(response) {
+      this.replies = response.data.content
+      this.totalElement = response.data.totalElement
+      this.currentPage = response.data.number + 1
+    },
+
     getExhibitReviews() {
-      axios.get(`http:/localhost:8080/api/exhibition?exhibitionId=${this.exhibitionId}/review?pageNo=${this.currentPage}?pageNum=${this.perPage}`)
-      .then(response =>{
-        console.log(response);
-        this.replies = response.data.content;
-        this.totalElement = response.data.totalElement;
-      }).catch(error => {
-        console.log(error);
+
+      axios.get(`http://localhost:8080/api/exhibition/${this.exhibitionId}/review/${this.reviewId}/replies?page=${this.currentPage - 1}?size=${this.perPage}`)
+        .then(response => {
+          console.log(response)
+          this.setReplies(response)
+        }).catch(error => {
+        console.log(error)
       })
     },
 
     updatePageNum(pageEvent, no) {
-      this.currentPage = no;
-      getExhibitReviews();
+      this.currentPage = no
+      this.getExhibitReviews()
     },
 
     autoResize(event) {
@@ -103,9 +109,10 @@ export default {
 
     addReply() {
       apiRequest('post', `http://localhost:8080/api/exhibition/review/${this.reviewId}/replies`, {
-        reply : this.newReplyContent
+        reply: this.newReplyContent
       }).then(response => {
-        console.log(response);
+        this.setReplies(response)
+        console.log(response)
       })
     },
 
@@ -121,8 +128,9 @@ export default {
         })
       }
     },
+
     deleteReply(index) {
-      this.replies.splice(index, 1);
+      this.replies.splice(index, 1)
     }
   }
 }
@@ -140,6 +148,7 @@ export default {
   /* width: 60%;
     margin: 20px auto; */
 }
+
 .reply-register {
   position: relative;
   padding: 20px;

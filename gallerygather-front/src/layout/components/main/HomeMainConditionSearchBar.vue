@@ -2,16 +2,30 @@
 export default {
   data() {
     return {
-      toggle: false
+      toggle: false,
+      buttons: [
+        { value: 'recommend', label: '추천순' },
+        { value: 'latest', label: '최신순' },
+        { value: 'views', label: '조회순' },
+        { value: 'likes', label: '좋아요순' }
+      ],
+      selectedButton: null
     }
   },
+
   props: {
-    totalElement : Number,
+    totalElements: Number,
   },
 
   methods: {
     toggleDetailSearchMenu() {
       this.toggle = !this.toggle
+    },
+    handleClick(value) {
+      this.selectedButton = value;
+    },
+
+    mounted() {
     }
   }
 }
@@ -19,21 +33,15 @@ export default {
 
 <template>
   <div class="sort-selection">
-    <p class="result-text">결과 총 {{ totalElement }}</p>
+    <p class="result-text">결과 총 <span style="font-weight: bold">{{ totalElements }}</span> 개</p>
     <div class="sort-selection-side">
       <ul class="view-sort-list">
-        <li class="button-text">
-          <button>추천순</button>
+        <li class="button-text" v-for="button in buttons" >
+          <button
+            @click="handleClick(button.value)"
+          :class="{active: selectedButton === button.value}">{{ button.label }}</button>
         </li>
-        <li class="button-text">
-          <button>최신순</button>
-        </li>
-        <li class="button-text">
-          <button>조회순</button>
-        </li>
-        <li class="button-text">
-          <button>좋아요순</button>
-        </li>
+
         <div class="rbox-block">
           <button class="filter-button" @click="toggleDetailSearchMenu">
             상세옵션
@@ -206,5 +214,9 @@ p {
 
 .filter-button .st-text {
   margin-left: 3px;
+}
+
+.active {
+  background-color: #E0F2F1; color: white;
 }
 </style>

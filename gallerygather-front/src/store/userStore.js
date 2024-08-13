@@ -6,6 +6,7 @@ import axios from 'axios'
 
 export const userStore = defineStore({
   id: 'user',
+
   state: () => ({
     email: 'not login',
     nickName: '',
@@ -30,11 +31,6 @@ export const userStore = defineStore({
         email: null,
         auth: localStorage.getItem('accessToken') !== null
       })
-      // axios.post('http://localhost:8080/api/members/auth/logout', {}, {
-      //   headers: {
-      //     Authorization: localStorage.getItem('accessToken')
-      //   }
-      // })
     },
 
     setUserInfo(successfulUserInfo) {

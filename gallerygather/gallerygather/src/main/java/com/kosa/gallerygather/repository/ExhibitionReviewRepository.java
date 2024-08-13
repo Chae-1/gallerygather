@@ -12,18 +12,10 @@ import java.util.Optional;
 
 public interface ExhibitionReviewRepository extends JpaRepository<ExhibitionReview, Long> {
 
-    //List<ExhibitionReview> findByContentContains(String content);
     Optional<ExhibitionReview> findByIdAndExhibitionId(Long reviewId,Long exhibitionId);
     List<ExhibitionReview> findByContentContains(String content);
 
     List<ExhibitionReview> findByExhibitionId(@Param("exhibitionId") Long exhibitionId, Pageable pageable);
-
-//    @Query("select er from ExhibitionReview er " +
-//            " left join er.exhibition ex" +
-//            " left join r.member m " +
-//            " where er.member ")
-//    Object[] findExhibitionWithReplyWithAssociatedMember(@Param("reviewId") Long reviewId);
-
 }
 
 

@@ -14,8 +14,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/exhibition")
@@ -47,18 +45,18 @@ public class ApiExhibitionReviewController {
     전시 상세 페이지에서 페이지네이션으로 리뷰 정보 가져오기
      */
     @GetMapping("/{exhibitionId}/review")
-    public ResponseEntity<List<ExhibitionReviewDto.RequestReviewList>> getExhibitionReview(@PathVariable Long exhibitionId,
+    public ResponseEntity<Page<ExhibitionReviewDto.RequestReviewList>> getExhibitionReview(@PathVariable Long exhibitionId,
                                                                                            @ModelAttribute PageRequestDto pageRequestDto) {
         System.out.println("댓글 리스트  호출");
-        List<ExhibitionReviewDto.RequestReviewList> reviewList = reviewService.getExhibitionReviews(exhibitionId, pageRequestDto);
+        Page<ExhibitionReviewDto.RequestReviewList> reviewList = reviewService.getExhibitionReviews(exhibitionId, pageRequestDto);
         return ResponseEntity.ok(reviewList);
     }
 
     @PostMapping("/review/{reviewId}/replies")
     public ResponseEntity<Page<ExhibitionReviewReplyDto
             .ExhibitionReviewReplyResponseDto>> addCommentToReview(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                                                                              @PathVariable Long reviewId,
-                                                                                                              @RequestBody ExhibitionReviewReplyDto.ExhibitionReviewRequestDto request) {
+                                                                   @PathVariable Long reviewId,
+                                                                   @RequestBody ExhibitionReviewReplyDto.ExhibitionReviewRequestDto request) {
         if (userDetails == null) {
             throw new UsernameNotFoundException("회원 정보를 확인할 수 없습니다.");
         }
@@ -73,9 +71,9 @@ public class ApiExhibitionReviewController {
             .ExhibitionReviewReplyResponseDto>> findAllRepliesOnReview(
             @PathVariable Long reviewId,
             @PathVariable Long exhibitionId,
-            @PageableDefault(page = 0, size = 5, sort={"regDate"}, direction = Sort.Direction.DESC) Pageable pageable
+            @PageableDefault(sort={"regDate"}, direction = Sort.Direction.ASC) Pageable pageable
             ) {
-        System.out.println(pageable);
+
         return ResponseEntity.ok(reviewReplyService.findAllRepliesAboutReview(reviewId, pageable));
     }
 

@@ -5,7 +5,10 @@
             <button @click="goToWrite">리뷰 쓰기</button>
         </div>
         <div class="review-content">
-            <ul class="review-list">
+            <div v-if="exhibitReviewList.length === 0" class="non-review">
+                <span>아직 작성된 리뷰가 없습니다.</span>
+            </div>
+            <ul class="review-list" v-else>
                 <li class="review-item" v-for="(review, idx) in exhibitReviewList" :key="idx">
                     <div class="review-box">
                         <router-link :to="{ path: '/exhibitiondetails/'+ exhibitionId +'/reviewdetails/' + review.id }">
@@ -36,21 +39,21 @@
         :perPage="perPage"
         :totalRows="totalElement"
         @page-changed="onPageChanged">
-
     </pagination-compo>
 </template>
 
 <script>
+import {userStore} from "@/store/userStore.js";
 import PaginationCompo from './PaginationCompo.vue';
 import axios from 'axios';
 export default {
     components: {PaginationCompo},
     data() {
         return {
-            totalElement: 4,
+            totalElement: null,
             exhibitionId: null,
             currentPage: 1,
-            perPage: 3,
+            perPage: 2,
             exhibitReviewList: [],
             
         };
@@ -69,19 +72,29 @@ export default {
             try {
                 await axios.get(`http://localhost:8080/api/exhibition/${this.exhibitionId}/review?pageNo=${this.currentPage}&pagePer=${this.perPage}`)
                     .then((response) => {
-                    this.exhibitReviewList = response.data;
+                    this.exhibitReviewList = response.data.content;
+                    this.totalElement = response.data.totalElements;
                     console.log(response.data.content);
+                    console.log(response.data.totalElements);
                     })
             }catch (error) {
                 console.error("리뷰를 불러오는 중 오류가 발생했습니다.", error)
             }
         },
         onPageChanged(newPage) {
+            console.log(`reviewcompo에서 받은 newpage ${newPage}`);
             this.currentPage = newPage;
             this.getExhibitReviewList();
         },
         goToWrite() {
-            this.$router.push({ name: 'ReviewWrite'})
+            const store = userStore();
+            
+            if (store.loginCheck()) {
+                this.$router.push({ name: 'ReviewWrite'});
+            } else {
+                alert("로그인 후 리뷰 작성이 가능합니다.");
+            }
+            
         }
     }
 }
@@ -102,8 +115,8 @@ export default {
 }
 
 .exhibition-reviews button {
-    background-color: #ba9d73;
-    color: white;
+    background-color: #3d3b3a;
+    color: #669900;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
@@ -111,16 +124,26 @@ export default {
     margin-right: 2.5%;
     border-radius: 5px;
     float: right;
+    transition: transform 0.2s;
 }
 
 .exhibition-reviews button:hover {
-    background-color: #a78558;
+    transform: scale(1.025);
 }
 
 .review-content {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.non-review {
+    border:1px solid #ddd;
+    border-radius: 5px;
+    width: 95%;
+    margin: 20px auto 0;
+    text-align: center;
+    padding: 30px;
 }
 
 .review-list {

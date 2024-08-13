@@ -1,6 +1,7 @@
 package com.kosa.gallerygather.repository;
 
 import com.kosa.gallerygather.entity.ExhibitionReview;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +16,7 @@ public interface ExhibitionReviewRepository extends JpaRepository<ExhibitionRevi
     Optional<ExhibitionReview> findByIdAndExhibitionId(Long reviewId,Long exhibitionId);
     List<ExhibitionReview> findByContentContains(String content);
 
-    List<ExhibitionReview> findByExhibitionId(@Param("exhibitionId") Long exhibitionId, Pageable pageable);
+    Page<ExhibitionReview> findByExhibitionId(@Param("exhibitionId") Long exhibitionId, Pageable pageable);
 }
 
 

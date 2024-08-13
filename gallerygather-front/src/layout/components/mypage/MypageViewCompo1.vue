@@ -43,8 +43,8 @@
 
     <!--내 정보 필드  -->
     <div class="inform__block">
-      <label class="form-label">아이디 </label>
-      <input type="text" v-model="membername" value="{{memberid}}" readonly />
+      <label class="form-label">로그인 이메일 :  </label>
+      <input type="text" v-model="memberemail" readonly />
     </div>
 
     <div class="inform__block">
@@ -100,7 +100,7 @@
     </div>
 
     <div class="btn-save">
-      <button type="button" class="btn" @click="printAllValues">저장</button>
+      <button type="button" class="btn" @click="saveUserInfo">저장</button>
     </div>
   </div>
 </template>
@@ -111,7 +111,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      memberid: '현재 로그인된 id',
+      memberemail:'',
       membernick: '', // 닉네임을 저장하는 데이터
       membername: '', // 이름을 저장하는 데이터
       selectedYear: null, // 선택된 연도
@@ -145,7 +145,7 @@ export default {
     checkNickDuplicate() {
       console.log('닉넴중복확인', this.membernick)
     },
-    // 선택된 연도와 월에 따라 일 목록을 업데이트하는 메서드
+
     updateDays() {
       if (this.selectedYear && this.selectedMonth) {
         const daysInMonth = new Date(this.selectedYear, this.selectedMonth, 0).getDate()
@@ -159,8 +159,7 @@ export default {
           this.selectedDay = null
         }
       }
-    },
-    // 우편번호 찾기 메서드
+    },    // 선택된 연도와 월에 따라 일 목록을 업데이트하는 메서드
     findPostcode() {
       new window.daum.Postcode({
         oncomplete: (data) => {
@@ -170,17 +169,45 @@ export default {
           this.detailAddress = '' // 상세주소 초기화
         }
       }).open()
-    },
-    // 모든 값을 콘솔에 출력하는 메서드
-    printAllValues() {
-      console.log('아이디:', this.memberid)
-      console.log('닉네임:', this.membernick)
-      console.log('이름:', this.membername)
-      console.log('생년월일:', `${this.selectedYear}-${this.selectedMonth}-${this.selectedDay}`)
-      console.log('우편번호:', this.zipcode)
-      console.log('주소:', this.address)
-      console.log('상세주소:', this.detailAddress)
-    },
+    },    // 우편번호 찾기 메서드
+    saveUserInfo() {
+      // 수집된 데이터
+      const userInfo = {
+        memberemail: this.memberemail,
+        membernick: this.membernick,
+        membername: this.membername,
+        birthdate: `${this.selectedYear}-${this.selectedMonth}-${this.selectedDay}`,
+        zipcode: this.zipcode,
+        address: this.address,
+        detailAddress: this.detailAddress
+      }
+        console.log('아이디:', this.memberemail)
+        console.log('닉네임:', this.membernick)
+        console.log('이름:', this.membername)
+        console.log('생년월일:', `${this.selectedYear}-${this.selectedMonth}-${this.selectedDay}`)
+        console.log('우편번호:', this.zipcode)
+        console.log('주소:', this.address)
+        console.log('상세주소:', this.detailAddress)
+      // 서버로 POST 요청
+      try {
+        const token = localStorage.getItem('accessToken') // JWT 토큰 가져오기
+        console.log('내정보 변경 토큰 :', token)
+        const response = axios.post(
+          'http://localhost:8080/api/members//update-info',userInfo,
+          {
+            headers: {
+              Authorization: token
+            }
+          }
+        );
+          if (response.status === 200) {
+            alert('정보가 성공적으로 저장되었습니다.')
+          }
+        }catch(error ) {
+          console.error('저장 중 오류 발생:', error)
+          alert('정보 저장에 실패했습니다.');
+    }
+  },
     async changepw() {
       if (this.newPassword !== this.confirmPassword) {
         alert('새 비밀번호와 비밀번호 확인이 일치하지 않습니다.')

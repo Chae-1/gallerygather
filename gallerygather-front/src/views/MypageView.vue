@@ -3,7 +3,9 @@
     <!-- 시맨틱구조를 사용하기위한 section사용 -->
     <section class="mypage">
       <mypage-navi-compo class="navi"></mypage-navi-compo>
-      <mypage-view-compo-main class="main"></mypage-view-compo-main>
+      <mypage-view-compo-main class="main">
+        <router-view></router-view> <!-- 디폴트 -->
+      </mypage-view-compo-main>
     </section>
   </div>
 </template>

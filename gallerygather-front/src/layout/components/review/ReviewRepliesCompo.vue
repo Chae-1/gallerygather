@@ -9,8 +9,11 @@
       <button @click="addReply()">등록</button>
     </div>
     <div class="reply-lists-container">
-      <ul class="reply-list">
-        <li class="reply-item" v-for="(reply) in replies" :key="reply.replyAuthorId">
+      <div v-if="replies.length === 0" class="non-reply">
+        <span>아직 작성된 댓글이 존재하지 않습니다.</span>
+      </div>
+      <ul class="reply-list" v-else>
+        <li class="reply-item" v-for="(reply, index) in replies" :key="index">
           <div class="reply-box">
             <div class="reply-info">
               <span class="replyer">{{ reply.replyAuthorNickName }}</span>
@@ -23,11 +26,13 @@
               ></textarea>
             </div>
             <div>
-              <span class="date">{{ reply.date }}</span>
+              <span class="date">{{ reply.replyRegDate }}</span>
             </div>
           </div>
-          <div class="reply-manage">
-            <button @click="editReply(reply.replyId)">{{ reply.editable ? '저장' : '수정' }}</button>
+          <div class="reply-manage" >
+            <button @click="editReply(index, reply.replyId)">{{ reply.editable ? '저장' : '수정' }}</button>
+            
+            <!-- <button @click="editReply(reply.replyId)">수정</button> -->
             <button @click="deleteReply(reply.replyId)">삭제</button>
           </div>
         </li>
@@ -35,11 +40,10 @@
     </div>
     <pagination-compo :currentPage="currentPage"
                       :perPage="perPage"
-                      @page-changed="updatePageNum"
                       :totalRows="totalElement"
+                      @page-click="onPageChanged"
                       >
     </pagination-compo>
-    <!--    <pagination-compo></pagination-compo>-->
   </div>
 </template>
 
@@ -47,6 +51,7 @@
 import PaginationCompo from '../PaginationCompo.vue'
 import axios from 'axios'
 import { apiRequest } from '@/util/RequestUtil.js'
+import {userStore} from "@/store/userStore.js";
 
 export default {
   components: { PaginationCompo },
@@ -54,21 +59,21 @@ export default {
     return {
       reviewId: null,
       exhibitionId: null,
-      totalElement: 101,
+      totalElement: null,
       currentPage: 1,
-      perPage: 5,
+      perPage: 2,
       newReplyContent: '',
       replies: {}
     }
   },
   created() {
     //exhigitionId 가져오기
-    this.reviewId = this.$route.params.reviewId // undefined
-    this.exhibitionId = this.$route.params.exhibitionId
-    console.log(this.reviewId)
-    console.log(this.exhibitionId)
+    this.reviewId = this.$route.params.reviewId; // undefined
+    this.exhibitionId = this.$route.params.exhibitionId;
+    console.log(this.reviewId);
+    console.log(this.exhibitionId);
     //데이터 불러오기
-    this.replies = this.getExhibitReviews()
+    this.getExhibitReviews();
   },
 
   mounted() {
@@ -80,14 +85,16 @@ export default {
     // perPage: 5,
 
     setReplies(response) {
-      this.replies = response.data.content
-      this.totalElement = response.data.totalElement
-      this.currentPage = response.data.number + 1
+      this.replies = response.data.content;
+      this.totalElement = response.data.totalElements;
+      // this.currentPage = response.data.number+1;
+      console.log(`pageNo: ${this.currentPage}`);
+      console.log(`total: ${this.totalElement}`);
     },
 
-    getExhibitReviews() {
+    async getExhibitReviews() {
 
-      axios.get(`http://localhost:8080/api/exhibition/${this.exhibitionId}/review/${this.reviewId}/replies?page=${this.currentPage - 1}?size=${this.perPage}`)
+      axios.get(`http://localhost:8080/api/exhibition/${this.exhibitionId}/review/${this.reviewId}/replies?page=${this.currentPage-1}?size=${this.perPage}`)
         .then(response => {
           console.log(response)
           this.setReplies(response)
@@ -96,8 +103,9 @@ export default {
       })
     },
 
-    updatePageNum(no) {
-      this.currentPage = no;
+    onPageChanged(newPage) {
+      console.log("클릭 : " + newPage);
+      this.currentPage = newPage;
       this.getExhibitReviews();
     },
 
@@ -108,15 +116,22 @@ export default {
     },
 
     addReply() {
-      apiRequest('post', `http://localhost:8080/api/exhibition/review/${this.reviewId}/replies`, {
-        reply: this.newReplyContent
-      }).then(response => {
-        this.setReplies(response)
-        console.log(response)
-      })
+      const store = userStore();
+      if (store.loginCheck()) {
+        apiRequest('post', `http://localhost:8080/api/exhibition/review/${this.reviewId}/replies`, {
+          reply: this.newReplyContent
+        }).then(response => {
+          this.setReplies(response)
+          console.log(response)
+          this.newReplyContent = '';
+        })
+      } else {
+        alert("로그인 후 이용해 주세요.");
+      }
     },
 
-    editReply(index) {
+    editReply(index, replyId) {
+      console.log(`index, replyid: ${index} ${replyId}`);
       const reply = this.replies[index]
       reply.editable = !reply.editable //true
       if (reply.editable) {
@@ -129,8 +144,9 @@ export default {
       }
     },
 
-    deleteReply(index) {
-      this.replies.splice(index, 1)
+    deleteReply(replyId) {
+      console.log(`삭제: ${replyId}`);
+      this.replies.splice(replyId, 1);
     }
   }
 }
@@ -162,7 +178,7 @@ export default {
 .reply-register textarea {
   width: calc(100% - 60px);
   /* background-color: transparent; */
-  color: aliceblue;
+  color: 3d3b3a;
   background-color: #f8f5eb;
 }
 
@@ -185,6 +201,15 @@ export default {
   padding: 20px 20px 10px;
 }
 
+.non-reply {
+  text-align: center;
+  padding-bottom: 10px;;
+}
+
+.non-reply span{
+  color: #ffffff;
+}
+
 li {
   list-style: none;
   background-color: #f8f5eb;
@@ -199,6 +224,7 @@ textarea {
   padding: 10px;
   resize: none;
   overflow: hidden;
+  color: black;
 }
 
 textarea.editable {
@@ -245,5 +271,6 @@ textarea.editable {
 
 .date {
   margin-top: 5px;
+  color: black;
 }
 </style>

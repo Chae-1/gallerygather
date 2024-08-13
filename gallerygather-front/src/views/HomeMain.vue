@@ -31,8 +31,8 @@ import { apiRequest } from '@/util/RequestUtil.js'
 export default {
   data() {
     return {
-      totalElement: 101,
-      currentPage: 1,
+      totalElement: 0,
+      currentPage: 0,
       perPage: 12,
       cardItems: [],
       conditions: [],

@@ -29,7 +29,7 @@ public class ExhibitionService {
 
     public Page<ExhibitionCardDto> getCardDto(PageRequestDto pageRequestDto) {
         PageRequest pageRequest = PageRequest.of(pageRequestDto
-                .getPageNo() - 1, pageRequestDto.getPagePer(), Sort.by("startDate")
+                .getPageNo(), pageRequestDto.getPagePer(), Sort.by("startDate")
                 .ascending());
 
         return exhibitionRepository.fetchExhibitionsWithPagination(pageRequest)
@@ -41,7 +41,6 @@ public class ExhibitionService {
 
 
     // 작성자: 오지수
-    // 전시 상세 정보 페이지 가져오기
     public ExhibitionDto getExhibitionDetail(Long id) {
         return exhibitionRepository.findById(id)
                 .map(exhibition -> new ExhibitionDto(exhibition))

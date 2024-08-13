@@ -8,6 +8,7 @@
         <CardComponent :currentPage="currentPage" :cards="cardItems" :perPage="perPage" @onPageClick="updatePageNum"/>
         <div class="mt-3">
           <b-pagination v-model="currentPage"
+                        :first-class="test"
                         :per-page="perPage"
                         @page-click="updatePageNum"
                         pills :total-rows="totalElement"
@@ -30,8 +31,8 @@ import { apiRequest } from '@/util/RequestUtil.js'
 export default {
   data() {
     return {
-      totalElement: 101,
-      currentPage: 1,
+      totalElement: 0,
+      currentPage: 0,
       perPage: 12,
       cardItems: [],
       conditions: [],
@@ -82,4 +83,6 @@ export default {
   display: flex;
   flex-direction: column;
 }
+
+
 </style>

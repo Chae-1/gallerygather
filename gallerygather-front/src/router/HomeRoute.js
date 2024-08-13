@@ -42,7 +42,7 @@ const homeRoute = {
     {
       path: '/exhibitiondetails/:exhibitionId/reviewdetails/:reviewId',
       name: 'ReviewDetail',
-      component: ReviewDetailCompo
+      component: PageReviewDetail,
     },
     {//유은
       path: '/api/exhibition/:exhibitionId',
@@ -61,12 +61,12 @@ const homeRoute = {
     {
       path: '/mypage',
       component: MypageView,
-      // redirect: '/mypage/mypagecompo',  // 기본 페이지를 MypageViewCompo1로 설정
+      redirect: '/mypage/mypagecompo',
       children: [
-        { path: '/mypagecompo', component: MypageViewCompo1 }, // 마이페이지
-        { path: '/mylikecompo', component: MypageViewCompo2 }, // 마이페이지
-        { path: '/myreviewcompo', component: MypageViewCompo3 }, // 마이페이지
-        { path: '/myreplycompo', component: MypageViewCompo4 } // 마이페이지
+        { path: 'mypagecompo', component: MypageViewCompo1 }, // 마이페이지
+        { path: 'mylikecompo', component: MypageViewCompo2 }, // 마이페이지
+        { path: 'myreviewcompo', component: MypageViewCompo3 }, // 마이페이지
+        { path: 'myreplycompo', component: MypageViewCompo4 } // 마이페이지
       ]
     },
     {

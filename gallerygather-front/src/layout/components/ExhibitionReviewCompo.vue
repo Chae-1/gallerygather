@@ -29,7 +29,8 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div>'
+
     <pagination-compo
         :currentPage="currentPage"
         :perPage="perPage"

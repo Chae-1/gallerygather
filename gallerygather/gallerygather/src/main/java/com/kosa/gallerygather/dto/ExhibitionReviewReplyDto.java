@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -20,15 +21,17 @@ public class ExhibitionReviewReplyDto {
     public static class ExhibitionReviewReplyResponseDto {
         private String replyContent;
         private String replyAuthorNickName;
+        private String replyAuthorEmail;
         private Long replyId;
         private Long replyAuthorId;
-        private LocalDateTime replyRegDate;
+        private LocalDate replyRegDate;
+        private final boolean editable = false;
 
         public ExhibitionReviewReplyResponseDto(ExhibitionReviewReply rp) {
             this.replyAuthorId = rp.getMember().getId();
             this.replyAuthorNickName = rp.getMember().getNickName();
             this.replyId = rp.getId();
-            this.replyRegDate = rp.getRegDate();
+            this.replyRegDate = rp.getRegDate() == null ? null : rp.getRegDate().toLocalDate();
             this.replyContent = rp.getReply();
         }
     }

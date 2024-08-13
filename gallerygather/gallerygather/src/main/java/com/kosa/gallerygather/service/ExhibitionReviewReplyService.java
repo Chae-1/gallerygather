@@ -1,6 +1,7 @@
 package com.kosa.gallerygather.service;
 
 import com.kosa.gallerygather.dto.ExhibitionReviewReplyDto;
+import com.kosa.gallerygather.dto.PageRequestDto;
 import com.kosa.gallerygather.entity.ExhibitionReview;
 import com.kosa.gallerygather.entity.ExhibitionReviewReply;
 import com.kosa.gallerygather.entity.Member;
@@ -34,7 +35,8 @@ public class ExhibitionReviewReplyService {
         ExhibitionReviewReply reply = reviewReplyRepository
                 .save(ExhibitionReviewReply.ofNewReply(member, exhibitionReview, replyDto.getReply()));
 
-        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("regDate").descending());
+
+        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("regDate").ascending());
 
         return reviewReplyRepository.findByExhibitionReviewWithMember(exhibitionReview, pageRequest)
                 .map(ExhibitionReviewReplyDto.ExhibitionReviewReplyResponseDto::new);
@@ -42,7 +44,6 @@ public class ExhibitionReviewReplyService {
 
     public Page<ExhibitionReviewReplyDto.ExhibitionReviewReplyResponseDto> findAllRepliesAboutReview(Long reviewId,
                                                                                                      Pageable pageable) {
-
         System.out.println("============== 댓글리스트 조회 ===================");
         ExhibitionReview exhibitionReview = exhibitionReviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 리뷰입니다."));

@@ -74,7 +74,16 @@ export const userStore = defineStore({
         console.log(error.data);
         throw error;
       })
+    },
+    
+    loginCheck() {
+      return this.auth;
+    },
+
+    getUser() {
+      return this.email;
     }
-  }
+  },
+  
 
 })

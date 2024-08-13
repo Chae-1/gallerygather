@@ -16,6 +16,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -79,12 +80,11 @@ public class ExhibitionReviewService {
 
     // 작성자: 오지수
     // 전시 상세 페이지에서 하단의 리뷰 리스트를 가져오는 Service
-    public List<ExhibitionReviewDto.RequestReviewList> getExhibitionReviews(Long exhibitionId, PageRequestDto pageRequestDto) {
+    public Page<ExhibitionReviewDto.RequestReviewList> getExhibitionReviews(Long exhibitionId, PageRequestDto pageRequestDto) {
         Pageable pageable = PageRequest.of(pageRequestDto
                 .getPageNo()-1, pageRequestDto.getPagePer(), Sort.by("regDate").descending());
-        List<ExhibitionReview> exhibitionReviews = exhibitionReviewRepository.findByExhibitionId(exhibitionId, pageable);
-        return exhibitionReviews.stream().map(this::changeDtoRemoveImgTags)
-                .collect(Collectors.toList());
+        Page<ExhibitionReview> exhibitionReviews = exhibitionReviewRepository.findByExhibitionId(exhibitionId, pageable);
+        return exhibitionReviews.map(this::changeDtoRemoveImgTags);
     }
 
     /*

@@ -79,10 +79,11 @@ export default {
             }).catch(error =>{
                 console.log(error);
             })
-        }
-        this.isLike = !this.isLike;
-        console.log("클릭 핸들링: " +this.isLike);
-        this.exhibitDetails.likeCount += this.isLike ? 1: -1;
+            this.isLike = !this.isLike;
+            console.log("클릭 핸들링: " +this.isLike);
+            this.exhibitDetails.likeCount += this.isLike ? 1: -1;
+            }
+        
         }
     }
 }

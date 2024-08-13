@@ -32,7 +32,7 @@ public class ExhibitionListUpdateService {
 
     private static final Pattern INTEGER_PATTERN = Pattern.compile("-?\\d+");
 
-    //@PostConstruct
+//    @PostConstruct
     public void init() {
         for (int pageNum = 0; pageNum < 22; pageNum++) {
             try {

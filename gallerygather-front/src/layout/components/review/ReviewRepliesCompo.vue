@@ -6,7 +6,7 @@
         v-model="newReplyContent"
         @input="autoResize($event)"
       ></textarea>
-      <button>등록</button>
+      <button @click="addReply()">등록</button>
     </div>
     <div class="reply-lists-container">
       <ul class="reply-list">
@@ -33,17 +33,25 @@
         </li>
       </ul>
     </div>
-    <pagination-compo></pagination-compo>
+    <b-pagination v-model="currentPage"
+                  :per-page="perPage"
+                  @page-click="updatePageNum"
+                  pills :total-rows="totalElement"
+                  size="lg" align="fill">
+    </b-pagination>
+<!--    <pagination-compo></pagination-compo>-->
   </div>
 </template>
 
 <script>
 import PaginationCompo from '../PaginationCompo.vue'
+import axios from 'axios'
+import { apiRequest } from '@/util/RequestUtil.js'
 export default {
   components: { PaginationCompo },
   data() {
     return {
-      exhibitionId: null,
+      reviewId: null,
       totalElement: 101,
       currentPage: 1,
       perPage: 10,
@@ -53,34 +61,54 @@ export default {
   },
   created() {
     //exhigitionId 가져오기
-    this.exhibitionId = this.$route.params.exhibitionId;
+    this.reviewId = this.$route.params.reviewId; // undefined
+    console.log(this.reviewId)
     //데이터 불러오기
     this.replies = this.getExhibitReviews();
   },
+
   mounted() {
-    this.$nextTick(() => {
-      this.replies.forEach((reply, index) => {
-        const textarea = this.$el.querySelectorAll('.reply-item .reply-content textarea')[index]
-        if (textarea) {
-          this.autoResize({ target: textarea })
-        }
-      })
-    })
+    //   this.$nextTick(() => {
+    //     this.replies.forEach((reply, index) => {
+    //       const textarea = this.$el.querySelectorAll('.reply-item .reply-content textarea')[index]
+    //       if (textarea) {
+    //         this.autoResize({ target: textarea })
+    //       }
+    //     })
+    //   })
+    // }
   },
   methods: {
-    async getExhibitReviews() {
+    getExhibitReviews() {
       axios.get(`http:/localhost:8080/api/exhibition?exhibitionId=${this.exhibitionId}/review?pageNo=${this.currentPage}?pageNum=${this.perPage}`)
       .then(response =>{
+        console.log(response);
         this.replies = response.data.content;
         this.totalElement = response.data.totalElement;
+      }).catch(error => {
+        console.log(error);
       })
     },
+
+    updatePageNum(pageEvent, no) {
+      this.currentPage = no;
+      getExhibitReviews();
+    },
+
     autoResize(event) {
       const textarea = event.target
       textarea.style.height = 'auto'
       textarea.style.height = textarea.scrollHeight + 'px'
     },
-    addReply() {},
+
+    addReply() {
+      apiRequest('post', `http://localhost:8080/api/exhibition/review/${this.reviewId}/replies`, {
+        reply : this.newReplyContent
+      }).then(response => {
+        console.log(response);
+      })
+    },
+
     editReply(index) {
       const reply = this.replies[index]
       reply.editable = !reply.editable //true
@@ -94,7 +122,7 @@ export default {
       }
     },
     deleteReply(index) {
-      this.replies.splice(index, 1)
+      this.replies.splice(index, 1);
     }
   }
 }

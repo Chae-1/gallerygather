@@ -58,11 +58,6 @@ public class CustomExhibitionReviewRepositoryImpl implements CustomExhibitionRev
                 dtos.setReviewTitle(reviewTitle);
                 dtos.setReviewAuthorNickName(reviewAuthorNickName);
 
-                exhibitionReviewReplyDtos.add(new ExhibitionReviewReplyDto(
-                        rs.getString("review_reply"), rs.getString("review_author_name"),
-                        rs.getLong("reply_id"), rs.getLong("reply_author_id"),
-                        rs.getTimestamp("reply_reg_date").toLocalDateTime()
-                ));
             }
             dtos.setReviewReplies(exhibitionReviewReplyDtos);
             return dtos;

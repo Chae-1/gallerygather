@@ -5,6 +5,10 @@ export default {
       toggle: false
     }
   },
+  props: {
+    totalElement : Number,
+  },
+
   methods: {
     toggleDetailSearchMenu() {
       this.toggle = !this.toggle
@@ -15,7 +19,7 @@ export default {
 
 <template>
   <div class="sort-selection">
-    <p class="result-text">결과 총 1000개</p>
+    <p class="result-text">결과 총 {{ totalElement }}</p>
     <div class="sort-selection-side">
       <ul class="view-sort-list">
         <li class="button-text">

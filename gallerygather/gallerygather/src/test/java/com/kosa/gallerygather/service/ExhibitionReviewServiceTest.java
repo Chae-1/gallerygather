@@ -32,9 +32,9 @@ class ExhibitionReviewServiceTest {
     @Autowired
     ExhibitionReviewReplyRepository exhibitionReviewReplyRepository;
 
-//    @Test
-//    @Transactional
-//    void findExhibitionReviewWithAllReplies() {
+    @Test
+    @Transactional
+    void findExhibitionReviewWithAllReplies() {
 //        // given
 //        Exhibition exhibition = exhibitionRepository.save(Exhibition
 //                .builder()
@@ -47,14 +47,12 @@ class ExhibitionReviewServiceTest {
 //        ExhibitionReview review = exhibitionReviewRepository.save(ExhibitionReview.ofNewReview("title1",
 //                "리뷰 내용입니다.", null, exhibition, reviewAuthor));
 //
-//
 //        List<ExhibitionReviewReply> exhibitionReviewReplies = exhibitionReviewReplyRepository.saveAllAndFlush(List.of(ExhibitionReviewReply.ofEmpty(replyAuthor1, review),
 //                ExhibitionReviewReply.ofEmpty(replyAuthor2, review)));
-//
 //        exhibitionReviewRepository.findExhibitionReviewWithAllReplies(review.getId());
 //
 //        Assertions.assertThat(exhibitionReviewReplies.size()).isEqualTo(2);
-//    }
+    }
 
     @Test
     @Transactional

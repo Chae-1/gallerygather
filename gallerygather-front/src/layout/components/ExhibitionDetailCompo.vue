@@ -26,7 +26,7 @@
                 </button>
                 <span class="replies">💬 {{ exhibitDetails.reviewCount }}</span>
             </div>
-            <a   :href="exhibitDetails.siteUrl" role="button" class="site-button">사이트 바로가기</a>
+            <a :href="exhibitDetails.siteUrl" role="button" class="site-button">사이트 바로가기</a>
         </div>
     </div>
 </template>
@@ -48,11 +48,11 @@ export default {
     created() {
         this.exhibitionId = this.$route.params.exhibitionId;
         this.getExhibitDetails();
-        // this.get();
     },
     mounted() {
 
     },
+
     methods: {
         async getExhibitDetails() {
             apiRequest('get', `http://localhost:8080/api/exhibitions/${this.exhibitionId}`)
@@ -65,6 +65,7 @@ export default {
                     this.isLike = response.data.isLike;
                 }).catch(error => console.log(error));
         },
+
         handleLikeClick() {
             if (this.isLoggedIn === false) {
                 alert("로그인 후 이용 가능합니다.");
@@ -191,7 +192,7 @@ export default {
 
 .red-button {
     background-color: red;
-    color: whi
+    color: white;
 }
 
 a {

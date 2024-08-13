@@ -26,8 +26,6 @@ public class ReviewDetailDto {
     private String exhibitionImgUrl;
     private List<ReviewImageRequestDto> images;
 
-   // private List<ExhibitionReviewReply> reviewReplies;
-
     public ReviewDetailDto(ExhibitionReview review, Member member, Exhibition exhibition, List<ReviewImage> images) {
         this.reviewId = review.getId();
         this.title = review.getTitle();

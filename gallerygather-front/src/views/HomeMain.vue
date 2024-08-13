@@ -44,7 +44,9 @@ export default {
     fetchNewItems() {
       apiRequest('get', `http://localhost:8080/api/exhibitions?pageNo=${this.currentPage}&pagePer=${this.perPage}`, null)
         .then(response => {
+          console.log(response);
           this.cardItems = response.data.content;
+          console.log("데이터 전체 개수: " + response.data.totalElements)
           this.totalElement = response.data.totalElements;
           console.log(response)
         })
@@ -59,7 +61,7 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     this.fetchNewItems();
   },
 

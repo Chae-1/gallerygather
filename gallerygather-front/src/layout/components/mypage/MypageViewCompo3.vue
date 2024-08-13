@@ -1,5 +1,5 @@
 <template>
-  <div class="reivews">
+  <div class="reviews">
     <div class="container">
       <!-- 행을 사용하여 탭 버튼들을 정렬 -->
       <div class="row">
@@ -10,6 +10,7 @@
           </button>
         </div>
       </div>
+
       <!-- 선택 및 삭제 버튼을 포함하는 행 -->
       <div class="selectedAllrow">
         <!-- 전체 선택 체크박스 -->
@@ -19,7 +20,8 @@
         <!-- 선택된 항목을 삭제하는 버튼 -->
         <button @click="deleteSelected" class="deletebtn">삭제</button>
       </div>
-      <!-- 리뷰 항목들을 나열하는 행 -->
+
+      <!-- 리뷰리스트 시작 -->
       <div class="row">
         <!-- 리뷰 항목을 반복하여 생성 -->
         <div class="col-12" v-for="(review, index) in reviews" :key="index">
@@ -27,21 +29,20 @@
           <div class="card my-2">
             <div class="row align-center">
               <!-- 선택 체크박스 -->
-              <div class="col-auto">
+              <div class="col-auto checkbox-container">
                 <input type="checkbox" v-model="review.selected" @click.stop />
               </div>
               <!-- 리뷰 이미지 -->
-              <div class="col-2">
+              <div class="col-auto">
                 <img :src="review.image" class="review-image" />
               </div>
               <!-- 리뷰 내용 -->
-              <div class="col-9" @click="goToDetail(review)">
+              <div class="col content" @click="goToDetail(review)">
                 <!-- 리뷰 제목 -->
-                <div class="font-weight-bold">{{ review.title }}</div>
+                <div class="review-title">{{ review.title }}</div>
                 <!-- 리뷰 내용 텍스트 -->
-                <div>{{ review.content }}</div>
-                <!-- 리뷰 작성 날짜 -->
-                <div class="text-grey">{{ review.date }}</div>
+                <div>{{ review.exhibitTitle }}</div>
+                <div class="text-grey update-date">{{ review.date }}</div>
               </div>
             </div>
           </div>
@@ -51,7 +52,10 @@
   </div>
 </template>
 
+
 <script>
+import axios from 'axios'
+
 export default {
   name: 'ReviewList',
   data() {
@@ -59,27 +63,35 @@ export default {
       selectedTab: 'review', // 선택된 탭을 저장하는 데이터
       selectAll: false, // 전체 선택 체크박스 상태를 저장하는 데이터
       reviews: [
-        {
-          selected: false, // 선택 여부
-          image: 'path/to/image.png', // 이미지 경로
-          title: '밤 끝으로의 여행', // 제목
-          content: '어려워!', // 내용
-          date: '2024.08.07', // 날짜
-          id: 1 // 리뷰 ID
-        },
-        {
-          selected: false,
-          image: 'path/to/image.png', // 이미지 경로
-          title: '여행기',
-          content: '재밌어!',
-          date: '2024.08.08',
-          id: 2
-        }
         // 추가 리뷰 항목을 여기에 추가
       ]
     }
   },
+  created() {
+    this.fetchReviews(); // 컴포넌트가 생성될 때 리뷰 목록을 가져옵니다.
+    console.log("Reviews Component created");
+  },
   methods: {
+    //로그인정보
+    async fetchReviews() {
+      // JWT 토큰 추가
+      const token = localStorage.getItem('accessToken')
+      console.log('서버로부터 받은 데이터:', token);
+
+      const config = {
+        headers: {
+          'Authorization': token, // 인증 헤더에 JWT 토큰을 포함
+          'Content-Type': 'application/json'
+        }
+      }
+      try {
+        const response = await axios.get('http://localhost:8080/api/reviews/member', config)
+        console.log('서버로부터 받은 리뷰 데이터:', response.data);
+        this.reviews = response.data;// 서버로부터 받은 데이터를 reviews에 저장
+      } catch (error) {
+        console.error('Error fetching reviews:', error)
+      }
+    },
     toggleSelectAll() {
       // 전체 선택 체크박스를 변경할 때 호출되는 메서드
       this.reviews.forEach((review) => {
@@ -91,29 +103,107 @@ export default {
       this.reviews = this.reviews.filter((review) => !review.selected)
     },
     goToDetail(review) {
-      // 리뷰 상세 페이지로 이동하는 메서드
-      this.$router.push({ name: 'ReviewDetail', params: { id: review.id } }) //
+      console.log('고디테일 : exhibitionId:', review.exhibitId, '   reviewId:', review.id);
+      if (review.exhibitId && review.id) {
+        this.$router.push({
+          name: 'ReviewDetail',
+          params: {
+            exhibitionId: review.exhibitId,
+            reviewId: review.id
+          }
+        });
+      } else {
+        console.error('리뷰에서 goToDetail.');
+      }
     }
+
+
+
   }
 }
 </script>
 
 <style scoped>
-.review-image {
-  max-width: 100px; /* 이미지 최대 너비 설정 */
-  max-height: 100px; /* 이미지 최대 높이 설정 */
+/* 외부 컨테이너를 중간에 배치 */
+.container {
+  width: 60%;
+  margin: 0 auto;
 }
-/* 체크박스와 라벨을 한 줄로 유지 */
-.no-wrap .v-label {
-  white-space: nowrap;
+
+h3 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
 }
+
+.btn-toggle {
+  margin-bottom: 20px;
+}
+
 .selectedAllrow {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
+
 .deletebtn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
   margin-left: auto;
-  padding: 6px 12px;
+}
+
+.row.align-center {
+  display: flex;
+  align-items: center;
+}
+
+.col {
+  padding: 5px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-right: 15px; /* 이미지와 체크박스 간의 간격 */
+}
+
+.review-image {
+  max-width: 100px;
+  max-height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  background-color: #f9f9f9;
+}
+
+.review-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.update-date {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.content-text {
+  font-size: 14px;
+  color: #333;
 }
 </style>

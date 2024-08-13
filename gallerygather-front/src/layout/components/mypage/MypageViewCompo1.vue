@@ -15,11 +15,34 @@
     <div class="mypage-title-pack">
       <div class="inform__block">
         <h4 class="mypage-title">내 정보</h4>
-        <button @click="logout" class="action-button">로그아웃</button>
-        <button @click="changepw" class="action-button">비밀번호변경</button>
+        <button @click="togglePasswordFields" class="action-button">비밀번호변경</button>
+      </div>
+    </div>
+<!--비번 변경 필드 숨김-->
+
+    <!-- 비밀번호 변경 입력 필드 -->
+    <div v-if="showPasswordFields">
+      <div class="inform__block">
+        <label class="form-label">현재 비밀번호* </label>
+        <input type="password" v-model="currentPassword" placeholder="현재 비밀번호를 입력하세요" class="form-input" />
+      </div>
+
+      <div class="inform__block">
+        <label class="form-label">새 비밀번호* </label>
+        <input type="password" v-model="newPassword" placeholder="새 비밀번호를 입력하세요" class="form-input" />
+      </div>
+
+      <div class="inform__block">
+        <label class="form-label">새 비밀번호 확인* </label>
+        <input type="password" v-model="confirmPassword" placeholder="새 비밀번호를 다시 입력하세요" class="form-input" />
+      </div>
+
+      <div class="btn-save">
+        <button type="button" class="btn" @click="changepw">비밀번호 저장</button>
       </div>
     </div>
 
+    <!--비번 변경 필드  -->
     <div class="inform__block">
       <label class="form-label">아이디 </label>
       <input type="text" v-model="membername" value="{{memberid}}" readonly />
@@ -98,7 +121,11 @@ export default {
       days: [], // 일 목록
       zipcode: '', // 우편번호
       address: '', // 주소
-      detailAddress: '' // 상세주소
+      detailAddress: '', // 상세주소
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+      showPasswordFields: false, // 비밀번호 입력 필드 보이기
     }
   },
   created() {
@@ -152,6 +179,23 @@ export default {
       console.log('우편번호:', this.zipcode)
       console.log('주소:', this.address)
       console.log('상세주소:', this.detailAddress)
+    },
+    changepw() {
+      if (this.newPassword !== this.confirmPassword) {
+        alert('새 비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+        return;
+      }
+      if (!this.currentPassword || !this.newPassword) {
+        alert('모든 비밀번호 필드를 입력하세요.');
+        return;
+      }
+      console.log('현재 비밀번호:', this.currentPassword);
+      console.log('새 비밀번호:', this.newPassword);
+      alert('비밀번호가 성공적으로 변경되었습니다.');
+      this.showPasswordFields = false; // 비밀번호 변경 후 입력 필드 숨기기
+    },
+    togglePasswordFields() {
+      this.showPasswordFields = !this.showPasswordFields; // 필드의 가시성 토글
     }
   }
 }

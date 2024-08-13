@@ -86,7 +86,7 @@ export default {
   data() {
     return {
       exhibitInfo: {
-        
+
       },
       review: {
         title: '',
@@ -97,7 +97,7 @@ export default {
       }
     }
   },
-    
+
   computed: {
     formattedDate() {
       if (!this.review.viewDate) return ''
@@ -157,7 +157,7 @@ export default {
         //   this.review,
         //   {
         //     headers: {
-              
+
         //       'Authorization': token
         //     }
         //   }
@@ -173,17 +173,17 @@ export default {
         // this.$router.push(`/api/exhibition/${exhibitionId}/review/${reviewDetail.reviewId}`)
 
         apiRequest('post', `http://localhost:8080/api/exhibition/${exhibitionId}/review`, this.review)
-            .then((response) => {
-              const reviewDetail = response.data
-              console.log('!!!!!!!!!!!!!!!!!!!!!1111', reviewDetail)
-              const reviewId = reviewDetail.reviewId
-              console.log('리뷰아이디', reviewId)
-              //const exhibitionId = reviewDetail.exhibitionId;
+          .then((response) => {
+            const reviewDetail = response.data
+            console.log('!!!!!!!!!!!!!!!!!!!!!1111', reviewDetail)
+            const reviewId = reviewDetail.reviewId
+            console.log('리뷰아이디', reviewId)
+            //const exhibitionId = reviewDetail.exhibitionId;
 
-              // 상세보기 페이지로 이동합니다.
-              ///exhibitiondetails/:exhibitionId/reviewdetails/:reviewId
-              this.$router.push(`/exhibitiondetails/${exhibitionId}/reviewdetails/${reviewDetail.reviewId}`)
-            })  
+            // 상세보기 페이지로 이동합니다.
+            ///exhibitiondetails/:exhibitionId/reviewdetails/:reviewId
+            this.$router.push(`/exhibitiondetails/${exhibitionId}/reviewdetails/${reviewDetail.reviewId}`)
+          })
       } catch (error) {
         console.error('리뷰 생성 실패:', error)
       }

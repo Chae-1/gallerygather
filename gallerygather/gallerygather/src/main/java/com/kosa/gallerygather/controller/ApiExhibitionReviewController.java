@@ -6,6 +6,9 @@ import com.kosa.gallerygather.service.ExhibitionReviewReplyService;
 import com.kosa.gallerygather.service.ExhibitionReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,8 +36,9 @@ public class ApiExhibitionReviewController {
     }
 
     @GetMapping("/{exhibitionId}/review/{reviewId}")
-    public ResponseEntity<ReviewDetailDto> getReviewDetail(@PathVariable Long exhibitionId, @PathVariable Long reviewId) {
-        ReviewDetailDto detailDto = reviewService.getReviewDetail(exhibitionId,reviewId);
+    public ResponseEntity<ReviewDetailDto> getReviewDetail(@PathVariable Long exhibitionId,
+                                                           @PathVariable Long reviewId) {
+        ReviewDetailDto detailDto = reviewService.getReviewDetail(exhibitionId, reviewId);
         return ResponseEntity.ok(detailDto);
     }
 
@@ -51,14 +55,28 @@ public class ApiExhibitionReviewController {
     }
 
     @PostMapping("/review/{reviewId}/replies")
-    public ResponseEntity<Page<ExhibitionReviewReplyDto.ExhibitionReviewReplyResponseDto>> addCommentToReview(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                                                                              @PathVariable Long reviewId  ,
+    public ResponseEntity<Page<ExhibitionReviewReplyDto
+            .ExhibitionReviewReplyResponseDto>> addCommentToReview(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                                                                              @PathVariable Long reviewId,
                                                                                                               @RequestBody ExhibitionReviewReplyDto.ExhibitionReviewRequestDto request) {
         if (userDetails == null) {
             throw new UsernameNotFoundException("회원 정보를 확인할 수 없습니다.");
         }
 
         return ResponseEntity.ok(reviewReplyService.addCommentToReview(userDetails.getEmail(), reviewId, request));
+    }
+
+    // / -> /mypath
+    // /api/exhibition/{exhibitionId}/review/{reviewId}/replies
+    @GetMapping("/{exhibitionId}/review/{reviewId}/replies")
+    public ResponseEntity<Page<ExhibitionReviewReplyDto
+            .ExhibitionReviewReplyResponseDto>> findAllRepliesOnReview(
+            @PathVariable Long reviewId,
+            @PathVariable Long exhibitionId,
+            @PageableDefault(page = 0, size = 5, sort={"regDate"}, direction = Sort.Direction.DESC) Pageable pageable
+            ) {
+        System.out.println(pageable);
+        return ResponseEntity.ok(reviewReplyService.findAllRepliesAboutReview(reviewId, pageable));
     }
 
 }

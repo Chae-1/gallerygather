@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
   application:
     name: gallerygather
   ## DB ??
@@ -17,4 +21,5 @@ spring:
 gallerygather:
   openapi:
     dev-url: http://localhost:8080
+
 

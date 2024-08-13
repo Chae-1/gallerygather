@@ -61,6 +61,7 @@ const homeRoute = {
     {
       path: '/mypage',
       component: MypageView,
+      // redirect: '/mypage/mypagecompo',  // 기본 페이지를 MypageViewCompo1로 설정
       children: [
         { path: '/mypagecompo', component: MypageViewCompo1 }, // 마이페이지
         { path: '/mylikecompo', component: MypageViewCompo2 }, // 마이페이지

@@ -18,9 +18,8 @@
         <button @click="togglePasswordFields" class="action-button">비밀번호변경</button>
       </div>
     </div>
-<!--비번 변경 필드 숨김-->
-
-    <!-- 비밀번호 변경 입력 필드 -->
+    <!--비번 변경 필드 숨김-->
+    <!-- 비밀번호 변경 입력 필드 숨김상태-->
     <div v-if="showPasswordFields">
       <div class="inform__block">
         <label class="form-label">현재 비밀번호* </label>
@@ -42,7 +41,7 @@
       </div>
     </div>
 
-    <!--비번 변경 필드  -->
+    <!--내 정보 필드  -->
     <div class="inform__block">
       <label class="form-label">아이디 </label>
       <input type="text" v-model="membername" value="{{memberid}}" readonly />
@@ -54,7 +53,7 @@
       <button type="button" class="nick-btn" @click="checkNickDuplicate">중복확인</button>
       <br />
       <span class="form-note"
-        >※ 2자~15자, 영문, 한글, 숫자만 가능. (특수문자, 문장기호, 이모티콘 등 사용불가)</span
+      >※ 2자~15자, 영문, 한글, 숫자만 가능. (특수문자, 문장기호, 이모티콘 등 사용불가)</span
       >
     </div>
 
@@ -107,6 +106,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
@@ -122,10 +123,10 @@ export default {
       zipcode: '', // 우편번호
       address: '', // 주소
       detailAddress: '', // 상세주소
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: '',
-      showPasswordFields: false, // 비밀번호 입력 필드 보이기
+      currentPassword: '',//현재비번
+      newPassword: '',//새비번
+      confirmPassword: '',//새비번 확인
+      showPasswordFields: false // 비밀번호 입력 필드 보이기
     }
   },
   created() {
@@ -180,23 +181,54 @@ export default {
       console.log('주소:', this.address)
       console.log('상세주소:', this.detailAddress)
     },
-    changepw() {
+    async changepw() {
       if (this.newPassword !== this.confirmPassword) {
-        alert('새 비밀번호와 비밀번호 확인이 일치하지 않습니다.');
-        return;
+        alert('새 비밀번호와 비밀번호 확인이 일치하지 않습니다.')
+        return
       }
       if (!this.currentPassword || !this.newPassword) {
-        alert('모든 비밀번호 필드를 입력하세요.');
-        return;
+        alert('모든 비밀번호 필드를 입력하세요.')
+        return
       }
-      console.log('현재 비밀번호:', this.currentPassword);
-      console.log('새 비밀번호:', this.newPassword);
-      alert('비밀번호가 성공적으로 변경되었습니다.');
-      this.showPasswordFields = false; // 비밀번호 변경 후 입력 필드 숨기기
-    },
+
+      // 서버로 비밀번호 변경 요청 보내기
+      try {
+        const token = localStorage.getItem('accessToken') // JWT 토큰 가져오기
+        console.log('비밀번호 변경 토큰 :', token)
+        const response = await axios.post(
+          'http://localhost:8080/api/members/change-password',
+          {
+            currentPassword: this.currentPassword,
+            newPassword: this.newPassword
+
+          },
+          {
+            headers: {
+              Authorization: token
+            }
+          }
+        )
+        if (response.status === 200) {
+          alert('비밀번호가 성공적으로 변경되었습니다.')
+          console.log('변경 후 현재 비밀번호  :', this.newPassword)
+          this.showPasswordFields = false // 비밀번호 변경 후 입력 필드 숨기기
+          this.clearPasswordFields()//비번 변경후 입력 칸 초기화
+          console.log(this)
+        }
+      } catch (error) {
+        console.error('비밀번호 변경 중 오류 발생:', error)
+        alert('비밀번호 변경에 실패했습니다.')
+      }
+    },//비번변경 코드
     togglePasswordFields() {
-      this.showPasswordFields = !this.showPasswordFields; // 필드의 가시성 토글
-    }
+      this.showPasswordFields = !this.showPasswordFields
+      console.log('비밀번호 변경 화면 보이기')
+    },// 비번변경 보이기
+    clearPasswordFields() {
+      this.currentPassword = ''
+      this.newPassword = ''
+      this.confirmPassword = ''
+    } // 비밀번호 필드를 초기화
   }
 }
 </script>

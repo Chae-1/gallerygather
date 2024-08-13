@@ -1,82 +1,41 @@
 <script>
 import axios from "axios";
+import { apiRequest } from '@/util/RequestUtil.js'
 
 export default {
   name: "CardComponent",
-
-  data() {
-    return {
-      totalElement: 101,
-      currentPage: 1,
-      perPage: 12,
-      cardItems: [],
-      conditions: [],
-    }
-  },
-
-  methods: {
-    fetchNewItems() {
-      axios.get(`http://localhost:8080/api/exhibitions?pageNo=${this.currentPage}&pagePer=${this.perPage}`)
-          .then(response => {
-            this.cardItems = response.data.content;
-            this.totalElement = response.data.totalElements;
-            console.log(response);
-          })
-          .catch(ex => {
-            console.log(ex);
-          })
-    },
-
-    updatePageNum(pageEvent, pageNo) {
-      this.currentPage = pageNo;
-    }
-  },
-
-  updated() {
-    this.fetchNewItems();
-  },
-
-  created() {
-    this.fetchNewItems();
+  props: {
+    cards : Array,
   }
 }
 </script>
 
 <template>
   <b-card-group deck>
-    <b-card v-for="item in cardItems" title-tag="h6"
+    <b-card v-for="item in cards" title-tag="h6"
             :title="item.title" style="max-width: 20rem; font-weight:700; margin: auto; flex: 25%;" img-width="400px"
             img-height="400px"
             :img-src="item.imageUrl" :key="item.exhibitionId" img-top>
 
-
       <template #footer>
         <div class="card-duration">
-          <span>기간</span>
+          <span class="card-detail-title">기간</span>
+          <span>{{item.startDate}} ~ {{item.endDate}}</span>
         </div>
         <div class="card-location">
-          <span>장소</span>
+          <span class="card-detail-title">장소</span>
+          <span>{{ item.place }}</span>
         </div>
         <div class="card-info">
           <span>진행상태</span>
           <div class="card-info-grade">
+            <span style="margin: 0 20px;">{{item.rating}}</span>
             <em>별점</em>
           </div>
         </div>
       </template>
     </b-card>
   </b-card-group>
-
-  <div class="mt-3">
-    <h6>Large Pills</h6>
-    <b-pagination v-model="currentPage"
-                  :per-page="perPage"
-                  @page-click="updatePageNum"
-                  pills :total-rows="totalElement"
-                  size="lg" align="fill">
-    </b-pagination>
-  </div>
-
 </template>
 
 <style>
@@ -116,6 +75,10 @@ export default {
 }
 
 .card-info > span + div {
+  margin: 0 10px;
+}
+
+.card-detail-title {
   margin: 0 10px;
 }
 

@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,6 +22,7 @@ public class ExhibitionReviewRequestDto {
     private Double rating;
     private LocalDate viewDate;
     private LocalDateTime regDate = LocalDateTime.now();
+    private List<ReviewImageRequestDto> images;
 
     public ExhibitionReview toEntity(Member member, Exhibition exhibition){
         return ExhibitionReview.builder()
@@ -32,6 +34,5 @@ public class ExhibitionReviewRequestDto {
                 .member(member)
                 .exhibition(exhibition)
                 .build();
-
     }
 }

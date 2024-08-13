@@ -45,7 +45,7 @@ public class ExhibitionReview {
     private int viewCount;
 
     @ColumnDefault("0")
-    private int readCount;
+    private int replyCount;
 
     @ColumnDefault("0")
     private int likeCount;
@@ -57,6 +57,9 @@ public class ExhibitionReview {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exhibition_id")
     private Exhibition exhibition;
+
+    @OneToMany(mappedBy = "exhibitionReview", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReviewImage> images;
 
     @OneToMany(mappedBy = "exhibitionReview", cascade = CascadeType.PERSIST)
     private List<ExhibitionReviewReply> reviewReplies = new ArrayList<>();

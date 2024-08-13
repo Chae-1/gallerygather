@@ -40,8 +40,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 token = authHeader.substring(7);
                 username = jwtService.extractUsername(token);
             } catch (ExpiredJwtException e) {
-                response.sendError(SC_UNAUTHORIZED, "토큰 유효기간이 초과 되었습니다. 다시 인증해주세요.");
-                return;
+                if (!"GET".equals(request.getMethod())) {
+                    response.sendError(SC_UNAUTHORIZED, "토큰 유효기간이 초과 되었습니다. 다시 인증해주세요.");
+                    return;
+                }
             }
         }
 

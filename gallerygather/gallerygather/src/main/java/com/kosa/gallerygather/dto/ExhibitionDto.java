@@ -26,7 +26,7 @@ public class ExhibitionDto {
     private int likeCount;
     private int readCount;
     private int reviewCount;
-    private long avgRating;
+    private double avgRating;
 
     public ExhibitionDto (Exhibition exhibition) {
         this.id = exhibition.getId();
@@ -44,6 +44,8 @@ public class ExhibitionDto {
         this.reviewCount = exhibition.getReviewCount();
         this.avgRating = exhibition.getAvgRating();
     }
+
+
 
     @Getter
     @Setter

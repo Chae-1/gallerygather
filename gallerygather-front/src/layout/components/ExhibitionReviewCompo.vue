@@ -2,13 +2,13 @@
     <div class="exhibition-reviews">
         <div>
             <span>리뷰 목록</span>
-            <button>리뷰 쓰기</button>
+            <button @click="goToWrite">리뷰 쓰기</button>
         </div>
         <div class="review-content">
             <ul class="review-list">
                 <li class="review-item" v-for="(review, idx) in exhibitReviewList" :key="idx">
                     <div class="review-box">
-                        <router-link :to="{ path: '/reviewdetails/' + review.id }">
+                        <router-link :to="{ path: '/exhibitiondetails/'+ exhibitionId +'/reviewdetails/' + review.id }">
                             <div class="reviewbox-title">
                                 <p>{{ review.title }}</p>
                             </div>
@@ -20,9 +20,9 @@
                         <div class="reviewbox-sub">
                             <span class="text-date">{{ review.regDate }}</span>
                             <div class="access-nums">
-                                <span class="view">👁️ {{ review.rating }}</span>
-                                <span class="likes">❤️ {{ review.rating }}</span>
-                                <span class="replies">💬 {{ review.rating }}</span>
+                                <span class="view">👁️ {{ review.viewCount }}</span>
+                                <span class="like">❤️{{ review.likeCount }} </span>
+                                <span class="replies">💬 {{ review.replyCount }}</span>
                             </div>
                         </div>
                     </div>
@@ -51,6 +51,7 @@ export default {
             currentPage: 1,
             perPage: 3,
             exhibitReviewList: [],
+            
         };
     },
     created() {
@@ -77,6 +78,9 @@ export default {
         onPageChanged(newPage) {
             this.currentPage = newPage;
             this.getExhibitReviewList();
+        },
+        goToWrite() {
+            this.$router.push({ name: 'ReviewWrite'})
         }
     }
 }
@@ -170,6 +174,5 @@ export default {
     display: inline-block;
     /* content: url('view-icon-url'); */
 }
-
 
 </style>

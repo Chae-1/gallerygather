@@ -18,36 +18,72 @@
             </div>
             <div class="exhibition-stats">
                 <span class="view">👁️ {{ exhibitDetails.readCount }}</span>
-                <span class="likes">❤️ {{ exhibitDetails.likeCount }}</span>
+                <button 
+                    class="{'gray-button': !isLike, 'red-button':isLike}"
+                    @click="handleLikeClick"
+                    >
+                    {{ isLike ? '❤️' : '🩶'}} {{ exhibitDetails.likeCount }}
+                </button>
                 <span class="replies">💬 {{ exhibitDetails.reviewCount }}</span>
             </div>
-            <a   :href="exhibitDetails.siteUrl" role="button" class="site-button">사이트 바로가기</a>
+            <a :href="exhibitDetails.siteUrl" role="button" class="site-button">사이트 바로가기</a>
         </div>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
+import {apiRequest} from '../../util/RequestUtil';
+
 export default {
     data() {
         return {
             exhibitionId: null,
-            exhibitDetails: {}
+            exhibitDetails: [],
+            isLike: null,
+            ifLoggedIn: null,
+            
         };
     },
     created() {
         this.exhibitionId = this.$route.params.exhibitionId;
         this.getExhibitDetails();
-        // this.get();
     },
     mounted() {
+
     },
+
     methods: {
         async getExhibitDetails() {
-            axios.get(`http://localhost:8080/api/exhibitions/${this.exhibitionId}`).then((response) => {
-                this.exhibitDetails = response.data;
-            })
+            apiRequest('get', `http://localhost:8080/api/exhibitions/${this.exhibitionId}`)
+                .then((response) => {
+                    console.log(`login : ${response.data.isLoggedIn}`);
+                    console.log(`islike : ${response.data.isLike}`);
+
+                    this.exhibitDetails = response.data.exhibition;
+                    this.isLoggedIn = response.data.isLoggedIn;
+                    this.isLike = response.data.isLike;
+                }).catch(error => console.log(error));
         },
+
+        handleLikeClick() {
+            if (this.isLoggedIn === false) {
+                alert("로그인 후 이용 가능합니다.");
+            } else {
+                // 추가해야함
+                apiRequest('post',
+                `http://localhost:8080/api/exhibitions/${this.exhibitionId}/like`,
+                {"isLike": this.isLike}
+            ).then((response) => {
+                console.log(response);
+            }).catch(error =>{
+                console.log(error);
+            })
+        }
+        this.isLike = !this.isLike;
+        console.log("클릭 핸들링: " +this.isLike);
+        this.exhibitDetails.likeCount += this.isLike ? 1: -1;
+        }
     }
 }
 </script>
@@ -149,6 +185,15 @@ export default {
 .ticket-button:hover {
     background-color: #e0e0e0;
 } */
+.gray-button {
+    background-color: gray;
+    color: white;
+}
+
+.red-button {
+    background-color: red;
+    color: white;
+}
 
 a {
     color: #737373;

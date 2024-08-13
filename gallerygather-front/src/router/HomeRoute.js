@@ -6,7 +6,6 @@ import MypageView from '@/views/MypageView.vue'
 import Login from '@/views/Login.vue'
 import PageReviewDetail from '@/views/PageReviewDetail.vue'
 import JoinForm from '@/layout/components/main/JoinForm.vue'
-import ReviewDetail from '@/views/ReviewDetail.vue'
 import MypageViewCompo1 from '@/layout/components/mypage/MypageViewCompo1.vue'
 import MypageViewCompo2 from '@/layout/components/mypage/MypageViewCompo2.vue'
 import MypageViewCompo3 from '@/layout/components/mypage/MypageViewCompo3.vue'
@@ -35,12 +34,12 @@ const homeRoute = {
       component: HomeMain
     },
     {
-      path: 'api/exhibition/:exhibitionId/review',
+      path: '/exhibitiondetails/:exhibitionId/review',
       name: 'ReviewWrite',
       component: Review
     },
     {
-      path: 'api/exhibition/:exhibitionId/review/:reviewId',
+      path: '/exhibitiondetails/:exhibitionId/reviewdetails/:reviewId',
       name: 'ReviewDetail',
       component: ReviewDetail
     },
@@ -51,6 +50,7 @@ const homeRoute = {
     },
     {
       path: '/reviewdetails/:reviewId',
+
       component: PageReviewDetail
     },
     {

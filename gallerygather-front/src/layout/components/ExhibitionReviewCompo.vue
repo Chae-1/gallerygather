@@ -12,7 +12,7 @@
                             <div class="reviewbox-title">
                                 <p>{{ review.title }}</p>
                             </div>
-                            <span class="review_detail">{{ review.content }}</span>
+                            <div v-html="review.content" class="review_detail"></div>
                         </router-link>
                         <div class="reviewbox-by">
                             <span class="byname">{{ review.reviewer }}</span>
@@ -149,6 +149,12 @@ export default {
     font-size: 18px;
     font-weight: bold;
     margin: 0 0 10px 0;
+}
+
+.review_detail {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .reviewbox-by {

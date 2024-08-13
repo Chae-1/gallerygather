@@ -11,6 +11,7 @@ import MypageViewCompo2 from '@/layout/components/mypage/MypageViewCompo2.vue'
 import MypageViewCompo3 from '@/layout/components/mypage/MypageViewCompo3.vue'
 import MypageViewCompo4 from '@/layout/components/mypage/MypageViewCompo4.vue'
 import JoinSuccessComment from "@/layout/components/main/JoinSuccessComment.vue";
+import ReviewDetailCompo from '@/layout/components/review/ReviewDetailCompo.vue'
 
 const homeRoute = {
   path: '/',
@@ -41,6 +42,15 @@ const homeRoute = {
     {
       path: '/exhibitiondetails/:exhibitionId/reviewdetails/:reviewId',
       name: 'ReviewDetail',
+      component: ReviewDetailCompo
+    },
+    {//유은
+      path: '/api/exhibition/:exhibitionId',
+      name: 'ReviewDetailReply',
+      component: ReviewDetailCompo
+    },
+    {
+      path: '/reviewdetails/:reviewId',
       component: PageReviewDetail
     },
     {

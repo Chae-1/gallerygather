@@ -50,8 +50,7 @@
             type="button"
             class="editButton"
             @click="editReview"
-            v-if="getUser === reviewDetail.authorEmail"
-          >
+            v-if="getUser === reviewDetail.authorEmail">
             수정
           </button>
           <button type="button" class="deleteButton" v-if="getUser === reviewDetail.authorEmail">
@@ -116,6 +115,7 @@ export default {
       if (this.ifLoggedIn === false) {
           alert("잘못된 접근입니다. 로그인 후 이용해주시기 바랍니다.");
           } else {
+
               this.$router.push({ name: 'ReviewWrite' });
           }
       },
@@ -138,7 +138,6 @@ export default {
         const reviewId = this.$route.params.reviewId
         try {
           await apiRequest('delete', `http://localhost:8080/api/exhibition/deleteReview/${reviewId}`)
-
           this.$router.push(`/exhibitiondetails/${this.$route.params.exhibitionId}`)
         } catch (error) {
           console.error('리뷰 삭제 실패:', error)
@@ -212,7 +211,7 @@ export default {
 .deleteButton,
 .like-button,
 .unLike-button {
-  padding: 10px 20px;
+  padding: 5px 18px;
   font-size: 16px;
   border: none;
   border-radius: 4px;
@@ -221,24 +220,26 @@ export default {
 }
 
 .editButton {
-  background-color: #5cb85c;
-  color: white;
+  background-color: #669900;
+  color: #2c2a29;
 }
 
 .editButton:hover {
-  background-color: #4cae4c;
+  /* background-color: #2c2a29; */
+  font-weight: 700;
 }
 
 .deleteButton {
-  background-color: #eb3e3e;
-  color: white;
+  background-color: #2c2a29;
+  color: #669900;
 }
 
 .deleteButton:hover {
-  background-color: #d94949;
+  /* background-color: #d94949; */
+  font-weight: 700;
 }
 
-.like-button,
+/* .like-button, */
 .unLike-button {
   background-color: #ffcc00;
   color: white;

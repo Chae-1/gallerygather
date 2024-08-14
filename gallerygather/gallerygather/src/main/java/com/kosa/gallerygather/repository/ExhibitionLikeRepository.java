@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ExhibitionLikeRepository extends JpaRepository<ExhibitionLike, Long> {
-    // insert는 save 사용
 
+    // insert는 save 사용
     @Query("SELECT el FROM ExhibitionLike el WHERE el.member.id = :memberId AND el.exhibition.id = :exhibitionId")
     Optional<ExhibitionLike> findExhibitionLikeByallId(@Param("memberId") Long memberId, @Param("exhibitionId") Long exhibitionId);
 
@@ -27,7 +27,6 @@ public interface ExhibitionLikeRepository extends JpaRepository<ExhibitionLike, 
     //유은 - 특정 사용자가 좋아요한 전시회의 수를 반환
     int countByMemberId(Long memberId);
 
-    @Modifying
-    @Query("delete from ExhibitionLike like where like.member = :member")
-    void deleteByMember(@Param("member") Member findMember);
+    //유은 - 좋아요 취소 메서드
+
 }

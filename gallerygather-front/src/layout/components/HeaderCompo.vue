@@ -217,12 +217,12 @@ a:hover {
   width: 0px;
   height: 3px;
   display: inline-block;
-  background: red;
-  transition: width 2s;
+  background: #669900;
+  transition: width 1.2s;
 }
 
 .item__contents ul > li:hover::before {
-  width: 200px;
+  width: 50px;
 }
 
 .item__contents {
@@ -245,7 +245,7 @@ header::after {
   background: white;
   display: block;
   transition: height 1s;
-  background: #3b82f6;
+  background: #2c2a29;
 }
 
 .main-menu .item:hover .item__contents {

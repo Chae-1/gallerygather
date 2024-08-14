@@ -22,7 +22,7 @@
           <input type="checkbox" v-model="selectAll" @change="toggleSelectAll" /> 전체선택
         </div>
         <!-- 선택된 항목을 삭제하는 버튼 -->
-        <button @click="deleteSelected" class="deletebtn">삭제</button>
+        <button @click="deleteReview" class="deletebtn">삭제</button>
       </div>
 
       <!-- 리뷰리스트 시작 -->
@@ -55,6 +55,7 @@
 
 <script>
 import axios from 'axios'
+import { apiRequest } from '@/util/RequestUtil.js'
 
 export default {
   name: 'ReviewList',
@@ -98,10 +99,6 @@ export default {
         review.selected = this.selectAll
       })
     },
-    deleteSelected() {
-      // 선택된 리뷰 항목을 삭제하는 메서드
-      this.reviews = this.reviews.filter((review) => !review.selected)
-    },
     goToDetail(review) {
       console.log('고디테일 : exhibitionId:', review.exhibitId, '   reviewId:', review.id);
       if (review.exhibitId && review.id) {
@@ -115,8 +112,17 @@ export default {
       } else {
         console.error('리뷰에서 goToDetail.');
       }
-    }
+    },
+    async deleteReview() {
+      const reviewId = this.$route.params.reviewId
+      try {
+        await apiRequest('delete', `http://localhost:8080/api/exhibition/deleteReview/${reviewId}`)
 
+        this.$router.push(`/exhibitiondetails/${this.$route.params.exhibitionId}`)
+      } catch (error) {
+        console.error('리뷰 삭제 실패:', error)
+      }
+    },
 
 
   }

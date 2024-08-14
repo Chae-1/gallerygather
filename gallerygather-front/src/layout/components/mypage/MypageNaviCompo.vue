@@ -25,8 +25,7 @@ export default {
 
 <style scoped>
 .navi-bar{
-  /* border: 1px solid #000000; */
-  background-color: darkslategrey
+  background-color: darkslategrey;
 }
 ul {
   margin-top: 180px;

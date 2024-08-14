@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -35,9 +36,9 @@ public class ApiExhibitionController {
     private final MemberService memberService;
 
     @GetMapping
-    public ResponseEntity<Page<ExhibitionCardDto>> getCards(@ModelAttribute PageRequestDto page) {
-        log.info("{}", page);
-        return ResponseEntity.ok(exhibitionService.getCardDto(page));
+    public ResponseEntity<Page<ExhibitionCardDto>> getCards(Pageable pageable, @RequestParam(required = false) String title) {
+        log.info("{}", pageable);
+        return ResponseEntity.ok(exhibitionService.getCardDto(pageable, title));
     }
 
     /*

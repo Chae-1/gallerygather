@@ -12,8 +12,6 @@ import java.util.Optional;
 
 public interface ExhibitionReviewRepository extends JpaRepository<ExhibitionReview, Long> {
 
-    //List<ExhibitionReview> findByContentContains(String content);
-    Optional<ExhibitionReview> findByIdAndExhibitionId(Long reviewId,Long exhibitionId);
     List<ExhibitionReview> findByContentContains(String content);
 
     List<ExhibitionReview> findByExhibitionId(@Param("exhibitionId") Long exhibitionId, Pageable pageable);

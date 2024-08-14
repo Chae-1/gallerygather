@@ -1,11 +1,13 @@
 package com.kosa.gallerygather.controller;
 
 import com.kosa.gallerygather.dto.*;
+import com.kosa.gallerygather.entity.ExhibitionReview;
 import com.kosa.gallerygather.security.UserDetailsImpl;
 import com.kosa.gallerygather.service.ExhibitionReviewReplyService;
 import com.kosa.gallerygather.service.ExhibitionReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,6 +22,7 @@ public class ApiExhibitionReviewController {
 
     private final ExhibitionReviewService reviewService;
     private final ExhibitionReviewReplyService reviewReplyService;
+    private final ExhibitionReviewService exhibitionReviewService;
 
     @PostMapping("/{exhibitionId}/review")
     public ResponseEntity<ReviewDetailDto> createReview(@RequestBody ExhibitionReviewRequestDto requestDto,
@@ -36,6 +39,27 @@ public class ApiExhibitionReviewController {
     public ResponseEntity<ReviewDetailDto> getReviewDetail(@PathVariable Long exhibitionId, @PathVariable Long reviewId) {
         ReviewDetailDto detailDto = reviewService.getReviewDetail(exhibitionId,reviewId);
         return ResponseEntity.ok(detailDto);
+    }
+
+    @DeleteMapping("/deleteReview/{reviewId}")
+    public ResponseEntity<String> deleteReview(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                @PathVariable Long reviewId){
+        String memberId = userDetails.getEmail();
+        boolean isDeleted = reviewService.deleteReview(memberId,reviewId);
+
+        if(isDeleted){
+            return ResponseEntity.ok("리뷰 삭제 성공");
+        } return ResponseEntity.status(HttpStatus.FORBIDDEN).body("리뷰 삭제 오류");
+    }
+
+    @PutMapping("/{exhibitionId}/updateReview/{reviewId}")
+    public ResponseEntity<ReviewDetailDto> updateReview(@RequestBody ExhibitionReviewRequestDto requestDto,
+                                               @AuthenticationPrincipal UserDetailsImpl userDetails,
+                                               @PathVariable Long reviewId,
+                                               @PathVariable Long exhibitionId) {
+        String memberId = userDetails.getEmail();
+        ReviewDetailDto updatedReview = exhibitionReviewService.updateReview(requestDto, memberId, reviewId, exhibitionId);
+        return ResponseEntity.ok(updatedReview);
     }
 
     /*

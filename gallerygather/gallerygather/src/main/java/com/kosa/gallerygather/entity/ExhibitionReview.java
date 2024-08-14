@@ -77,6 +77,11 @@ public class ExhibitionReview {
         this.exhibition = exhibition;
     }
 
+    public boolean increaseViewCount() {
+        viewCount++;
+        return true;
+    }
+
     public static ExhibitionReview ofNewReview(String title, String content, Double rating, LocalDate viewDate, Member member, Exhibition exhibition) {
         return new ExhibitionReview(title, content, rating, viewDate, LocalDateTime.now(), LocalDateTime.now(), member, exhibition);
 

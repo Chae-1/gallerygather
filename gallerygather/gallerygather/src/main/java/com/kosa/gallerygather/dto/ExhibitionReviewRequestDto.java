@@ -21,7 +21,8 @@ public class ExhibitionReviewRequestDto {
     private String content;
     private Double rating;
     private LocalDate viewDate;
-    private LocalDateTime regDate = LocalDateTime.now();
+    private LocalDateTime regDate;
+    private LocalDateTime updateDate;
     private List<ReviewImageRequestDto> images;
 
     public ExhibitionReview toEntity(Member member, Exhibition exhibition){
@@ -34,5 +35,16 @@ public class ExhibitionReviewRequestDto {
                 .member(member)
                 .exhibition(exhibition)
                 .build();
+    }
+
+    public ExhibitionReview toUpdate(ExhibitionReview existingReview, Member member, Exhibition exhibition) {
+        existingReview.setTitle(this.title);
+        existingReview.setContent(this.content);
+        existingReview.setRating(this.rating);
+        existingReview.setViewDate(this.viewDate);
+        existingReview.setUpdateDate(this.updateDate);
+        existingReview.setMember(member);
+        existingReview.setExhibition(exhibition);
+        return existingReview;
     }
 }

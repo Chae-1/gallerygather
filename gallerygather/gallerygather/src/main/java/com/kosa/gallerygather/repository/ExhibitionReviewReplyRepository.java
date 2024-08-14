@@ -19,4 +19,5 @@ public interface ExhibitionReviewReplyRepository extends JpaRepository<Exhibitio
     @Query("select r from ExhibitionReviewReply r left join fetch r.member where r.exhibitionReview = :exhibitionReview")
     Page<ExhibitionReviewReply> findByExhibitionReviewWithMember(@Param("exhibitionReview") ExhibitionReview exhibitionReview, Pageable pageable);
 
+    void deleteByExhibitionReview(ExhibitionReview exhibitionReview);
 }

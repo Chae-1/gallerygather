@@ -16,4 +16,6 @@ public class MyPageReplyListResponseDto {
     private LocalDateTime updateDate;  // 수정 날짜
     private long replyReviewId;
     private String reviewTitle;
+    private int replyCount;               // 댓글의 총 개수 추가
+
 }

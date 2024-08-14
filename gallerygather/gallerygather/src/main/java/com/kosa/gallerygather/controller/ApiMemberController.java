@@ -94,6 +94,7 @@ public class ApiMemberController {
         }
     }
 
+    //유은 - 회원 기존 정보 가져오기
     @GetMapping("/original")
     public ResponseEntity<MyPageDto> getCurrentUser() {
         try {

@@ -1,17 +1,22 @@
 <template>
   <div class="mypage">
+    <br/>
+    <br/>
+    <br/>
+    <br/>
     <div class="summary-container">
-      <router-link to="/mylikecompo" class="my-summary__inbox">
-        <span class="my-summary__tit">좋아요</span><span class="my-summary__num">0</span>
+      <router-link to="/mypage/mylikecompo" class="my-summary__inbox">
+        <span class="my-summary__tit">좋아요</span><span class="my-summary__num">{{likeCount}}</span>
       </router-link>
-      <router-link to="/myreviewcompo" class="my-summary__inbox">
-        <span class="my-summary__tit">작성글</span><span class="my-summary__num">0</span>
+      <router-link to="/mypage/myreviewcompo" class="my-summary__inbox">
+        <span class="my-summary__tit">작성리뷰</span><span class="my-summary__num">{{reviewCount}}</span>
       </router-link>
-      <router-link to="/myreplycompo" class="my-summary__inbox">
-        <span class="my-summary__tit">작성댓글</span><span class="my-summary__num">0</span>
+      <router-link to="/mypage/myreplycompo" class="my-summary__inbox">
+        <span class="my-summary__tit">작성댓글</span><span class="my-summary__num">{{replyCount}}</span>
       </router-link>
     </div>
-
+    <br/>
+    <br/>
     <div class="mypage-title-pack">
       <div class="inform__block">
         <h4 class="mypage-title">내 정보</h4>
@@ -113,6 +118,9 @@ import { apiRequest } from '@/util/RequestUtil.js'
 export default {
   data() {
     return {
+      likeCount: 0, //라이크
+      reviewCount: 0, //리뷰
+      replyCount: 0, // 댓글
       email: '',
       nickName: '', // 닉네임을 저장하는 데이터
       name: '', // 이름을 저장하는 데이터
@@ -132,6 +140,7 @@ export default {
     }
   },
   created() {
+    this.fetchUserSummary();// 좋아요,댓글,리뷰 카운트
     this.originalUserInfo(); //로그인시 기존정보 보여줌
 
     const currentYear = new Date().getFullYear()
@@ -147,6 +156,40 @@ export default {
   },
 
   methods: {
+    async fetchUserSummary() {
+      try {
+        const token = localStorage.getItem('accessToken'); // JWT 토큰 가져오기
+
+        // 좋아요 개수 가져오기
+        const likeCountResponse = await apiRequest('get', 'http://localhost:8080/api/exhibitions/likes/member/like-count', null, {
+          headers: {
+            Authorization: token
+          }
+        });
+        this.likeCount = likeCountResponse.data;
+
+
+        const reviewCountResponse = await apiRequest('get', 'http://localhost:8080/api/reviews/member/review-count', null, {
+          headers: {
+            Authorization: token
+          }
+        });
+        this.reviewCount = reviewCountResponse.data;
+
+        const replyCountResponse = await apiRequest('get', 'http://localhost:8080/api/replys/member/reply-count', null, {
+          headers: {
+            Authorization: token
+          }
+        });
+        this.replyCount = replyCountResponse.data;
+
+        // 여기에 likeCount API 호출 및 데이터 설정을 추가할 수 있습니다.
+
+      } catch (error) {
+        console.error('사용자 요약 정보를 가져오는 중 오류 발생:', error);
+        alert('사용자 요약 정보를 가져오지 못했습니다.');
+      }
+    },
     async checkNickDuplicate(nickName) {
       console.log('닉네임 중복 확인 요청', nickName)
 
@@ -195,7 +238,6 @@ export default {
         // 연도나 월이 선택되지 않은 경우, selectedDay를 변경하지 않음
       }
     },
-
     findPostcode() {
       new window.daum.Postcode({
         oncomplete: (data) => {
@@ -339,7 +381,7 @@ export default {
 /* 마이페이지 스타일 정의 */
 /* 마이페이지 컨테이너 스타일: 고정된 너비를 설정하고 가운데 정렬, Arial 폰트 적용 */
 .mypage {
-  width: 700px;
+  width: 70%;
   margin: 0 auto;
   font-family: 'Arial', sans-serif;
 }
@@ -348,22 +390,32 @@ export default {
 .summary-container {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 80px;
+  padding: 24px 0;
+  background: darkslategrey;
+  border-radius: 8px;
+  color: darkslategrey;
+  min-height: 149px;
 }
 
 /* 요약 정보 박스 스타일: 배경색, 테두리, 패딩 및 텍스트 정렬 설정 */
 .my-summary__inbox {
-  background: white;
-  border: 1px solid #dbd3c7;
-  border-radius: 30px;
+  background: darkslategrey;
+  border-radius: 0px;
   padding: 20px;
   text-align: center;
   flex: 1;
   margin: 0 10px;
 }
 
+
+.my-summary__inbox:not(:last-child) {
+  border-right: 1px solid #dbd3c7; /* 중간에 선 추가 */
+}
+
 /* 요약 정보 타이틀 스타일: 글씨를 굵게 하고, 아래쪽 마진을 추가 */
 .my-summary__tit {
+  color: white;
   font-weight: bold;
   display: block;
   margin-bottom: 5px;
@@ -371,8 +423,8 @@ export default {
 
 /* 요약 정보 숫자 스타일: 글씨 크기와 색상을 설정 */
 .my-summary__num {
-  font-size: 24px;
-  color: #333;
+  font-size: 40px;
+  color: white;
 }
 
 /* 공통 스타일 정의 */

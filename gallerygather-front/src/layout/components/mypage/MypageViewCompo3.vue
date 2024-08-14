@@ -1,7 +1,11 @@
 <template>
   <div class="reviews">
     <div class="container">
+      <br/>
+      <br/>
       <h3>내가 작성한 리뷰 확인</h3>
+      <br/>
+      <br/>
       <div class="row">
         <!-- 버튼 토글을 사용하여 탭을 만듭니다 -->
         <div class="btn-toggle">
@@ -121,7 +125,7 @@ export default {
 
 <style scoped>
 .container {
-  width: 60%;
+  width: 80%;
   margin: 0 auto;
 }
 

@@ -63,24 +63,6 @@
       </div>
     </div>
     </div>
-    <!-- <ReviewRepliesCompo/> -->
-  <!-- </div>
-  <div class="review">
-    <div class="review-content">
-      <div class="ql-editor">
-        <div v-html="safeContent"></div>
-      </div>
-       <div v-dompurify-html="reviewDetail.content"></div> -->
-      <!-- <quill-editor v-model="content" placeholder="게시글이 없습니다."></quill-editor> -->
-    <!-- </div>
-    <div class="button-container">
-      <span>후기 작성일 {{ reviewDetail.regDate }}</span>
-      <button type="button" class="editButton" @click="editReview">수정</button>
-      <button type="button" class="deleteButton" @click="deleteReview">삭제</button>
-      <button type="button" class="likeButton">❤️</button>
-    </div>
-  </div> -->
-  <!-- <ReviewRepliesCompo/> -->
 </template>
 
 <script>

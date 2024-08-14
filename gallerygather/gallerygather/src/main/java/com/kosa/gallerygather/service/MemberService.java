@@ -3,11 +3,9 @@ package com.kosa.gallerygather.service;
 import com.kosa.gallerygather.dto.*;
 import com.kosa.gallerygather.entity.RefreshToken;
 import com.kosa.gallerygather.exception.member.ExistMemberException;
-import com.kosa.gallerygather.exception.member.MemberException;
 import com.kosa.gallerygather.exception.token.RefreshTokenExpirationException;
 import com.kosa.gallerygather.repository.ExhibitionLikeRepository;
 import com.kosa.gallerygather.repository.MemberRepository;
-import com.kosa.gallerygather.repository.MyPageInfoRepository;
 import com.kosa.gallerygather.security.UserDetailsImpl;
 import com.kosa.gallerygather.util.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -26,9 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
-
-import java.util.Set;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 /*
     작성자: 채형일
@@ -206,13 +201,6 @@ public class MemberService {
         }
     }
 
-    @Transactional
-    public void deleteMemberByEmail(String email) {
-        Member findMember = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new MemberException("없는 멤버"));
-        exhibitionLikeRepository.deleteByMember(findMember);
-
-    }
 
 
     @Transactional

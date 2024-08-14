@@ -100,7 +100,6 @@ public class ExhibitionReviewService {
                 .orElseThrow(() -> new IllegalArgumentException("리뷰 ID 찾기 오류: " + reviewId));
         if(review.getMember().equals(member)) {
             exhibitionReviewRepository.delete(review);
-            exhibitionReviewReplyRepository.deleteByExhibitionReviewReply(review);
             return true;
         }
         return false;

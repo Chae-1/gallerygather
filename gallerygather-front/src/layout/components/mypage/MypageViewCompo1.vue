@@ -406,6 +406,7 @@ export default {
   width: 70%;
   margin: 0 auto;
   font-family: 'Arial', sans-serif;
+  padding-bottom: 100px; /* Footer와 겹치지 않도록 하단에 여백 추가 */
 }
 
 /* 요약 정보 컨테이너 스타일: flex 컨테이너를 사용하여 자식 요소들을 수평으로 정렬 */
@@ -568,5 +569,14 @@ export default {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  padding-bottom: 20px;
+  position: relative;
+  z-index: 2; /* Footer보다 위에 위치하도록 설정 */
 }
+
+footer {
+  position: static;
+  z-index: 1;
+}
+
 </style>

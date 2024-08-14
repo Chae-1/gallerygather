@@ -64,9 +64,9 @@ export default {
             <div class="item__contents">
               <div class="contents__menu">
                 <ul class="inner">
-                  <li><a href="/">Whats' New</a></li>
-                  <li><a href="/">Best Exhibition</a></li>
-                  <li><a href="/">Somthing New</a></li>
+                  <li><a href="/">Exhibition</a></li>
+                  <li><a href="/">Review</a></li>
+                  <li><a href="/">My Exhibition</a></li>
                   <li><a href="/">Whats' New</a></li>
                 </ul>
               </div>
@@ -90,8 +90,8 @@ export default {
             <div class="item__contents">
               <div class="contents__menu">
                 <ul class="inner">
-                  <li><a href="/">Where</a></li>
-                  <li><a href="/">Who</a></li>
+                  <li><a href="/">My Exhibition</a></li>
+                  <li><a href="/">Review</a></li>
                   <li><a href="/">Contact Us</a></li>
                   <li><a href="/">Ask Us</a></li>
                 </ul>

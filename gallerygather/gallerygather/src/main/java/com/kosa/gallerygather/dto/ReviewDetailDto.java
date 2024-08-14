@@ -71,7 +71,7 @@ public class ReviewDetailDto {
         private String exhibitionImgUrl;
         private String exhibitionTitle;
 
-        List<ReviewImageRequestDto> images;
+        List<ReviewImageResponseDto> images;
 
         public ResponseReviewDetailDto(ExhibitionReview review) {
             this.reviewId = review.getId();
@@ -91,7 +91,7 @@ public class ReviewDetailDto {
             this.exhibitionImgUrl = review.getExhibition().getImgUrl();
             this.exhibitionTitle = review.getExhibition().getTitle();
 
-            this.images = review.getImages().stream().map(ReviewImageRequestDto::new).collect(Collectors.toList());
+            this.images = review.getImages().stream().map(ReviewImageResponseDto::new).collect(Collectors.toList());
         }
     }
 }

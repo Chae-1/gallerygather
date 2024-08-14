@@ -5,6 +5,7 @@ import com.kosa.gallerygather.security.UserDetailsImpl;
 import com.kosa.gallerygather.service.ExhibitionReviewReplyService;
 import com.kosa.gallerygather.service.ExhibitionReviewService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -142,6 +143,22 @@ public class ApiExhibitionReviewController {
             return ResponseEntity.status(HttpStatus.CREATED).body("댓글이 정상적으로 삭제되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("댓글 삭제 실패");
+        }
+    }
+
+    /*
+    작성자: 오지수
+    리뷰 좋아요 클릭
+     */
+    @PostMapping("/reviews/{reviewId}/like")
+    public ResponseEntity<String> clickReviewLike(@PathVariable Long reviewId,
+                                                  @RequestBody ExhibitionReviewLikeDto.RequestLike requestLike,
+                                                  @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try {
+            exhibitionReviewService.clickReviewLike(new ExhibitionReviewLikeDto.RequestReviewLikeDto(userDetails.getId(), reviewId), requestLike.getIsLike());
+            return ResponseEntity.status(HttpStatus.CREATED).body("좋아요 클릭을 성공적으로 반영하였습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("좋아요 실패");
         }
     }
 

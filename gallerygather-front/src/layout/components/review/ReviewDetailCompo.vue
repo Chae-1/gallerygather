@@ -62,46 +62,49 @@
         </div>
       </div>
     </div>
+    </div>
     <!-- <ReviewRepliesCompo/> -->
-  </div>
+  <!-- </div>
   <div class="review">
     <div class="review-content">
       <div class="ql-editor">
         <div v-html="safeContent"></div>
       </div>
-      <!-- <div v-dompurify-html="reviewDetail.content"></div> -->
+       <div v-dompurify-html="reviewDetail.content"></div> -->
       <!-- <quill-editor v-model="content" placeholder="게시글이 없습니다."></quill-editor> -->
-    </div>
+    <!-- </div>
     <div class="button-container">
       <span>후기 작성일 {{ reviewDetail.regDate }}</span>
       <button type="button" class="editButton" @click="editReview">수정</button>
       <button type="button" class="deleteButton" @click="deleteReview">삭제</button>
       <button type="button" class="likeButton">❤️</button>
     </div>
-  </div>
+  </div> -->
   <!-- <ReviewRepliesCompo/> -->
 </template>
 
 <script>
-import axios from 'axios'
 import ReviewRepliesCompo from './ReviewRepliesCompo.vue'
-import DOMPurify from 'dompurify'
-import { userStore } from '@/store/userStore'
-import { apiRequest } from '@/util/RequestUtil'
-// import QuillEditor from './QuillEditor.vue'
+import DOMPurify from 'dompurify';
+import { userStore } from '@/store/userStore';
+import { apiRequest } from '@/util/RequestUtil';
 
-export default {
-  components: {
-    ReviewRepliesCompo
-    // QuillEditor
-  },
-  data() {
-    return {
-      exhibitionId: null,
-      reviewId: null,
-      reviewDetail: [],
-      isLike: null,
-      ifLoggedIn: null
+export default { 
+    components: {
+        ReviewRepliesCompo,
+    },
+    data() {
+        return {
+            exhibitionId: null,
+            reviewId: null,
+            reviewDetail: [],
+            isLike: null,
+            ifLoggedIn: null,
+        };
+    },
+    computed: {
+    safeContent() {
+        return DOMPurify.sanitize(this.reviewDetail.content);
     }
   },
   computed: {
@@ -116,32 +119,50 @@ export default {
     this.getReviewDetail()
   },
 
-  methods: {
-    getUser() {
-      const store = userStore()
-      return store.getUser()
+    created(){
+        const { exhibitionId, reviewId } = this.$route.params;
+        this.exhibitionId = exhibitionId;
+        this.reviewId = reviewId;
+        this.getReviewDetail();
     },
 
-    async getReviewDetail() {
-      apiRequest(
-        'get',
-        `http://localhost:8080/api/exhibition/${this.exhibitionId}/review/${this.reviewId}`
-      )
-        .then((response) => {
-          this.reviewDetail = response.data.reviewDetail
-          this.ifLoggedIn = response.data.isLoggedIn
-          this.isLike = response.data.isLike
-        })
-        .catch((error) => console.log(error))
-    },
+    methods: {
+        getUser() {
+            const store = userStore();
+            return store.getUser();
+        },
+        async getReviewDetail() {
+            apiRequest("get", `http://localhost:8080/api/exhibition/${this.exhibitionId}/review/${this.reviewId}`)
+                .then((response) => {
+                    this.reviewDetail = response.data.reviewDetail;
+                    this.ifLoggedIn = response.data.isLoggedIn;
+                    this.isLike = response.data.isLike;
+                }).catch(error => console.log(error));
+        },
+        editReview() {
+        // 리뷰 수정 페이지로 이동
+        if (this.getUser() === false) {
+            alert("잘못된 접근입니다. 로그인 후 이용해주시기 바랍니다.");
+            } else {
+                this.$router.push({ name: 'ReviewWrite' });
+            }
+        },
+        handleLikeClick() {
+            if (this.getUser()) { //로그인 되었으면
+                apiRequest("post",
+                    `http://localhost:8080/api/exhibition/reviews/${this.reviewId}/like`,
+                    {"isLike": this.isLike}
+                ).then((response) => {
+                    console.log(response);
+                    this.isLike = !this.isLike;
+                    this.reviewDetail.likeCount += this.isLike? 1: -1;
+                }).catch(error=>{console.log(error);})
 
-    editReview() {
-      const exhibitionId = this.$route.params.exhibitionId
-      const reviewId = this.$route.params.reviewId
-      this.$router.push({ name: 'ReviewEdit', params: { exhibitionId, reviewId } })
-    },
-
-    async deleteReview() {
+            } else { //로그인 안되었으면
+                alert("로그인 후 이용 가능합니다.");
+            }
+        },
+        async deleteReview() {
       const reviewId = this.$route.params.reviewId
       try {
         await apiRequest('delete', `http://localhost:8080/api/exhibition/deleteReview/${reviewId}`)
@@ -151,9 +172,10 @@ export default {
         console.error('리뷰 삭제 실패:', error)
       }
     },
-    handleLikeClick() {}
-  }
-}
+    }  
+    
+};
+
 </script>
 
 <style scoped>

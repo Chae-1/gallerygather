@@ -93,6 +93,10 @@ public class ExhibitionReview {
         }
     }
 
+    public ExhibitionReview(Long reviewId) {
+        this.id = reviewId;
+    }
+
     public void increaseLikeCount() {
         this.likeCount++;
     }

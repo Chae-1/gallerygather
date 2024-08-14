@@ -2,7 +2,9 @@ package com.kosa.gallerygather.repository;
 
 import com.kosa.gallerygather.entity.Exhibition;
 import com.kosa.gallerygather.entity.ExhibitionLike;
+import com.kosa.gallerygather.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -25,4 +27,7 @@ public interface ExhibitionLikeRepository extends JpaRepository<ExhibitionLike, 
     //유은 - 특정 사용자가 좋아요한 전시회의 수를 반환
     int countByMemberId(Long memberId);
 
+    @Modifying
+    @Query("delete from ExhibitionLike like where like.member = :member")
+    void deleteByMember(@Param("member") Member findMember);
 }

@@ -10,13 +10,13 @@
       <div class="card-container">
         <!-- 반복 생성 -->
         <router-link v-for="item in cards"
-                     :to="{ path: '/exhibitiondetails/' + item.exhibitionId }"
-                     :key="item.exhibitionId"
+                     :to="{ path: '/exhibitiondetails/' + item.id }"
+                     :key="item.id"
                      class="card-link"
                      style="display: block;">
           <b-card class="b-card">
             <!-- 이미지를 카드의 최상단에 배치 -->
-            <img :src="item.imageUrl" class="card-img" alt="Exhibition Image">
+            <img :src="item.imgUrl" class="card-img" alt="Exhibition Image">
             <span class="favorite">
               <i class="fas fa-heart"></i>
             </span>

@@ -1,5 +1,6 @@
 package com.kosa.gallerygather.entity;
 
+import com.kosa.gallerygather.dto.ExhibitionReviewLikeDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,6 +25,17 @@ public class ReviewLike {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exhibit_review_id")
     private ExhibitionReview exhibitionReview;
+
+    public static ReviewLike setReviewLike(Long memberId, Long reviewId) {
+        ExhibitionReview exhibitionReview = new ExhibitionReview();
+        exhibitionReview.setId(reviewId);
+        Member member = new Member();
+        member.setId(memberId);
+        ReviewLike reviewLike = new ReviewLike();
+        reviewLike.member = member;
+        reviewLike.exhibitionReview = exhibitionReview;
+        return reviewLike;
+    }
 
 
 }

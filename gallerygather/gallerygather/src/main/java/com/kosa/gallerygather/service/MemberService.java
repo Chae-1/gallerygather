@@ -5,6 +5,7 @@ import com.kosa.gallerygather.entity.RefreshToken;
 import com.kosa.gallerygather.exception.member.ExistMemberException;
 import com.kosa.gallerygather.exception.member.MemberException;
 import com.kosa.gallerygather.exception.token.RefreshTokenExpirationException;
+import com.kosa.gallerygather.repository.ExhibitionLikeRepository;
 import com.kosa.gallerygather.repository.MemberRepository;
 import com.kosa.gallerygather.repository.MyPageInfoRepository;
 import com.kosa.gallerygather.security.UserDetailsImpl;
@@ -42,8 +43,8 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final RefreshTokenService refreshTokenService;
-    private final MyPageInfoRepository myPageInfoRepository;
     private final BlockListManager blockListManager;
+    private final ExhibitionLikeRepository exhibitionLikeRepository;
 
     public AuthDto.SuccessfulLoginResultDto doLogin(LoginRequest request) {
         log.info("인증 확인 중...");
@@ -137,7 +138,7 @@ public class MemberService {
 
     //유은 - 닉네임 중복확인
     public boolean isNickNameDuplicate(String nickName) {
-        boolean exists = myPageInfoRepository.findByNickName(nickName).isPresent();
+        boolean exists = memberRepository.findByNickName(nickName).isPresent();
         System.out.println("중복확인(서비스): " + nickName + ", 존재여부: " + exists);
         return exists;
     }
@@ -194,7 +195,8 @@ public class MemberService {
         return member.map(Member::getId)
                 .orElseThrow(() -> new IllegalArgumentException("로그인된 사용자를 찾을 수 없습니다."));
     }
-    //현제 로그인한 사용자이메일정보가져오기
+
+    // 유은 - 현재 로그인한 사용자이메일정보가져오기
     private String getCurrentUserEmail() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
@@ -202,6 +204,14 @@ public class MemberService {
         } else {
             return principal.toString();
         }
+    }
+
+    @Transactional
+    public void deleteMemberByEmail(String email) {
+        Member findMember = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberException("없는 멤버"));
+        exhibitionLikeRepository.deleteByMember(findMember);
+
     }
 
 

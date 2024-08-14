@@ -34,8 +34,6 @@
         <div class="ql-editor">
           <div v-html="safeContent"></div>
         </div>
-        <!-- <div v-dompurify-html="reviewDetail.content"></div> -->
-        <!-- <quill-editor v-model="content" placeholder="게시글이 없습니다."></quill-editor> -->
       </div>
       <div class="button-container">
         <div>
@@ -48,8 +46,7 @@
           </button>
         </div>
         <div class="edit-buttons">
-          {{ getUser }} | {{ reviewDetail.authorEmail }}
-          <!-- <button
+          <button
             type="button"
             class="editButton"
             @click="editReview"
@@ -58,16 +55,6 @@
             수정
           </button>
           <button type="button" class="deleteButton" v-if="getUser === reviewDetail.authorEmail">
-            삭제
-          </button> -->
-          <button
-            type="button"
-            class="editButton"
-            @click="editReview"
-          >
-            수정
-          </button>
-          <button type="button" class="deleteButton">
             삭제
           </button>
         </div>
@@ -98,11 +85,6 @@ export default {
     computed: {
     safeContent() {
         return DOMPurify.sanitize(this.reviewDetail.content);
-    }
-  },
-  computed: {
-    safeContent() {
-      return DOMPurify.sanitize(this.reviewDetail.content)
     },
     ifLoggedIn() {
           const store = userStore();
@@ -119,58 +101,50 @@ export default {
     this.reviewId = reviewId
     this.getReviewDetail()
   },
+  methods: {
+      
+      async getReviewDetail() {
+          apiRequest("get", `http://localhost:8080/api/exhibition/${this.exhibitionId}/review/${this.reviewId}`)
+              .then((response) => {
+                  this.reviewDetail = response.data.reviewDetail;
+                  this.ifLoggedIn = response.data.isLoggedIn;
+                  this.isLike = response.data.isLike;
+              }).catch(error => console.log(error));
+      },
+      editReview() {
+      // 리뷰 수정 페이지로 이동
+      if (this.ifLoggedIn === false) {
+          alert("잘못된 접근입니다. 로그인 후 이용해주시기 바랍니다.");
+          } else {
+              this.$router.push({ name: 'ReviewWrite' });
+          }
+      },
+      handleLikeClick() {
+          if (this.ifLoggedIn) { //로그인 되었으면
+              apiRequest("post",
+                  `http://localhost:8080/api/exhibition/reviews/${this.reviewId}/like`,
+                  {"isLike": this.isLike}
+              ).then((response) => {
+                  console.log(response);
+                  this.isLike = !this.isLike;
+                  this.reviewDetail.likeCount += this.isLike? 1: -1;
+              }).catch(error=>{console.log(error);})
 
-    // created(){
-    //     const { exhibitionId, reviewId } = this.$route.params;
-    //     this.exhibitionId = exhibitionId;
-    //     this.reviewId = reviewId;
-    //     this.getReviewDetail();
-    // },
+          } else { //로그인 안되었으면
+              alert("로그인 후 이용 가능합니다.");
+          }
+      },
+      async deleteReview() {
+        const reviewId = this.$route.params.reviewId
+        try {
+          await apiRequest('delete', `http://localhost:8080/api/exhibition/deleteReview/${reviewId}`)
 
-    methods: {
-        
-        async getReviewDetail() {
-            apiRequest("get", `http://localhost:8080/api/exhibition/${this.exhibitionId}/review/${this.reviewId}`)
-                .then((response) => {
-                    this.reviewDetail = response.data.reviewDetail;
-                    this.ifLoggedIn = response.data.isLoggedIn;
-                    this.isLike = response.data.isLike;
-                }).catch(error => console.log(error));
-        },
-        editReview() {
-        // 리뷰 수정 페이지로 이동
-        if (this.ifLoggedIn === false) {
-            alert("잘못된 접근입니다. 로그인 후 이용해주시기 바랍니다.");
-            } else {
-                this.$router.push({ name: 'ReviewWrite' });
-            }
-        },
-        handleLikeClick() {
-            if (this.ifLoggedIn) { //로그인 되었으면
-                apiRequest("post",
-                    `http://localhost:8080/api/exhibition/reviews/${this.reviewId}/like`,
-                    {"isLike": this.isLike}
-                ).then((response) => {
-                    console.log(response);
-                    this.isLike = !this.isLike;
-                    this.reviewDetail.likeCount += this.isLike? 1: -1;
-                }).catch(error=>{console.log(error);})
-
-            } else { //로그인 안되었으면
-                alert("로그인 후 이용 가능합니다.");
-            }
-        },
-        async deleteReview() {
-      const reviewId = this.$route.params.reviewId
-      try {
-        await apiRequest('delete', `http://localhost:8080/api/exhibition/deleteReview/${reviewId}`)
-
-        this.$router.push(`/exhibitiondetails/${this.$route.params.exhibitionId}`)
-      } catch (error) {
-        console.error('리뷰 삭제 실패:', error)
-      }
-    },
-    }  
+          this.$router.push(`/exhibitiondetails/${this.$route.params.exhibitionId}`)
+        } catch (error) {
+          console.error('리뷰 삭제 실패:', error)
+        }
+      },
+  }  
     
 };
 

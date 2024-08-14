@@ -119,7 +119,7 @@ export default {
 
     async addReply() {
       const store = userStore();
-      if (store.loginCheck()) { //로그인 한 상태라면 댓글 등록 가능
+      if (store.loginCheck) { //로그인 한 상태라면 댓글 등록 가능
         try {
           apiRequest('post', `http://localhost:8080/api/exhibition/review/${this.reviewId}/replies`, {
             reply: this.newReplyContent
@@ -156,7 +156,7 @@ export default {
 
     async deleteReply(replyId) {
       const store = userStore();
-      if (store.loginCheck()) { //로그인 상태 다시 체크
+      if (store.loginCheck) { //로그인 상태 다시 체크
         try {
           await apiRequest("delete", `http://localhost:8080/api/exhibition/reviews/${this.reviewId}/replies/${replyId}`)
           .then(response => {

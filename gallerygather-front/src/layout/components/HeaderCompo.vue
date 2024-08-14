@@ -64,9 +64,9 @@ export default {
             <div class="item__contents">
               <div class="contents__menu">
                 <ul class="inner">
-                  <li><a href="/">Whats' New</a></li>
-                  <li><a href="/">Best Exhibition</a></li>
-                  <li><a href="/">Somthing New</a></li>
+                  <li><a href="/">Exhibition</a></li>
+                  <li><a href="/">Review</a></li>
+                  <li><a href="/">My Exhibition</a></li>
                   <li><a href="/">Whats' New</a></li>
                 </ul>
               </div>
@@ -90,8 +90,8 @@ export default {
             <div class="item__contents">
               <div class="contents__menu">
                 <ul class="inner">
-                  <li><a href="/">Where</a></li>
-                  <li><a href="/">Who</a></li>
+                  <li><a href="/">My Exhibition</a></li>
+                  <li><a href="/">Review</a></li>
                   <li><a href="/">Contact Us</a></li>
                   <li><a href="/">Ask Us</a></li>
                 </ul>
@@ -140,7 +140,7 @@ export default {
 
 <style scoped>
 ul {
-  padding: 0;
+  padding: 40px 0;
   margin: 0;
 }
 
@@ -162,7 +162,7 @@ a:hover {
 }
 
 .logo {
-  padding: 10px 0 5px;
+  padding: 10px 0 4px;
   vertical-align: middle;
 }
 
@@ -209,7 +209,7 @@ a:hover {
 }
 
 .contents__menu {
-  height: 400px;
+  height: 200px;
 }
 
 .item__contents ul > li::before {
@@ -217,12 +217,12 @@ a:hover {
   width: 0px;
   height: 3px;
   display: inline-block;
-  background: red;
-  transition: width 2s;
+  background: #669900;
+  transition: width 1.2s;
 }
 
 .item__contents ul > li:hover::before {
-  width: 200px;
+  width: 50px;
 }
 
 .item__contents {
@@ -245,18 +245,18 @@ header::after {
   background: white;
   display: block;
   transition: height 1s;
-  background: #3b82f6;
+  background: #2c2a29;
 }
 
 .main-menu .item:hover .item__contents {
   display: block;
-  height: 400px;
+  height: 250px;
 }
 
 
 header.show-after::after {
   display: block; /* `isHovered`가 true일 때 보이도록 설정 */
-  height: 400px;
+  height: 300px;
 }
 .inner > li + li {
   margin-top: 20px;

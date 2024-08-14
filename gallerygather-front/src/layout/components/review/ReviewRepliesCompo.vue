@@ -30,7 +30,7 @@
               <span class="date">{{ reply.replyRegDate }}</span>
             </div>
           </div>
-          <div class="reply-manage" v-if="getUser() == reply.replyAuthorEmail">
+          <div class="reply-manage" v-if="getUser == reply.replyAuthorEmail">
             <button v-if="!reply.editable" @click="editReply(index)">수정</button>
             <button v-if="!reply.editable" @click="deleteReply(reply.replyId)">삭제</button>
             <button v-if="reply.editable" @click="updateReply(reply.replyId, reply.replyContent)">저장</button>
@@ -77,13 +77,16 @@ export default {
   },
 
   mounted() {
-
+    
   },
-  methods: {
+  computed: {
     getUser() {
       const store = userStore();
-      return store.getUser();
+      return store.getUser;
     },
+  },
+  methods: {
+    
 
     setReplies(response) {
       this.replies = response.data.content;
@@ -116,7 +119,7 @@ export default {
 
     async addReply() {
       const store = userStore();
-      if (store.loginCheck()) { //로그인 한 상태라면 댓글 등록 가능
+      if (store.loginCheck) { //로그인 한 상태라면 댓글 등록 가능
         try {
           apiRequest('post', `http://localhost:8080/api/exhibition/review/${this.reviewId}/replies`, {
             reply: this.newReplyContent
@@ -153,7 +156,7 @@ export default {
 
     async deleteReply(replyId) {
       const store = userStore();
-      if (store.loginCheck()) { //로그인 상태 다시 체크
+      if (store.loginCheck) { //로그인 상태 다시 체크
         try {
           await apiRequest("delete", `http://localhost:8080/api/exhibition/reviews/${this.reviewId}/replies/${replyId}`)
           .then(response => {

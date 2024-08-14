@@ -8,8 +8,8 @@ export const userStore = defineStore({
   id: 'user',
 
   state: () => ({
-    email: 'not login',
-    nickName: '',
+    email: localStorage.getItem('userEmail') || null,
+    nickName: localStorage.getItem('nickName') ||null,
     auth: localStorage.getItem('accessToken') !== null,
     prevPageUrl: ''
   }),
@@ -17,6 +17,14 @@ export const userStore = defineStore({
   getters: {
     isAuthenticated(state) {
       return state.auth
+    },
+
+    loginCheck(state) {
+      return state.auth
+    },
+  
+    getUser(state) {
+      return state.email
     }
   },
 
@@ -29,6 +37,7 @@ export const userStore = defineStore({
 
       localStorage.setItem('accessToken', 'Bearer ' + accessToken) // 만료될 수 있음 -> 5분 짜리
       localStorage.setItem('refreshToken', refreshToken) // refreshToken -> 1시간
+      localStorage.setItem('userEmail', email)
       this.$patch({
         email: email,
         nickName: nickName,
@@ -41,17 +50,11 @@ export const userStore = defineStore({
       this.$patch({
         email: null,
         nickName: null,
-        auth: null
+        auth: false
       })
     },
     
-    loginCheck() {
-      return this.auth
-    },
-  
-    getUser() {
-      return this.email
-    }
+    
 
   },
 

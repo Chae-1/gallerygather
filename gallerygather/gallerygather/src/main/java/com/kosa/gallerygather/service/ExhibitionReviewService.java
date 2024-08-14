@@ -3,6 +3,7 @@ package com.kosa.gallerygather.service;
 import com.kosa.gallerygather.dto.*;
 import com.kosa.gallerygather.entity.*;
 import com.kosa.gallerygather.repository.*;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.nio.file.AccessDeniedException;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,33 +32,38 @@ public class ExhibitionReviewService {
     private final ReviewImageRepository reviewImageRepository;
     private final ExhibitionReviewReplyRepository exhibitionReviewReplyRepository;
     private final ExhibitionReviewLikeRepository exhibitionReviewLikeRepository;
+    private final EntityManager em;
 
     @Transactional
     public ReviewDetailDto write(final ExhibitionReviewRequestDto requestDto, String memberEmail, Long exhibitionId) {
 
         System.out.println("============== review Details Dto 시작 =================");
+
         Member member = memberRepository.findByEmail(memberEmail)
                 .orElseThrow(() -> new IllegalArgumentException("유저 ID(Email) 찾기 오류: " + memberEmail));
+
         Exhibition exhibition = exhibitionRepository.findById(exhibitionId)
                 .orElseThrow(() -> new IllegalArgumentException("전시회 ID 찾기 오류: " + exhibitionId));
-        ExhibitionReview exhibitionReview = requestDto.toEntity(member, exhibition);
-        ExhibitionReview savedReview = exhibitionReviewRepository.saveAndFlush(exhibitionReview);
+
+        ExhibitionReview savedReview = exhibitionReviewRepository.save(requestDto
+                .toEntity(member, exhibition));
+
         exhibition.updateAvgRating(savedReview.getRating());
-        exhibitionRepository.saveAndFlush(exhibition);
         System.out.println("=======================================================" + savedReview);
+
         // 이미지 저장하고 tbl_review 와 연결
         List<ReviewImage> images = requestDto
                 .getImages()
                 .stream()
                 .map(ReviewImageResponseDto -> {
-            ReviewImage reviewImage = new ReviewImage();
-            reviewImage.setOriginalName(ReviewImageResponseDto.getOriginalName());
-            reviewImage.setPath(ReviewImageResponseDto.getPath());
-            reviewImage.setExhibitionReview(savedReview);
-            return reviewImageRepository.saveAndFlush(reviewImage);
-        }).collect(Collectors.toList());
+                    ReviewImage reviewImage = new ReviewImage();
+                    reviewImage.setOriginalName(ReviewImageResponseDto.getOriginalName());
+                    reviewImage.setPath(ReviewImageResponseDto.getPath());
+                    savedReview.addImage(reviewImage);
+                    return reviewImage;
+                }).collect(Collectors.toList());
+
         // 리뷰에 이미지 리스트 설정
-        savedReview.setImages(images);
         return new ReviewDetailDto(savedReview, member, exhibition, images);
     }
 
@@ -77,6 +83,7 @@ public class ExhibitionReviewService {
                 .filter(ExhibitionReview::increaseViewCount)
                 .map(ReviewDetailDto.ResponseReviewDetailDto::new)
                 .orElseThrow(IllegalArgumentException::new);
+
         reviewInfo.put("reviewDetail", reviewDto);
 
 
@@ -85,6 +92,7 @@ public class ExhibitionReviewService {
             reviewInfo.put("isLike", false);
             return reviewInfo;
         }
+
         reviewInfo.put("isLoggedIn", true);
         reviewInfo.put("isLike", exhibitionReviewLikeRepository.existsByMemberIdAndExhibitionReviewId(memberId, reviewId));
         return reviewInfo;
@@ -96,7 +104,7 @@ public class ExhibitionReviewService {
                 .orElseThrow(() -> new IllegalArgumentException("유저 ID(Email) 찾기 오류: " + memberEmail));
         ExhibitionReview review = exhibitionReviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("리뷰 ID 찾기 오류: " + reviewId));
-        if(review.getMember().equals(member)) {
+        if (review.getMember().equals(member)) {
             exhibitionReviewRepository.delete(review);
             exhibitionReviewReplyRepository.deleteByExhibitionReview(review);
             return true;
@@ -105,47 +113,37 @@ public class ExhibitionReviewService {
     }
 
     @Transactional
-    public ReviewDetailDto updateReview(ExhibitionReviewRequestDto requestDto,String memberEmail, Long reviewId, Long exhibitionId) {
+    public ReviewDetailDto updateReview(ExhibitionReviewRequestDto requestDto, String memberEmail, Long reviewId, Long exhibitionId) {
         Member member = memberRepository.findByEmail(memberEmail)
                 .orElseThrow(() -> new IllegalArgumentException("유저 ID(Email) 찾기 오류: " + memberEmail));
-        ExhibitionReview review = exhibitionReviewRepository.findById(reviewId)
+        ExhibitionReview review = exhibitionReviewRepository.findWithAllImagesById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("리뷰 ID 찾기 오류: " + reviewId));
         Exhibition exhibition = exhibitionRepository.findById(exhibitionId)
                 .orElseThrow(() -> new IllegalArgumentException("전시회 ID 찾기 오류: " + exhibitionId));
-        if (!review.getMember().equals(member)) {
-            try {
-                throw new AccessDeniedException("리뷰 수정 권한 없음");
-            } catch (AccessDeniedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        ExhibitionReview updatedReview = requestDto.toUpdate(review, member, exhibition);
 
-        List<ReviewImage> existingImages = updatedReview.getImages();
-        if (existingImages != null) {
-            reviewImageRepository.deleteAll(existingImages);
-            existingImages.clear();  // 기존 이미지 리스트를 클리어
+        if (!review.isWriteFor(member)) {
+            throw new RuntimeException("리뷰 수정 실패.");
         }
 
-        List<ReviewImage> updatedImages = requestDto.getImages().stream()
-                .map(imageDto -> {
-                    ReviewImage reviewImage = new ReviewImage();
-                    reviewImage.setOriginalName(imageDto.getOriginalName());
-                    reviewImage.setPath(imageDto.getPath());
-                    reviewImage.setExhibitionReview(updatedReview);
-                    return reviewImageRepository.saveAndFlush(reviewImage);
-                })
-                .collect(Collectors.toList());
-
-        updatedReview.getImages().addAll(updatedImages);  // 새로운 이미지를 추가
-
-
-        // 변경된 리뷰와 이미지를 DB에 저장
-        exhibitionReviewRepository.saveAndFlush(updatedReview);
-
-        // 평균 평점 업데이트
+        ExhibitionReview updatedReview = review.update(requestDto, member, exhibition);
         exhibition.updateAvgRating(updatedReview.getRating());
-        exhibitionRepository.saveAndFlush(exhibition);
+
+        int deleteCount = reviewImageRepository.deleteByExhibitionReview(review);
+
+        ExhibitionReview findReview = exhibitionReviewRepository.findById(reviewId)
+                .get();
+
+        System.out.println("deleteCount = " + deleteCount);
+
+        List<ReviewImage> updatedImages = requestDto
+                .getImages()
+                .stream()
+                .map(images -> {
+                    ReviewImage image = ReviewImage.ofNewImage(images.getPath(), images.getOriginalName());
+                    findReview.addImage(image);
+                    return image;
+                })
+                .toList();
 
         return new ReviewDetailDto(updatedReview, member, exhibition, updatedImages);
     }
@@ -154,7 +152,7 @@ public class ExhibitionReviewService {
     // 전시 상세 페이지에서 하단의 리뷰 리스트를 가져오는 Service
     public Page<ExhibitionReviewDto.RequestReviewList> getExhibitionReviews(Long exhibitionId, PageRequestDto pageRequestDto) {
         Pageable pageable = PageRequest.of(pageRequestDto
-                .getPageNo()-1, pageRequestDto.getPagePer(), Sort.by("regDate").descending());
+                .getPageNo() - 1, pageRequestDto.getPagePer(), Sort.by("regDate").descending());
         Page<ExhibitionReview> exhibitionReviews = exhibitionReviewRepository.findByExhibitionId(exhibitionId, pageable);
         return exhibitionReviews.map(this::changeDtoRemoveImgTags);
     }
@@ -165,7 +163,7 @@ public class ExhibitionReviewService {
      */
     private ExhibitionReviewDto.RequestReviewList changeDtoRemoveImgTags(ExhibitionReview review) {
         Document document = Jsoup.parse(review.getContent());
-        for (Element img: document.select("img")) {
+        for (Element img : document.select("img")) {
             img.remove();
         }
         review.setContent(document.text().replaceAll("\\s+", " ").trim());

@@ -1,5 +1,6 @@
 package com.kosa.gallerygather.entity;
 
+import com.kosa.gallerygather.dto.ExhibitionReviewRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.AccessLevel;
@@ -59,7 +60,7 @@ public class ExhibitionReview {
     private Exhibition exhibition;
 
     @OneToMany(mappedBy = "exhibitionReview", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ReviewImage> images;
+    private List<ReviewImage> images = new ArrayList<>();
 
     @OneToMany(mappedBy = "exhibitionReview", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<ExhibitionReviewReply> reviewReplies = new ArrayList<>();
@@ -106,5 +107,31 @@ public class ExhibitionReview {
     }
 
     public void increaseReplyCount() { this.replyCount++; }
+
     public void decreaseReplyCount() { this.replyCount--; }
+
+    public ExhibitionReview update(ExhibitionReviewRequestDto requestDto, Member member, Exhibition exhibition) {
+        setTitle(requestDto.getTitle());
+        setContent(requestDto.getContent());
+        setRating(requestDto.getRating());
+        setViewDate(requestDto.getViewDate());
+        setUpdateDate(requestDto.getUpdateDate());
+        setMember(member);
+        setExhibition(exhibition);
+        removeAllImages();
+        return this;
+    }
+
+    public void removeAllImages() {
+        images.clear();
+    }
+
+    public void addImage(ReviewImage reviewImage) {
+        this.images.add(reviewImage);
+        reviewImage.setExhibitionReview(this);
+    }
+
+    public boolean isWriteFor(Member member) {
+        return member == this.member;
+    }
 }

@@ -37,14 +37,4 @@ public class ExhibitionReviewRequestDto {
                 .build();
     }
 
-    public ExhibitionReview toUpdate(ExhibitionReview existingReview, Member member, Exhibition exhibition) {
-        existingReview.setTitle(this.title);
-        existingReview.setContent(this.content);
-        existingReview.setRating(this.rating);
-        existingReview.setViewDate(this.viewDate);
-        existingReview.setUpdateDate(this.updateDate);
-        existingReview.setMember(member);
-        existingReview.setExhibition(exhibition);
-        return existingReview;
-    }
 }

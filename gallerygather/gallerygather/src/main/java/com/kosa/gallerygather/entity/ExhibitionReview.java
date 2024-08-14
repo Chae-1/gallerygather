@@ -88,6 +88,10 @@ public class ExhibitionReview {
         }
     }
 
+    public ExhibitionReview(Long reviewId) {
+        this.id = reviewId;
+    }
+
     public boolean increaseViewCount() {
         this.viewCount++;
         return true;

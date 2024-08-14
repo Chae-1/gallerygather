@@ -54,17 +54,14 @@
 </template>
 
 <script>
-import axios from 'axios';
 import ReviewRepliesCompo from './ReviewRepliesCompo.vue'
 import DOMPurify from 'dompurify';
 import { userStore } from '@/store/userStore';
 import { apiRequest } from '@/util/RequestUtil';
-// import QuillEditor from './QuillEditor.vue'
 
 export default { 
     components: {
         ReviewRepliesCompo,
-        // QuillEditor
     },
     data() {
         return {
@@ -77,7 +74,7 @@ export default {
     },
     computed: {
     safeContent() {
-      return DOMPurify.sanitize(this.reviewDetail.content);
+        return DOMPurify.sanitize(this.reviewDetail.content);
     }
   },
 
@@ -86,20 +83,6 @@ export default {
         this.exhibitionId = exhibitionId;
         this.reviewId = reviewId;
         this.getReviewDetail();
-        // if (this.$route.params.reviewDetail) {
-        //     this.reviewDetail = this.$route.params.reviewDetail;
-        // } else {
-        //     const { exhibitionId, reviewId } = this.$route.params;
-        //     this.exhibitionId = exhibitionId;
-        //     try {
-        //         const response = await axios.get(`http://localhost:8080/api/exhibition/${exhibitionId}/review/${reviewId}`);
-        //         this.reviewDetail = response.data;
-        //     } catch (error) {
-        //         console.error('Failed to fetch review detail:', error);
-        //         // 오류 처리 로직 추가 가능 (예: 에러 메시지 표시, 다른 페이지로 리다이렉트 등)
-        //     }
-        //     }
-        
     },
 
     methods: {
@@ -117,14 +100,28 @@ export default {
         },
         editReview() {
         // 리뷰 수정 페이지로 이동
-        this.$router.push({ name: 'ReviewWrite' });
-        // this.$router.push({ name: 'ReviewWrite', params: { id: this.$route.params.id } });
+        if (this.getUser() === false) {
+            alert("잘못된 접근입니다. 로그인 후 이용해주시기 바랍니다.");
+            } else {
+                this.$router.push({ name: 'ReviewWrite' });
+            }
         },
         handleLikeClick() {
-            
-        }
+            if (this.getUser()) { //로그인 되었으면
+                apiRequest("post",
+                    `http://localhost:8080/api/exhibition/reviews/${this.reviewId}/like`,
+                    {"isLike": this.isLike}
+                ).then((response) => {
+                    console.log(response);
+                    this.isLike = !this.isLike;
+                    this.reviewDetail.likeCount += this.isLike? 1: -1;
+                }).catch(error=>{console.log(error);})
 
-  }  
+            } else { //로그인 안되었으면
+                alert("로그인 후 이용 가능합니다.");
+            }
+        }
+    }  
     
 };
 

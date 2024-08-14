@@ -39,14 +39,14 @@ public class ExhibitionLikeService {
     }
 
     //유은 - 좋아요한 모든 전시 가져오기
-    @Transactional
-    public List<Exhibition> getLikedExhibitionsForCurrentMember() {
-        // 현재 로그인된 사용자의 memberId를 가져옴
-        Long memberId = memberService.getCurrentMemberId();
-
-        // 가져온 memberId를 사용하여 좋아요한 전시 목록을 조회하고 반환
-        return exhibitionLikeRepository.findLikedExhibitionsByMemberId(memberId);
-    }
+//    @Transactional
+//    public List<Exhibition> getLikedExhibitionsForCurrentMember() {
+//        // 현재 로그인된 사용자의 memberId를 가져옴
+//        Long memberId = memberService.getCurrentMemberId();
+//
+//        // 가져온 memberId를 사용하여 좋아요한 전시 목록을 조회하고 반환
+//        return exhibitionLikeRepository.findLikedExhibitionsByMemberId(memberId);
+//    }
 
     //유은 - 좋아요한 모든 전시 갯수 가져오기
     @Transactional

@@ -1,8 +1,12 @@
 <template>
-  <div class="review-container">
-    <h2 class="title">후기 작성하기</h2>
+  <div v-if="exhibitInfo && Object.keys(exhibitInfo).length > 0">
     <div class="exhibition-info">
-      <img :src="exhibitInfo.imgUrl" alt="전시 이미지" class="exhibition-image" />
+      <img
+        v-if="exhibitInfo.imgUrl"
+        :src="exhibitInfo.imgUrl"
+        alt="전시 이미지"
+        class="exhibition-image"
+      />
       <div class="exhibition-detail">
         <h3>{{ exhibitInfo.title }}</h3>
         <p>기간: {{ exhibitInfo.startDate }} ~ {{ exhibitInfo.endDate }}</p>
@@ -56,7 +60,7 @@
         required
       ></QuillEditor>
       <br />
-      <button type="submit" class="submit-button">등록</button>
+      <button type="submit" class="submit-button">{{ isEditMode ? '수정' : '등록' }}</button>
     </form>
   </div>
 </template>
@@ -64,10 +68,8 @@
 <script>
 import QuillEditor from './QuillEditor.vue'
 import StarRating from 'vue-star-rating'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import VCalendar from 'v-calendar'
-import axios from 'axios'
-import { apiRequest } from '@/util/RequestUtil.js'
 
 export default {
   components: {
@@ -75,97 +77,62 @@ export default {
     StarRating,
     'v-date-picker': VCalendar.DatePicker
   },
-  setup() {
-    const date = ref(new Date())
-    const showDatePicker = ref(false)
-    return {
-      date,
-      showDatePicker
-    }
-  },
-  data() {
-    return {
-      exhibitInfo: {},
-      review: {
+  props: {
+    exhibitInfo: {
+      type: Object,
+      required: true,
+      default: () => ({})
+    },
+    review: {
+      type: Object,
+      required: true,
+      default: () => ({
         title: '',
         content: '',
         viewDate: new Date().toISOString().substr(0, 10),
         rating: 0,
         images: []
-      }
+      })
+    },
+    isEditMode: {
+      type: Boolean,
+      default: false
     }
   },
+  setup() {
+    const showDatePicker = ref(false)
 
-  async created() {
-    if (this.$route.params.exhibitInfo) {
-      this.exhibitInfo = this.$route.params.exhibitInfo
-    } else {
-      const { exhibitionId } = this.$route.params
-      try {
-        const response = await axios.get(`http://localhost:8080/api/exhibitions/${exhibitionId}`)
-        this.exhibitInfo = response.data.exhibition
-        console.log('전시정보', this.exhibitInfo)
-      } catch (error) {
-        console.error('Failed to fetch exhibition some detail:', error)
-        // 오류 처리 로직 추가 가능 (예: 에러 메시지 표시, 다른 페이지로 리다이렉트 등)
-      }
-    }
-  },
-
-  computed: {
-    formattedDate() {
+    const formattedDate = computed(() => {
       if (!this.review.viewDate) return ''
       const date = new Date(this.review.viewDate)
       const year = date.getFullYear()
       const month = ('0' + (date.getMonth() + 1)).slice(-2)
       const day = ('0' + date.getDate()).slice(-2)
       return `${year}-${month}-${day}`
+    })
+
+    return {
+      showDatePicker,
+      formattedDate
     }
   },
   methods: {
     async submit() {
-      const exhibitionId = this.$route.params.exhibitionId
-      console.log('?????????????????????', exhibitionId)
-
       try {
         // QuillEditor에서 이미지 업로드
         const uploadUrls = await this.$refs.quillEditor.uploadImages()
         this.review.images = uploadUrls
 
-        console.log('리뷰객체 보내지는 값!!!!!!!!!!!!', this.review)
-
-        console.log('URL:', `http://localhost:8080/api/exhibition/${exhibitionId}/review`)
-        console.log('Payload:', this.review)
-
-        apiRequest(
-          'post',
-          `http://localhost:8080/api/exhibition/${exhibitionId}/review`,
-          this.review
-        ).then((response) => {
-          const reviewDetail = response.data
-          console.log('!!!!!!!!!!!!!!!!!!!!!1111', reviewDetail)
-
-          // 상세보기 페이지로 이동합니다.
-          ///exhibitiondetails/:exhibitionId/reviewdetails/:reviewId
-          this.$router.push(
-            `/exhibitiondetails/${exhibitionId}/reviewdetails/${reviewDetail.reviewId}`
-          )
-        })
+        // 부모 컴포넌트로 이벤트 발생
+        this.$emit('submit-review', this.review)
       } catch (error) {
-        console.error('리뷰 생성 실패:', error)
+        console.error('리뷰 처리 실패:', error)
       }
     }
   },
-  watch: {
-    'review.content': function (newContent) {
-      console.log('Parent component review.content changed:', newContent)
-    },
-    'review.rating': function (newRating) {
-      console.log('Parent component review.rating changed:', newRating)
-    }
-  },
   mounted() {
-    console.log('Mounted with initial review:', this.review)
+    console.log('exhibitInfo:', this.exhibitInfo)
+    console.log('review:', this.review)
   }
 }
 </script>

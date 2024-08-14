@@ -20,4 +20,8 @@ export default {
 </script>
 
 <style>
+.wrap {
+  display: flex;
+  flex-direction: column;
+}
 </style>

@@ -27,7 +27,7 @@ export default {
 
 .navi {
   width: 300px; /* 네비게이션 바의 너비를 설정 */
-  background-color: f9f6f3; /* 배경 색상 */
+  background-color: #f9f6f3; /* 배경 색상 */
   flex-shrink: 0;
 }
 

@@ -18,23 +18,21 @@ export default {
 
   methods: {
     async logout() {
-      const currentPath = this.$route.fullPath;
-      apiRequest('post', "http://localhost:8080/api/members/auth/logout", {
-        accessToken: localStorage.getItem('accessToken'),
-        refreshToken: localStorage.getItem('refreshToken')
-      }).then(response => {
-        console.log(currentPath);
-        console.log(response);
-        this.store.clearUserInfo();
+      try {
+        await apiRequest('post', 'http://localhost:8080/api/members/auth/logout', {
+          accessToken: localStorage.getItem('accessToken'),
+          refreshToken: localStorage.getItem('refreshToken')
+        })
+      } finally {
+        this.store.clearUserInfo()
+        console.log('finally 호출')
+        const currentPath = this.$route.fullPath
         if (currentPath.includes('mypage')) {
-          this.$router.push('/login');
-          return;
+          this.$router.push('/login')
+          return
         }
-        this.$router.push(currentPath);
-      }).catch(error => {
-        console.log(error);
-        console.log("로그아웃 실패");
-      })
+        this.$router.push(currentPath)
+      }
 
     }
   }
@@ -48,6 +46,7 @@ export default {
         <img src="../../assets/img/logo.png" alt="">
       </a>
     </div>
+
     <div class="menu-container">
       <ul class="main-menu">
         <li class="item">
@@ -81,10 +80,10 @@ export default {
           <div class="item__contents">
             <div class="contents__menu">
               <ul class="inner">
-                <li><a href="/">My Likes</a></li>
-                <li><a href="/">My Planning</a></li>
-                <li><a href="/">Visited Exhibition</a></li>
-                <li><a href="/">Whats' New</a></li>
+                <li><a href="/">Where</a></li>
+                <li><a href="/">Who</a></li>
+                <li><a href="/">Contact Us</a></li>
+                <li><a href="/">Ask Us</a></li>
               </ul>
             </div>
           </div>
@@ -104,6 +103,7 @@ export default {
         </li>
       </ul>
     </div>
+
     <div class="login-bar">
       <div class="login-menu">
         <router-link to="/mypage" v-if="isAuthenticated">
@@ -133,12 +133,9 @@ ul {
 
 header {
   display: flex;
-  flex-direction: row;
   padding: 0 3%;
-  /* position: relative; */
   width: 100%;
   justify-content: space-between;
-  /* border-bottom: 1px solid #faf3e0;; */
   background-color: #f8f5eb;
 }
 
@@ -159,24 +156,6 @@ a:hover {
   height: 70px;
 }
 
-.main-menu {
-  display: flex;
-  flex-direction: row;
-  gap: 30px;
-  z-index: 1;
-  padding: 0;
-}
-
-.main-menu .item .item__name {
-  padding: 20px 20px 30px;
-  margin-top: 10px;
-}
-
-.main-menu .item:hover .item__name {
-  background-color: #2c2a29;
-  color: #669900;
-  border-radius: 6px 6px 0 0;
-}
 
 .login-bar > div:hover a {
   background-color: #2c2a29;
@@ -184,82 +163,71 @@ a:hover {
   border-radius: 6px;
 }
 
-.main-menu .item .item__contents {
-  width: 100%;
-  position: absolute;
-  z-index: 2;
-  left: 0;
-  display: none;
-  transition-delay: 2s;
-  transition-property: height;
+
+.main-menu {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  padding: 0;
 }
 
-.main-menu .item:hover .item__contents {
-  display: block;
+
+.item__name {
+  padding: 20px 20px 30px;
+  margin-top: 10px;
 }
 
-.main-menu .item .item__contents .contents__menu {
+.item:hover .item__name {
   background-color: #2c2a29;
-  height: 400px;
+  color: #669900;
+  border-radius: 6px 6px 0 0;
 }
-
-/* .main-menu .item .item__contents{
-  width: 100%;
-  position: absolute;
-  left: 0;
-  display: none;
-  z-index: 2;
-  transition: height 2s ease-in-out;
-}
-
-.main-menu .item:hover .item__contents{
-    display: block;
-}
-
-.main-menu .item .item__contents .contents__menu{
-  background-color: #2c2a29;
-  height: 400px; 
-} */
-/* 
-.inner {
-    font-size: 40px;
-    padding-top: 50px;
-}
-
-.inner > li {
-    padding: 20px 10px;
-    align-content: center;
-}
-
-.inner > li > a::before {
-    content:"";
-    width: 0;
-    height: 100%;
-}
-
-.inner > li > a:hover::before {
-    content:"ㅡ";
-    width: auto;
-} */
 
 .login-bar {
   display: flex;
-  /* padding: 10px 0; */
   vertical-align: center;
 }
 
 .login-bar > div {
-  /* padding: 0 20px; */
   padding: 20px;
   margin-top: 10px;
-}
-
-.login-menu {
-  /* height: 100%; */
 }
 
 .login-menu a {
   padding: 10px 20px;
 }
+
+.contents__menu {
+  background-color: #2c2a29;
+  height: 400px;
+}
+
+.main-menu .item:hover .item__contents {
+  display: block;
+  font-size: 2rem;
+}
+
+.item__contents ul > li::before {
+  content: '';
+  width: 0px;
+  height: 3px;
+  display: inline-block;
+  background: red;
+  transition: width 2s;
+}
+
+.item__contents ul > li:hover::before {
+  width: 200px;
+}
+
+.item__contents {
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  display: none;
+  transition-delay: 2s;
+  transition-property: height;
+}
+
 
 </style>

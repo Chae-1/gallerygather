@@ -30,3 +30,7 @@ public class TestAuthenticationController {
         return userDetails.getEmail() + "ok";
     }
 }
+
+
+
+// ~/IdeaProject/gallerygather/gallerygather/gallerygather

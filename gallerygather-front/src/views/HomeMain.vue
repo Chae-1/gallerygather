@@ -3,11 +3,10 @@
     <HomeMainCarousel />
 
     <article class="main-content">
-      <HomeMainConditionSearchBar :totalElements="totalElement"/>
+      <HomeMainConditionSearchBar :search="search" :conditions="conditions" :totalElements="totalElement" @onClickSortOption="selectSortOptionAndInput"/>
       <div>
         <CardComponent :currentPage="currentPage" :cards="cardItems" :perPage="perPage" @onPageClick="updatePageNum"/>
         <div class="mt-3">
-          <h6>Large Pills</h6>
           <b-pagination v-model="currentPage"
                         :per-page="perPage"
                         @page-click="updatePageNum"
@@ -31,11 +30,12 @@ import { apiRequest } from '@/util/RequestUtil.js'
 export default {
   data() {
     return {
-      totalElement: 101,
-      currentPage: 1,
+      totalElement: 0,
+      currentPage: 0,
       perPage: 12,
       cardItems: [],
-      conditions: [],
+      conditions: '',
+      search: ''
     };
   },
 
@@ -45,7 +45,9 @@ export default {
     fetchNewItems() {
       apiRequest('get', `http://localhost:8080/api/exhibitions?pageNo=${this.currentPage}&pagePer=${this.perPage}`, null)
         .then(response => {
+          console.log(response);
           this.cardItems = response.data.content;
+          console.log("데이터 전체 개수: " + response.data.totalElements)
           this.totalElement = response.data.totalElements;
           console.log(response)
         })
@@ -60,7 +62,11 @@ export default {
     }
   },
 
-  mounted() {
+  selectSortOptionAndInput(value) {
+    this.selectedButton = value;
+  },
+
+  created() {
     this.fetchNewItems();
   },
 
@@ -78,8 +84,10 @@ export default {
 
 .main-content {
   padding: 50px;
+  min-height: 1024px;
   display: flex;
   flex-direction: column;
 }
+
 
 </style>

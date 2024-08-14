@@ -2,16 +2,16 @@
   <div class="navi-bar">
     <ul>
       <li>
-        <h4><router-link to="/mypagecompo">내 정보</router-link></h4>
+        <h4><router-link to="/mypage/mypagecompo">내 정보</router-link></h4>
       </li>
       <li>
-        <h4><router-link to="/mylikecompo">좋아요</router-link></h4>
+        <h4><router-link to="/mypage/mylikecompo">좋아요</router-link></h4>
       </li>
       <li>
-        <h4><router-link to="/myreviewcompo">리뷰</router-link></h4>
+        <h4><router-link to="/mypage/myreviewcompo">리뷰</router-link></h4>
       </li>
       <li>
-        <h4><router-link to="/myreplycompo">댓글</router-link></h4>
+        <h4><router-link to="/mypage/myreplycompo">댓글</router-link></h4>
       </li>
     </ul>
   </div>

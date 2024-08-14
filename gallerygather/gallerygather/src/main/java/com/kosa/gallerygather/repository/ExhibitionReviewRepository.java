@@ -1,9 +1,10 @@
 package com.kosa.gallerygather.repository;
 
+import com.kosa.gallerygather.entity.Exhibition;
 import com.kosa.gallerygather.entity.ExhibitionReview;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -14,14 +15,17 @@ public interface ExhibitionReviewRepository extends JpaRepository<ExhibitionRevi
 
     List<ExhibitionReview> findByContentContains(String content);
 
-    List<ExhibitionReview> findByExhibitionId(@Param("exhibitionId") Long exhibitionId, Pageable pageable);
+    /*
+    작성자: 오지수
+    exhibition과 id로 유효성검사
+     */
+    Optional<ExhibitionReview> findByIdAndExhibition(Long id, Exhibition exhibition);
 
-//    @Query("select er from ExhibitionReview er " +
-//            " left join er.exhibition ex" +
-//            " left join r.member m " +
-//            " where er.member ")
-//    Object[] findExhibitionWithReplyWithAssociatedMember(@Param("reviewId") Long reviewId);
-
+    /*
+    작성자: 오지수
+    exhibitionId로 리뷰 페이지 리스트 가져오기
+     */
+    Page<ExhibitionReview> findByExhibitionId(@Param("exhibitionId") Long exhibitionId, Pageable pageable);
 }
 
 

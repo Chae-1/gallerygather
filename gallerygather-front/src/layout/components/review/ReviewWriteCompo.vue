@@ -85,7 +85,7 @@ export default {
   },
   data() {
     return {
-      exhibitInfo: [],
+      exhibitInfo: {},
       review: {
         title: '',
         content: '',

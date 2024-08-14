@@ -37,4 +37,22 @@ public class ApiMyPageReplyListController {
         return ResponseEntity.ok(replys);
 
     }
+
+    // 로그인된 멤버의 이메일로 댓글 개수 조회
+    @GetMapping("/api/replys/member/reply-count")
+    public ResponseEntity<Integer> getReplyCount(
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        System.out.println("getReplyCount 호출 완료");
+        // 로그인된 사용자의 이메일
+        String email = userDetails.getEmail();
+        System.out.println("댓글 개수 조회 시 email 값 확인: " + email); // 콘솔 확인
+
+        // MyPageListService 메서드 호출하여 댓글 리스트 조회
+        List<MyPageReplyListResponseDto> replys = myPageListService.getMyPageReplyRepository(email);
+        int replyCount = replys.isEmpty() ? 0 : replys.get(0).getReplyCount();
+        System.out.println("댓글 개수: " + replyCount); // 콘솔 확인
+
+        // 조회된 댓글 개수를 클라이언트에 응답으로 반환
+        return ResponseEntity.ok(replyCount);
+    }
 }

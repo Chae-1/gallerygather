@@ -4,6 +4,7 @@ import com.kosa.gallerygather.entity.ExhibitionReview;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ public class ExhibitionReviewDto {
     @Builder
     @AllArgsConstructor
     @Getter
+    @Setter
     public static class RequestReviewList {
         private long id;
         private String title;

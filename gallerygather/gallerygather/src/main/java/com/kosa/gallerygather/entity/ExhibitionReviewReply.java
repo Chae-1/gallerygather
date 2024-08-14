@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class)
 public class ExhibitionReviewReply {
 
     @Id
@@ -23,12 +25,12 @@ public class ExhibitionReviewReply {
     @Column(name = "reply")
     private String reply;
 
-    @CreatedDate
     @Column(name = "reg_date")
+    @CreatedDate
     private LocalDateTime regDate;
 
-    @LastModifiedDate
     @Column(name = "update_date")
+    @LastModifiedDate
     private LocalDateTime updateDate;
 
     @ManyToOne(fetch = FetchType.LAZY)

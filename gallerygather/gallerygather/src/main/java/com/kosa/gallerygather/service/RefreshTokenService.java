@@ -1,6 +1,5 @@
 package com.kosa.gallerygather.service;
 
-import com.kosa.gallerygather.entity.Member;
 import com.kosa.gallerygather.entity.RefreshToken;
 import com.kosa.gallerygather.exception.token.RefreshTokenExpirationException;
 import com.kosa.gallerygather.repository.MemberRepository;
@@ -61,5 +60,10 @@ public class RefreshTokenService {
 
     public Optional<RefreshToken> findByToken(String refreshToken) {
         return refreshTokenRepository.findByToken(refreshToken);
+    }
+
+    @Transactional
+    public boolean deleteToken(String refreshToken) {
+        return refreshTokenRepository.deleteByToken(refreshToken) > 0;
     }
 }

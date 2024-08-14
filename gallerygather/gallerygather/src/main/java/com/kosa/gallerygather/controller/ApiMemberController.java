@@ -107,5 +107,22 @@ public class ApiMemberController {
         }
     }
 
+    // 유은 - 회원 탈퇴 기능 추가
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteMemberByEmail(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try {
+            System.out.println("탈퇴컨트롤러 호출");
+            // 현재 인증된 사용자의 이메일을 가져옴
+            String userEmail = userDetails.getEmail();
+            System.out.println("탈퇴 userEmail : "+userEmail);
+
+            // 회원 삭제
+            memberService.deleteMemberByEmail(userEmail);
+
+            return ResponseEntity.ok("회원 탈퇴가 성공적으로 처리되었습니다.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원 탈퇴 중 오류가 발생했습니다.");
+        }
+    }
 }
 

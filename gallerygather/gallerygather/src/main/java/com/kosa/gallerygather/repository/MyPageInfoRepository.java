@@ -10,7 +10,7 @@ public interface MyPageInfoRepository extends JpaRepository<Member, Long> {
     // 중복확인
     Optional<Member> findByNickName(String nickName);
 
-    // 회원정보업데이트
-//    Member findByEmail(String email);
+    // 이메일로 회원 삭제
+    void deleteByEmail(String email);
 }
 

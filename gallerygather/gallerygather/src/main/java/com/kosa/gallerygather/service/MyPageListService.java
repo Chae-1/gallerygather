@@ -30,35 +30,37 @@ public class MyPageListService {
     }
 
 
-    //멤버 이메일로 모든 댓글 조회
+    // 멤버 이메일로 모든 댓글 조회
     public List<MyPageReplyListResponseDto> getMyPageReplyRepository(String email) {
 
-        //주입된 레포지토리로 reply를 조회
+        // 주입된 레포지토리로 reply를 조회
         List<ExhibitionReviewReply> replys = myPageReplyRepository.findByMemberEmail(email);
         System.out.println("가져온 댓글 데이터: " + replys);
 
         // 댓글의 개수를 계산
         int replycount = replys.size();
 
-        //그릇
+        // 그릇
         List<MyPageReplyListResponseDto> replysDto = new ArrayList<>();
 
-        //DTO로 변환, 리스트 추가
+        // DTO로 변환, 리스트 추가
         for (ExhibitionReviewReply reply : replys) {
             MyPageReplyListResponseDto dto = new MyPageReplyListResponseDto(
-                    reply.getReply(),
-                    reply.getRegDate(),
-                    reply.getUpdateDate(),
-                    reply.getReplyReviewId(),
-                    reply.getReviewTitle(),
-                    replycount
+                    reply.getReply(),              // 댓글 내용
+                    reply.getRegDate(),            // 등록 날짜
+                    reply.getUpdateDate(),         // 수정 날짜
+                    reply.getReplyReviewId(),      // 리뷰 ID
+                    reply.getReviewTitle(),        // 리뷰 제목
+                    replycount,                    // 댓글의 총 개수
+                    reply.getExhibitionId()        // 전시회 ID
             );
-            System.out.println("댓글에서 가져온 전시제목(서비스단): "+ reply.getReviewTitle());
+            System.out.println("댓글에서 가져온 전시제목(서비스단): " + reply.getReviewTitle());
             replysDto.add(dto); // 변환된 DTO를 리스트에 추가합니다.
         }
 
         return replysDto;
     }
+
 
     // 멤버의 이메일로 모든 리뷰를 조회하는 메소드
     public List<MyPageReviewListResponseDto> getReviewsByMemberEmail(String email) {

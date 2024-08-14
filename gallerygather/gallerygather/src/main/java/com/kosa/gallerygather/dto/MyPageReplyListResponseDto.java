@@ -17,5 +17,6 @@ public class MyPageReplyListResponseDto {
     private long replyReviewId;
     private String reviewTitle;
     private int replyCount;               // 댓글의 총 개수 추가
+    private Long getExhibitionId;
 
 }

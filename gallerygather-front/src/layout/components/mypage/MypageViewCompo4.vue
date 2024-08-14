@@ -1,11 +1,11 @@
 <template>
   <div class="reply">
     <div class="container">
-      <br/>
-      <br/>
+      <br />
+      <br />
       <h3>내가 작성한 댓글 확인</h3>
-      <br/>
-      <br/>
+      <br />
+      <br />
       <div class="btn-toggle">
         <button @click="selectedTab = 'reply'" :class="{ active: selectedTab === 'reply' }">
           댓글리스트
@@ -88,27 +88,22 @@ export default {
         reply.selected = this.selectAll
       })
     },
-    deleteSelected() {
-      // 선택된 리뷰 항목을 삭제하는 메서드
-      this.replys = this.replys.filter((reply) => !reply.selected)
-    },
     goToExhibitionDetailCompo(reply) {
-      console.log('전시댓글: exhibitionId:', reply.replyReviewId)
-
-      if (reply.replyReviewId) {
+      console.log('전시댓글: reply:', reply);
+      console.log('전시댓글: replyReviewId:', reply.replyReviewId);
+      console.log('전시댓글: reply:', reply.getExhibitionId);
+      if (reply.getExhibitionId && reply.replyReviewId) {
         this.$router.push({
-          name: 'ReviewDetailReply',
+          name: 'ReviewDetail',
           params: {
-            exhibitionId: reply.replyReviewId
-          }
-        })
+            exhibitionId: reply.getExhibitionId,
+            reviewId: reply.replyReviewId } // reviewId를 함께 전달
+        });
       } else {
-        console.error('댓글에서 goToExhibitionDetailCompo 문제.')
+        console.error('댓글에서 goToExhibitionDetailCompo 문제.');
       }
     }
-
-
-  }
+  },
 }
 </script>
 <style scoped>

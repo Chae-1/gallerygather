@@ -60,7 +60,7 @@ export default {
     </div>
 
     <div class="toggle" @click="descVisible">
-      <h6>갤러리개더 정보</h6>
+      <span>갤러리개더 정보</span>
     </div>
 
     <div class="footer-description" v-show="!visible">
@@ -94,6 +94,7 @@ footer {
   padding: 20px;
   background: #ababab;
   color: #730758;
+  font-size: 0.75rem;
 }
 
 .footer-menu {
@@ -109,7 +110,6 @@ footer {
 .footer-menu a {
   display: block;
   padding: 0 20px;
-  font-size: 0.9rem;
   color: #6c2c2c;
 }
 
@@ -132,6 +132,17 @@ footer {
   cursor: pointer;
   margin-top: 1rem;
   font-weight: bold;
+  text-align: center;
+}
+
+.footer-description {
+  display : flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.footer-description p {
+  margin : 10px 0;
 }
 
 </style>

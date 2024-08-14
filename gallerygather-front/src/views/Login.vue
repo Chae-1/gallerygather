@@ -34,7 +34,9 @@ export default {
 </script>
 
 <template>
-  <div>
+
+
+  <div class="login-form">
     <form class="login" method="post">
       <span>이메일</span>
       <input type="email" v-model="email" placeholder="Email Address">
@@ -46,9 +48,13 @@ export default {
         </label>
         <a href="#none">비밀번호를 잊으셨나요?</a>
       </p>
-      <button type="button" @click="login">로그인</button>
+      <div class="button-group">
+        <button type="button" @click="login">로그인</button>
+      </div>
     </form>
   </div>
+
+
 </template>
 
 <style scoped>
@@ -60,8 +66,9 @@ a {
 }
 
 .login {
-  max-width: 1920px;
-  background-color: #f5f5f5;
+  width: 40%;
+  min-height: 300px;
+  background-color: #b8bab4;
   border: 1px solid #eee;
   border-radius: 5px;
   padding: 25px;
@@ -88,8 +95,8 @@ a {
 
 .login input[type=email]:hover,
 .login input[type=password]:hover {
-  border: 1px solid dodgerblue;
-  box-shadow: 0 0 5px dodgerblue;
+  border: 1px solid #669900;
+  box-shadow: 0 0 5px #669900;
 }
 
 .login input[type=email] {
@@ -130,8 +137,8 @@ a {
 }
 
 .login button {
-  background-color: #2991b1;
-  color: #fff;
+  background-color: #2c2a29;
+  color: #669900;
   width: 300px;
   padding: 10px;
   border-radius: 5px;
@@ -142,6 +149,32 @@ a {
 }
 
 .login button:hover {
-  background-color: #2c778e;
+  transform: scale(1.025);
 }
+
+.login-form {
+  width: 100%;
+  height: 100%;
+}
+
+@media screen and (max-width: 992px) {
+
+  .login {
+    max-width: 700px;
+    max-height: 300px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .login {
+    max-width: 400px;
+    max-height: 300px;
+  }
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+}
+
 </style>

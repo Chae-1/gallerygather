@@ -4,17 +4,18 @@ export default {
     return {
       toggle: false,
       buttons: [
-        { value: 'recommend', label: '추천순' },
-        { value: 'latest', label: '최신순' },
-        { value: 'views', label: '조회순' },
-        { value: 'likes', label: '좋아요순' }
+        { value: 'reviewCount', label: '리뷰순' },
+        { value: 'startDate', label: '최신순' },
+        { value: 'readCount', label: '조회순' },
+        { value: 'likeCount', label: '좋아요순' }
       ],
-      selectedButton: null
+      selectedButton: null,
+      content: null
     }
   },
 
   props: {
-    totalElements: Number,
+    totalElements: Number
   },
 
   methods: {
@@ -22,8 +23,11 @@ export default {
       this.toggle = !this.toggle
     },
 
+    handleSearch(sortOption = null, searchContent = null) {
+      this.selectedButton = sortOption;
+      console.log(this.selectedButton, this.searchContent);
+      this.$emit('onClickSortOption', this.selectedButton, this.content);
 
-    mounted() {
     }
   }
 }
@@ -34,48 +38,31 @@ export default {
     <p class="result-text">결과 총 <span style="font-weight: bold">{{ totalElements }}</span> 개</p>
     <div class="sort-selection-side">
       <ul class="view-sort-list">
-        <li class="button-text" v-for="button in buttons" >
+        <li class="button-text" :class="{active: selectedButton === button.value}" v-for="button in buttons">
           <button
-            @click="handleClick(button.value)"
-          :class="{active: selectedButton === button.value}">{{ button.label }}</button>
-        </li>
-
-        <div class="rbox-block">
-          <button class="filter-button" @click="toggleDetailSearchMenu">
-            상세옵션
-            <span class="st-text">열기</span>
+            @click="handleSearch(button.value)"
+            >{{ button.label }}
           </button>
-          <span class="search-box hide-mo">
+        </li>
+        <div class="rbox-block">
+          <span class="search-box">
             <input
               type="text"
               class="o-input"
+              v-model="content"
               placeholder="전시명, 작가명, 전시 공간명 등을 입력해주세요"
               name="search_keyword"
               maxlength="20"
               value=""
               autocomplete="false"
             />
-            <button type="button" class="o-btn o-btn-search" aria-label="검색"></button>
+            <button type="button" class="o-btn o-btn-search" aria-label="검색" @click="handleSearch(this.selectedButton, this.content)">
+              <img
+                src="https://png.pngtree.com/png-clipart/20190705/original/pngtree-vector-search-icon-png-image_4271228.jpg">
+            </button>
           </span>
         </div>
       </ul>
-    </div>
-
-    <div class="search-detail-menu" v-show="toggle">
-      <p>상세옵션</p>
-      <div class="search-box">
-        <div class="search-option" v-for="itemx in 3">
-          <p>상태</p>
-          <ul class="search-items">
-            <li class="search-item" v-for="item in 20">
-              <label for="search">
-                <input type="checkbox" />
-                <span>전체</span>
-              </label>
-            </li>
-          </ul>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -182,15 +169,21 @@ p {
 
 .search-box .o-btn-search {
   position: absolute;
-  padding: 10px;
+  width: 40px;
+  height: 100%;
   border-radius: 0;
   vertical-align: middle;
-  background: url('https://png.pngtree.com/png-clipart/20190705/original/pngtree-vector-search-icon-png-image_4271228.jpg');
-  background-repeat: no-repeat;
-  background-size: 18px auto;
+  object-fit: cover;
   flex-shrink: 0;
   top: 0;
   right: 0;
+}
+
+.o-btn-search > img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+
 }
 
 .search-box {
@@ -217,6 +210,15 @@ p {
 }
 
 .active {
-  background-color: #E0F2F1; color: white;
+  background-color: #E0F2F1;
+  border-radius: 30px;
+  color: white;
+}
+
+.button-text {
+  padding: 20px !important;
+}
+.rbox-block {
+  margin-left: 20px !important;
 }
 </style>

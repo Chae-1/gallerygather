@@ -2,7 +2,6 @@ package com.kosa.gallerygather.repository;
 
 import com.kosa.gallerygather.entity.ExhibitionReview;
 import com.kosa.gallerygather.entity.ExhibitionReviewReply;
-import com.kosa.gallerygather.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,6 +18,8 @@ public interface ExhibitionReviewReplyRepository extends JpaRepository<Exhibitio
 
     @Query("select r from ExhibitionReviewReply r left join fetch r.member where r.exhibitionReview = :exhibitionReview")
     Page<ExhibitionReviewReply> findByExhibitionReviewWithMember(@Param("exhibitionReview") ExhibitionReview exhibitionReview, Pageable pageable);
+
+    void deleteByExhibitionReviewReply(ExhibitionReview exhibitionReview);
 
     /*
     리뷰 페이지에서 페이지네이션으로 댓글 리스트 가져오기

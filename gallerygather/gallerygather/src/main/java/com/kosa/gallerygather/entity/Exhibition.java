@@ -78,4 +78,9 @@ public class Exhibition {
         likeCount--;
     }
 
+    public void updateAvgRating(Double newRating){
+        this.reviewCount++;
+        this.avgRating = ((this.avgRating * (this.reviewCount - 1) + newRating) / this.reviewCount);
+    }
+
 }

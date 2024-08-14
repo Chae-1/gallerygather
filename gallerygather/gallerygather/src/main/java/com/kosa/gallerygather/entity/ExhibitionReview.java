@@ -77,6 +77,11 @@ public class ExhibitionReview {
         this.exhibition = exhibition;
     }
 
+    public boolean increaseViewCount() {
+        viewCount++;
+        return true;
+    }
+
     public static ExhibitionReview ofNewReview(String title, String content, Double rating, LocalDate viewDate, Member member, Exhibition exhibition) {
         return new ExhibitionReview(title, content, rating, viewDate, LocalDateTime.now(), LocalDateTime.now(), member, exhibition);
 
@@ -87,4 +92,15 @@ public class ExhibitionReview {
             this.reviewReplies.add(reply);
         }
     }
+
+    public void increaseLikeCount() {
+        this.likeCount++;
+    }
+
+    public void decreaseLikeCount() {
+        this.likeCount--;
+    }
+
+    public void increaseReplyCount() { this.replyCount++; }
+    public void decreaseReplyCount() { this.replyCount--; }
 }

@@ -17,6 +17,15 @@ export const userStore = defineStore({
   getters: {
     isAuthenticated(state) {
       return state.auth
+    },
+
+    loginCheck(state) {
+      return state.auth
+    },
+  
+    getUser(state) {
+      
+      return state.email
     }
   },
 
@@ -45,13 +54,7 @@ export const userStore = defineStore({
       })
     },
     
-    loginCheck() {
-      return this.auth
-    },
-  
-    getUser() {
-      return this.email
-    }
+    
 
   },
 

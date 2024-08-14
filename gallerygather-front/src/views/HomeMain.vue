@@ -13,7 +13,7 @@
                         :per-page="perPage"
                         @page-click="updatePageNum"
                         pills :total-rows="totalElement"
-                        size="lg" align="fill">
+                        size="lg" align="center">
           </b-pagination>
         </div>
       </div>

@@ -66,18 +66,18 @@ public class ApiExhibitionController {
 
 
     //유은 - 좋아요 전시목록(memberService는 memberId를가져오기위해)
-//    @GetMapping("/likelist")
-//    public ResponseEntity<List<Exhibition>> getLikedExhibitions() {
-//        // 현재 로그인된 사용자의 memberId를 가져옴
-//        Long memberId = memberService.getCurrentMemberId();
-//        System.out.println("담겨있는 memberId: " + memberId);
-//
-//        // memberId를 이용하여 좋아요한 전시 목록을 가져옴
-//        List<Exhibition> likedExhibitions = exhibitionLikeService.getLikedExhibitionsForCurrentMember();
-//
-//        // 조회된 목록을 클라이언트에 반환
-//        return ResponseEntity.ok(likedExhibitions);
-//    }
+    @GetMapping("/likelist")
+    public ResponseEntity<List<Exhibition>> getLikedExhibitions() {
+        // 현재 로그인된 사용자의 memberId를 가져옴
+        Long memberId = memberService.getCurrentMemberId();
+        System.out.println("담겨있는 memberId: " + memberId);
+
+        // memberId를 이용하여 좋아요한 전시 목록을 가져옴
+        List<Exhibition> likedExhibitions = exhibitionLikeService.getLikedExhibitionsForCurrentMember();
+
+        // 조회된 목록을 클라이언트에 반환
+        return ResponseEntity.ok(likedExhibitions);
+    }
 
     //유은 - 좋아요 전시목록 갯수 카운트
     @GetMapping("/likes/member/like-count")

@@ -48,15 +48,16 @@
           </button>
         </div>
         <div class="edit-buttons">
+          {{ getUser }} | {{ reviewDetail.authorEmail }}
           <button
             type="button"
             class="editButton"
             @click="editReview"
-            v-if="getUser() === reviewDetail.authorEmail"
+            v-if="getUser === reviewDetail.authorEmail"
           >
             수정
           </button>
-          <button type="button" class="deleteButton" v-if="getUser() === reviewDetail.authorEmail">
+          <button type="button" class="deleteButton" v-if="getUser === reviewDetail.authorEmail">
             삭제
           </button>
         </div>
@@ -92,7 +93,15 @@ export default {
   computed: {
     safeContent() {
       return DOMPurify.sanitize(this.reviewDetail.content)
-    }
+    },
+    ifLoggedIn() {
+          const store = userStore();
+          return store.isAuthenticated;
+    },
+    getUser() {
+        const store = userStore();
+        return store.getUser;
+    },
   },
   created() {
     const { exhibitionId, reviewId } = this.$route.params
@@ -101,18 +110,15 @@ export default {
     this.getReviewDetail()
   },
 
-    created(){
-        const { exhibitionId, reviewId } = this.$route.params;
-        this.exhibitionId = exhibitionId;
-        this.reviewId = reviewId;
-        this.getReviewDetail();
-    },
+    // created(){
+    //     const { exhibitionId, reviewId } = this.$route.params;
+    //     this.exhibitionId = exhibitionId;
+    //     this.reviewId = reviewId;
+    //     this.getReviewDetail();
+    // },
 
     methods: {
-        getUser() {
-            const store = userStore();
-            return store.getUser();
-        },
+        
         async getReviewDetail() {
             apiRequest("get", `http://localhost:8080/api/exhibition/${this.exhibitionId}/review/${this.reviewId}`)
                 .then((response) => {
@@ -123,14 +129,14 @@ export default {
         },
         editReview() {
         // 리뷰 수정 페이지로 이동
-        if (this.getUser() === false) {
+        if (this.ifLoggedIn === false) {
             alert("잘못된 접근입니다. 로그인 후 이용해주시기 바랍니다.");
             } else {
                 this.$router.push({ name: 'ReviewWrite' });
             }
         },
         handleLikeClick() {
-            if (this.getUser()) { //로그인 되었으면
+            if (this.ifLoggedIn) { //로그인 되었으면
                 apiRequest("post",
                     `http://localhost:8080/api/exhibition/reviews/${this.reviewId}/like`,
                     {"isLike": this.isLike}

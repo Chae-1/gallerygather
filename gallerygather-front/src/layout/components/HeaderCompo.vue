@@ -140,7 +140,7 @@ export default {
 
 <style scoped>
 ul {
-  padding: 0;
+  padding: 40px 0;
   margin: 0;
 }
 
@@ -162,7 +162,7 @@ a:hover {
 }
 
 .logo {
-  padding: 10px 0 5px;
+  padding: 10px 0 4px;
   vertical-align: middle;
 }
 
@@ -209,7 +209,7 @@ a:hover {
 }
 
 .contents__menu {
-  height: 400px;
+  height: 200px;
 }
 
 .item__contents ul > li::before {
@@ -250,13 +250,13 @@ header::after {
 
 .main-menu .item:hover .item__contents {
   display: block;
-  height: 400px;
+  height: 250px;
 }
 
 
 header.show-after::after {
   display: block; /* `isHovered`가 true일 때 보이도록 설정 */
-  height: 400px;
+  height: 300px;
 }
 .inner > li + li {
   margin-top: 20px;

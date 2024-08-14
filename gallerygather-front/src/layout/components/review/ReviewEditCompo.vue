@@ -56,7 +56,7 @@
         required
       ></QuillEditor>
       <br />
-      <button type="submit" class="submit-button">등록</button>
+      <button type="edit" class="submit-button">등록</button>
     </form>
   </div>
 </template>
@@ -110,6 +110,23 @@ export default {
         // 오류 처리 로직 추가 가능 (예: 에러 메시지 표시, 다른 페이지로 리다이렉트 등)
       }
     }
+
+    if (this.$route.params.reviewDetail) {
+      this.reviewDetail = this.$route.params.reviewDetail
+      this.initializeReview(this.reviewDetail)
+    } else {
+      const { exhibitionId, reviewId } = this.$route.params
+
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/exhibition/${exhibitionId}/review/${reviewId}`
+        )
+        this.reviewDetail = response.data
+        this.initializeReview(this.reviewDetail)
+      } catch (error) {
+        console.error('Failed to fetch review detail:', error)
+      }
+    }
   },
 
   computed: {
@@ -123,39 +140,40 @@ export default {
     }
   },
   methods: {
-    async submit() {
+    initializeReview(reviewDetail) {
+      this.review.title = reviewDetail.title
+      this.review.content = reviewDetail.content
+      this.review.viewDate = reviewDetail.viewDate || new Date().toISOString().substr(0, 10)
+      this.review.rating = reviewDetail.rating
+      this.review.images = reviewDetail.images || []
+    },
+
+    async edit() {
       const exhibitionId = this.$route.params.exhibitionId
-      console.log('?????????????????????', exhibitionId)
+      const reviewId = this.$route.params.reviewId // reviewId를 가져옵니다.
 
       try {
         // QuillEditor에서 이미지 업로드
         const uploadUrls = await this.$refs.quillEditor.uploadImages()
         this.review.images = uploadUrls
 
-        console.log('리뷰객체 보내지는 값!!!!!!!!!!!!', this.review)
+        console.log(`http://localhost:8080/api/exhibition/${exhibitionId}/updateReview/${reviewId}`)
 
-        console.log('URL:', `http://localhost:8080/api/exhibition/${exhibitionId}/review`)
-        console.log('Payload:', this.review)
-
-        apiRequest(
-          'post',
-          `http://localhost:8080/api/exhibition/${exhibitionId}/review`,
+        // 리뷰 수정 API 호출
+        await apiRequest(
+          'put',
+          `http://localhost:8080/api/exhibition/${exhibitionId}/updateReview/${reviewId}`,
           this.review
-        ).then((response) => {
-          const reviewDetail = response.data
-          console.log('!!!!!!!!!!!!!!!!!!!!!1111', reviewDetail)
+        )
 
-          // 상세보기 페이지로 이동합니다.
-          ///exhibitiondetails/:exhibitionId/reviewdetails/:reviewId
-          this.$router.push(
-            `/exhibitiondetails/${exhibitionId}/reviewdetails/${reviewDetail.reviewId}`
-          )
-        })
+        // 수정된 리뷰의 상세보기 페이지로 이동합니다.
+        this.$router.push(`/exhibitiondetails/${exhibitionId}/reviewdetails/${reviewId}`)
       } catch (error) {
-        console.error('리뷰 생성 실패:', error)
+        console.error('리뷰 수정 실패:', error)
       }
     }
   },
+
   watch: {
     'review.content': function (newContent) {
       console.log('Parent component review.content changed:', newContent)

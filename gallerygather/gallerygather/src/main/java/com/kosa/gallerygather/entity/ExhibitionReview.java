@@ -61,7 +61,7 @@ public class ExhibitionReview {
     @OneToMany(mappedBy = "exhibitionReview", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReviewImage> images;
 
-    @OneToMany(mappedBy = "exhibitionReview", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "exhibitionReview", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<ExhibitionReviewReply> reviewReplies = new ArrayList<>();
 
     @Builder
@@ -77,6 +77,11 @@ public class ExhibitionReview {
         this.exhibition = exhibition;
     }
 
+    public boolean increaseViewCount() {
+        viewCount++;
+        return true;
+    }
+
     public static ExhibitionReview ofNewReview(String title, String content, Double rating, LocalDate viewDate, Member member, Exhibition exhibition) {
         return new ExhibitionReview(title, content, rating, viewDate, LocalDateTime.now(), LocalDateTime.now(), member, exhibition);
 
@@ -90,11 +95,6 @@ public class ExhibitionReview {
 
     public ExhibitionReview(Long reviewId) {
         this.id = reviewId;
-    }
-
-    public boolean increaseViewCount() {
-        this.viewCount++;
-        return true;
     }
 
     public void increaseLikeCount() {

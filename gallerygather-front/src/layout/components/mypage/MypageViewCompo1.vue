@@ -1,27 +1,27 @@
 <template>
   <div class="mypage">
-    <br/>
-    <br/>
-    <br/>
-    <br/>
+    <br />
+    <br />
+    <br />
+    <br />
     <div class="summary-container">
       <router-link to="/mypage/mylikecompo" class="my-summary__inbox">
-        <span class="my-summary__tit">좋아요</span><span class="my-summary__num">{{likeCount}}</span>
+        <span class="my-summary__tit">좋아요</span><span class="my-summary__num">{{ likeCount }}</span>
       </router-link>
       <router-link to="/mypage/myreviewcompo" class="my-summary__inbox">
-        <span class="my-summary__tit">작성리뷰</span><span class="my-summary__num">{{reviewCount}}</span>
+        <span class="my-summary__tit">작성리뷰</span><span class="my-summary__num">{{ reviewCount }}</span>
       </router-link>
       <router-link to="/mypage/myreplycompo" class="my-summary__inbox">
-        <span class="my-summary__tit">작성댓글</span><span class="my-summary__num">{{replyCount}}</span>
+        <span class="my-summary__tit">작성댓글</span><span class="my-summary__num">{{ replyCount }}</span>
       </router-link>
     </div>
-    <br/>
-    <br/>
+    <br />
+    <br />
     <div class="mypage-title-pack">
       <div class="inform__block">
         <h4 class="mypage-title">내 정보</h4>
         <button @click="togglePasswordFields" class="action-button">비밀번호변경</button>&nbsp;&nbsp;
-        <button @click="" class="action-button">회원탈퇴</button>
+<!--        <button @click="deleteMember" class="action-button">회원탈퇴</button>-->
       </div>
     </div>
     <!--비번 변경 필드 숨김-->
@@ -140,8 +140,8 @@ export default {
     }
   },
   created() {
-    this.fetchUserSummary();// 좋아요,댓글,리뷰 카운트
-    this.originalUserInfo(); //로그인시 기존정보 보여줌
+    this.fetchUserSummary()// 좋아요,댓글,리뷰 카운트
+    this.originalUserInfo() //로그인시 기존정보 보여줌
 
     const currentYear = new Date().getFullYear()
     // 현재 연도부터 1910년까지의 연도를 years 배열에 추가
@@ -152,42 +152,42 @@ export default {
     for (let month = 1; month <= 12; month++) {
       this.months.push(month)
     }
-    this.updateDays(); // 여기가 중요합니다. 초기 상태에서 days가 설정되도록 합니다.
+    this.updateDays()
   },
 
   methods: {
     async fetchUserSummary() {
       try {
-        const token = localStorage.getItem('accessToken'); // JWT 토큰 가져오기
+        const token = localStorage.getItem('accessToken') // JWT 토큰 가져오기
 
         // 좋아요 개수 가져오기
         const likeCountResponse = await apiRequest('get', 'http://localhost:8080/api/exhibitions/likes/member/like-count', null, {
           headers: {
             Authorization: token
           }
-        });
-        this.likeCount = likeCountResponse.data;
+        })
+        this.likeCount = likeCountResponse.data
 
 
         const reviewCountResponse = await apiRequest('get', 'http://localhost:8080/api/reviews/member/review-count', null, {
           headers: {
             Authorization: token
           }
-        });
-        this.reviewCount = reviewCountResponse.data;
+        })
+        this.reviewCount = reviewCountResponse.data
 
         const replyCountResponse = await apiRequest('get', 'http://localhost:8080/api/replys/member/reply-count', null, {
           headers: {
             Authorization: token
           }
-        });
-        this.replyCount = replyCountResponse.data;
+        })
+        this.replyCount = replyCountResponse.data
 
         // 여기에 likeCount API 호출 및 데이터 설정을 추가할 수 있습니다.
 
       } catch (error) {
-        console.error('사용자 요약 정보를 가져오는 중 오류 발생:', error);
-        alert('사용자 요약 정보를 가져오지 못했습니다.');
+        console.error('사용자 요약 정보를 가져오는 중 오류 발생:', error)
+        alert('사용자 요약 정보를 가져오지 못했습니다.')
       }
     },
     async checkNickDuplicate(nickName) {
@@ -224,15 +224,15 @@ export default {
     },    // 닉네임 중복확인 메서드
     updateDays() {
       if (this.selectedYear && this.selectedMonth) {
-        const daysInMonth = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
-        this.days = [];
+        const daysInMonth = new Date(this.selectedYear, this.selectedMonth, 0).getDate()
+        this.days = []
 
         for (let day = 1; day <= daysInMonth; day++) {
-          this.days.push(day);
+          this.days.push(day)
         }
 
         if (this.selectedDay > daysInMonth) {
-          this.selectedDay = null;
+          this.selectedDay = null
         }
       } else {
         // 연도나 월이 선택되지 않은 경우, selectedDay를 변경하지 않음
@@ -248,48 +248,48 @@ export default {
         }
       }).open()
     },// 우편번호 찾기 메서드
-    async originalUserInfo(){
+    async originalUserInfo() {
       try {
-        const token = localStorage.getItem('accessToken'); // JWT 토큰 가져오기
+        const token = localStorage.getItem('accessToken') // JWT 토큰 가져오기
         const response = await apiRequest('get',
-          'http://localhost:8080/api/members/original', null,{
-          headers: {
-            Authorization: token
-          }
-        });
+          'http://localhost:8080/api/members/original', null, {
+            headers: {
+              Authorization: token
+            }
+          })
 
-        const userInfo = response.data;
-        this.email = userInfo.email;
-        this.nickName = userInfo.nickName;
-        this.name = userInfo.name;
+        const userInfo = response.data
+        this.email = userInfo.email
+        this.nickName = userInfo.nickName
+        this.name = userInfo.name
 
         // 생년월일 처리
         if (userInfo.dateOfBirth) {
-          const birthDate = new Date(userInfo.dateOfBirth);
-          this.selectedYear = birthDate.getFullYear();
-          this.selectedMonth = birthDate.getMonth() + 1;
-          this.selectedDay = birthDate.getDate();
+          const birthDate = new Date(userInfo.dateOfBirth)
+          this.selectedYear = birthDate.getFullYear()
+          this.selectedMonth = birthDate.getMonth() + 1
+          this.selectedDay = birthDate.getDate()
 
           // 날짜를 설정한 후에만 updateDays를 호출
-          this.updateDays();
+          this.updateDays()
         }
 
 
         // 주소 처리
         if (userInfo.address) {
-          const addressParts = userInfo.address.split(' ');
-          this.zipcode = addressParts.pop(); // 마지막 부분이 우편번호라고 가정
-          this.detailAddress = addressParts.pop(); // 마지막에서 두 번째가 상세주소
-          this.address = addressParts.join(' '); // 나머지가 주소
+          const addressParts = userInfo.address.split(' ')
+          this.zipcode = addressParts.pop() // 마지막 부분이 우편번호라고 가정
+          this.detailAddress = addressParts.pop() // 마지막에서 두 번째가 상세주소
+          this.address = addressParts.join(' ') // 나머지가 주소
         }
       } catch (error) {
-        console.error('사용자 정보를 가져오는 중 오류 발생:', error);
-        alert('사용자 정보를 가져오지 못했습니다.');
+        console.error('사용자 정보를 가져오는 중 오류 발생:', error)
+        alert('사용자 정보를 가져오지 못했습니다.')
       }
     },// 기존 사용자 정보 불러오기
     async saveUserInfo() {
-      const dateOfBirth = `${this.selectedYear}-${String(this.selectedMonth).padStart(2, '0')}-${String(this.selectedDay).padStart(2, '0')}`;
-      console.log('수집된 사용자 정보:', dateOfBirth);
+      const dateOfBirth = `${this.selectedYear}-${String(this.selectedMonth).padStart(2, '0')}-${String(this.selectedDay).padStart(2, '0')}`
+      console.log('수집된 사용자 정보:', dateOfBirth)
 
       // 수집된 데이터
       const userInfo = {
@@ -299,11 +299,11 @@ export default {
         address: `${this.address} ${this.detailAddress},${this.zipcode}`
       }
 
-      console.log('수집된 email 정보:', userInfo.email);
-      console.log('수집된 nickName 정보:', userInfo.nickName);
-      console.log('수집된 name 정보:', userInfo.name);
-      console.log('수집된 dateOfBirth 정보:', userInfo.dateOfBirth);
-      console.log('수집된 address 정보:', userInfo.address);
+      console.log('수집된 email 정보:', userInfo.email)
+      console.log('수집된 nickName 정보:', userInfo.nickName)
+      console.log('수집된 name 정보:', userInfo.name)
+      console.log('수집된 dateOfBirth 정보:', userInfo.dateOfBirth)
+      console.log('수집된 address 정보:', userInfo.address)
 
       try {
         const token = localStorage.getItem('accessToken') // JWT 토큰 가져오기
@@ -372,9 +372,31 @@ export default {
       this.currentPassword = ''
       this.newPassword = ''
       this.confirmPassword = ''
-    } // 비밀번호 필드를 초기화
+    }, // 비밀번호 필드를 초기화
+    async deleteMember() {
+      if (confirm('정말로 회원 탈퇴하시겠습니까?')) {
+        const token = localStorage.getItem('accessToken');
+        apiRequest('DELETE', 'http://localhost:8080/api/members/delete', {
+          headers: {
+            Authorization: token
+          }
+        })
+          .then(response => {
+            if (response.status === 200) {
+              alert('회원 탈퇴가 성공적으로 처리되었습니다.');
+              localStorage.removeItem('accessToken'); // JWT 토큰 삭제
+              this.$router.push('/'); // 홈 화면으로 리다이렉트
+            }
+          })
+          .catch(error => {
+            console.error('회원 탈퇴 중 오류 발생:', error);
+            alert('회원 탈퇴 중 오류가 발생했습니다.');
+          });
+      }
+    }//delete
   }
 }
+
 </script>
 
 <style scoped>

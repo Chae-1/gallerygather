@@ -1,56 +1,86 @@
 <template>
-    <div class="review-details">
-        <div class="review-container">
-            <div class="review-box">
-                <router-link :to="{path: '/exhibitiondetails/'+ this.exhibitionId }"> <p>&lt; {{ reviewDetail.exhibitionTitle }}</p></router-link>
-                <br/>
-                <h2 class="title">{{ reviewDetail.title }}</h2>
-                <div class="review-info">
-                    <span class="reviewer"> {{ reviewDetail.authorName }} </span>
-                    <span class="scope"> | ⭐ {{ reviewDetail.rating }}</span>
-                </div>
-                <div class="review-contents">
-                    <div>
-                        관람일자 | <span class="review-date">{{ reviewDetail.viewDate }}</span>
-                    </div>
-                    <div>
-                        작성일자 | <span class="review-date">{{ reviewDetail.regDate }}</span>
-                    </div>
-                    <div class="count-content">
-                        <span class="view"> 👓 {{ reviewDetail.viewCount }}  </span>
-                        <span class="likes"> ❤️ {{ reviewDetail.likeCount }}  </span>
-                        <span class="replies"> 💬 {{ reviewDetail.replyCount }}  </span>
-                    </div>
-                </div>
-            </div>
-            <div class="exhibit-img">
-                <img :src="reviewDetail.exhibitionImgUrl" alt="exhibitionImgUrl">
-            </div>
+  <div class="review-details">
+    <div class="review-container">
+      <div class="review-box">
+        <router-link :to="{ path: '/exhibitiondetails/' + this.exhibitionId }">
+          <p>&lt; {{ reviewDetail.exhibitionTitle }}</p></router-link
+        >
+        <br />
+        <h2 class="title">{{ reviewDetail.title }}</h2>
+        <div class="review-info">
+          <span class="reviewer"> {{ reviewDetail.authorName }} </span>
+          <span class="scope"> | ⭐ {{ reviewDetail.rating }}</span>
         </div>
-        <div class="review">      
-            <div class="review-content">
-                <div class="ql-editor">
-                    <div v-html="safeContent"></div>
-                </div>
-                <!-- <div v-dompurify-html="reviewDetail.content"></div> -->
-                <!-- <quill-editor v-model="content" placeholder="게시글이 없습니다."></quill-editor> -->
-            </div>
-            <div class="button-container">
-                <div>
-                    <button type="button" 
-                            class="{'like-button': isLike, 'unLike-button' : !isLike}"
-                            @click="handleLikeClick">
-                        {{ isLike ? '❤️ 좋아요 취소' : '🩶 좋아요'}}
-                    </button>
-                </div>
-                <div class="edit-buttons">
-                    <button type= "button" class="editButton" @click="editReview" v-if="getUser() === reviewDetail.authorEmail">수정</button>
-                    <button type= "button" class="deleteButton" v-if="getUser() === reviewDetail.authorEmail">삭제</button>
-                </div>
-            </div>
-        </div> 
-        <!-- <ReviewRepliesCompo/> -->
+        <div class="review-contents">
+          <div>
+            관람일자 | <span class="review-date">{{ reviewDetail.viewDate }}</span>
+          </div>
+          <div>
+            작성일자 | <span class="review-date">{{ reviewDetail.regDate }}</span>
+          </div>
+          <div class="count-content">
+            <span class="view"> 👓 {{ reviewDetail.viewCount }} </span>
+            <span class="likes"> ❤️ {{ reviewDetail.likeCount }} </span>
+            <span class="replies"> 💬 {{ reviewDetail.replyCount }} </span>
+          </div>
+        </div>
+      </div>
+      <div class="exhibit-img">
+        <img :src="reviewDetail.exhibitionImgUrl" alt="exhibitionImgUrl" />
+      </div>
     </div>
+    <div class="review">
+      <div class="review-content">
+        <div class="ql-editor">
+          <div v-html="safeContent"></div>
+        </div>
+        <!-- <div v-dompurify-html="reviewDetail.content"></div> -->
+        <!-- <quill-editor v-model="content" placeholder="게시글이 없습니다."></quill-editor> -->
+      </div>
+      <div class="button-container">
+        <div>
+          <button
+            type="button"
+            class="{'like-button': isLike, 'unLike-button' : !isLike}"
+            @click="handleLikeClick"
+          >
+            {{ isLike ? '❤️ 좋아요 취소' : '🩶 좋아요' }}
+          </button>
+        </div>
+        <div class="edit-buttons">
+          <button
+            type="button"
+            class="editButton"
+            @click="editReview"
+            v-if="getUser() === reviewDetail.authorEmail"
+          >
+            수정
+          </button>
+          <button type="button" class="deleteButton" v-if="getUser() === reviewDetail.authorEmail">
+            삭제
+          </button>
+        </div>
+      </div>
+    </div>
+    </div>
+    <!-- <ReviewRepliesCompo/> -->
+  <!-- </div>
+  <div class="review">
+    <div class="review-content">
+      <div class="ql-editor">
+        <div v-html="safeContent"></div>
+      </div>
+       <div v-dompurify-html="reviewDetail.content"></div> -->
+      <!-- <quill-editor v-model="content" placeholder="게시글이 없습니다."></quill-editor> -->
+    <!-- </div>
+    <div class="button-container">
+      <span>후기 작성일 {{ reviewDetail.regDate }}</span>
+      <button type="button" class="editButton" @click="editReview">수정</button>
+      <button type="button" class="deleteButton" @click="deleteReview">삭제</button>
+      <button type="button" class="likeButton">❤️</button>
+    </div>
+  </div> -->
+  <!-- <ReviewRepliesCompo/> -->
 </template>
 
 <script>
@@ -76,6 +106,17 @@ export default {
     safeContent() {
         return DOMPurify.sanitize(this.reviewDetail.content);
     }
+  },
+  computed: {
+    safeContent() {
+      return DOMPurify.sanitize(this.reviewDetail.content)
+    }
+  },
+  created() {
+    const { exhibitionId, reviewId } = this.$route.params
+    this.exhibitionId = exhibitionId
+    this.reviewId = reviewId
+    this.getReviewDetail()
   },
 
     created(){
@@ -120,109 +161,119 @@ export default {
             } else { //로그인 안되었으면
                 alert("로그인 후 이용 가능합니다.");
             }
-        }
+        },
+        async deleteReview() {
+      const reviewId = this.$route.params.reviewId
+      try {
+        await apiRequest('delete', `http://localhost:8080/api/exhibition/deleteReview/${reviewId}`)
+
+        this.$router.push(`/exhibitiondetails/${this.$route.params.exhibitionId}`)
+      } catch (error) {
+        console.error('리뷰 삭제 실패:', error)
+      }
+    },
     }  
     
 };
 
-
 </script>
 
 <style scoped>
-
 .review-details {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .review-box {
-    color:#ddd !important;;
-    
+  color: #ddd !important;
 }
 .review {
-   
 }
 
 .review-container {
-    min-height: 250px;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    gap: 10%;
-    padding: 30px 0;
-    background-color: darkslategray;
-    justify-content: center;
-    align-items: center;
+  min-height: 250px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 10%;
+  padding: 30px 0;
+  background-color: darkslategray;
+  justify-content: center;
+  align-items: center;
 }
 
 .exhibit-img {
-    height: 33vh;
+  height: 33vh;
 }
 
 .exhibit-img > img {
-    position: inherit;
-    height: 100%;
+  position: inherit;
+  height: 100%;
 }
 .review-content {
-    margin: 10px auto;
-    width: 50%;
-    min-height: 400px; /* 최소 높이 설정 */
-    max-height: none; /* 최대 높이 설정을 없애서 글 길이에 따라 변하도록 함 */
-    overflow: auto; /* 글이 많을 경우 스크롤 생기도록 설정 */
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    border: 1px solid transparent;
+  margin: 10px auto;
+  width: 50%;
+  min-height: 400px; /* 최소 높이 설정 */
+  max-height: none; /* 최대 높이 설정을 없애서 글 길이에 따라 변하도록 함 */
+  overflow: auto; /* 글이 많을 경우 스크롤 생기도록 설정 */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  border: 1px solid transparent;
 }
 
 .button-container {
-    width: 60%;
-    display: flex;
-    justify-content: space-between; 
-    /* 오른쪽 정렬을 유지하려면 'right' 대신 'flex-end' 사용 */
-    gap: 10px;
-    margin: auto; /* 위아래 margin을 20px로 설정하고 수평 중앙 정렬 */
-    align-items: center;
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  /* 오른쪽 정렬을 유지하려면 'right' 대신 'flex-end' 사용 */
+  gap: 10px;
+  margin: auto; /* 위아래 margin을 20px로 설정하고 수평 중앙 정렬 */
+  align-items: center;
 }
 
-.edit-buttons button{
-    margin-left: 10px;
+.edit-buttons button {
+  margin-left: 10px;
 }
 
-
-.editButton, .deleteButton, .like-button, .unLike-button  {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.editButton,
+.deleteButton,
+.like-button,
+.unLike-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .editButton {
-    background-color: #5cb85c;
-    color: white;
+  background-color: #5cb85c;
+  color: white;
 }
 
 .editButton:hover {
-    background-color: #4cae4c;
+  background-color: #4cae4c;
 }
 
 .deleteButton {
-    background-color: #eb3e3e;
-    color: white;
+  background-color: #eb3e3e;
+  color: white;
 }
 
 .deleteButton:hover {
-    background-color: #d94949;
+  background-color: #d94949;
 }
 
-.like-button , .unLike-button{
-    background-color: #ffcc00;
-    color: white;
+.like-button,
+.unLike-button {
+  background-color: #ffcc00;
+  color: white;
 }
 
-.like-button:hover, .unLike-button:hover {
-    background-color: #e6b800;
+.like-button:hover,
+.unLike-button:hover {
+  background-color: #e6b800;
 }
 </style>

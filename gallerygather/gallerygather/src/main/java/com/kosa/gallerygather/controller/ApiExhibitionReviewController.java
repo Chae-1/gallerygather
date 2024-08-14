@@ -1,7 +1,6 @@
 package com.kosa.gallerygather.controller;
 
 import com.kosa.gallerygather.dto.*;
-import com.kosa.gallerygather.repository.ExhibitionReviewReplyRepository;
 import com.kosa.gallerygather.security.UserDetailsImpl;
 import com.kosa.gallerygather.service.ExhibitionReviewReplyService;
 import com.kosa.gallerygather.service.ExhibitionReviewService;
@@ -24,8 +23,8 @@ public class ApiExhibitionReviewController {
 
     private final ExhibitionReviewService reviewService;
     private final ExhibitionReviewReplyService reviewReplyService;
-    private final ExhibitionReviewReplyService exhibitionReviewReplyService;
     private final ExhibitionReviewService exhibitionReviewService;
+    private final ExhibitionReviewReplyService exhibitionReviewReplyService;
 
     @PostMapping("/{exhibitionId}/review")
     public ResponseEntity<ReviewDetailDto> createReview(@RequestBody ExhibitionReviewRequestDto requestDto,
@@ -46,6 +45,27 @@ public class ApiExhibitionReviewController {
                                                                @PathVariable Long reviewId,
                                                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.ok( reviewService.getReviewDetail(exhibitionId, reviewId, userDetails==null? null : userDetails.getId() ) );
+    }
+
+    @DeleteMapping("/deleteReview/{reviewId}")
+    public ResponseEntity<String> deleteReview(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                @PathVariable Long reviewId){
+        String memberId = userDetails.getEmail();
+        boolean isDeleted = reviewService.deleteReview(memberId,reviewId);
+
+        if(isDeleted){
+            return ResponseEntity.ok("리뷰 삭제 성공");
+        } return ResponseEntity.status(HttpStatus.FORBIDDEN).body("리뷰 삭제 오류");
+    }
+
+    @PutMapping("/{exhibitionId}/updateReview/{reviewId}")
+    public ResponseEntity<ReviewDetailDto> updateReview(@RequestBody ExhibitionReviewRequestDto requestDto,
+                                               @AuthenticationPrincipal UserDetailsImpl userDetails,
+                                               @PathVariable Long reviewId,
+                                               @PathVariable Long exhibitionId) {
+        String memberId = userDetails.getEmail();
+        ReviewDetailDto updatedReview = exhibitionReviewService.updateReview(requestDto, memberId, reviewId, exhibitionId);
+        return ResponseEntity.ok(updatedReview);
     }
 
     /*

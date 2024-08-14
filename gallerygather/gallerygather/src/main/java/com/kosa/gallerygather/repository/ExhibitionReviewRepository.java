@@ -13,7 +13,6 @@ import java.util.Optional;
 
 public interface ExhibitionReviewRepository extends JpaRepository<ExhibitionReview, Long> {
 
-    Optional<ExhibitionReview> findByIdAndExhibitionId(Long reviewId,Long exhibitionId);
     List<ExhibitionReview> findByContentContains(String content);
 
     /*

@@ -3,9 +3,11 @@
     <HomeMainCarousel />
 
     <article class="main-content">
-      <HomeMainConditionSearchBar :search="search" :conditions="conditions" :totalElements="totalElement" @onClickSortOption="selectSortOptionAndInput"/>
+      <HomeMainConditionSearchBar :search="search" :conditions="conditions"
+                                  :totalElements="totalElement"
+                                  @onClickSortOption="selectSortOptionAndInput" />
       <div>
-        <CardComponent :currentPage="currentPage" :cards="cardItems" :perPage="perPage" @onPageClick="updatePageNum"/>
+        <CardComponent :currentPage="currentPage" :cards="cardItems" :perPage="perPage" @onPageClick="updatePageNum" />
         <div class="mt-3">
           <b-pagination v-model="currentPage"
                         :per-page="perPage"
@@ -36,19 +38,29 @@ export default {
       cardItems: [],
       conditions: '',
       search: ''
-    };
+    }
   },
 
   components: { CardComponent, HomeMainConditionSearchBar, HomeMainCarousel },
 
   methods: {
-    fetchNewItems() {
-      apiRequest('get', `http://localhost:8080/api/exhibitions?pageNo=${this.currentPage}&pagePer=${this.perPage}`, null)
+    fetchNewItems(sortOption = null, searchContent = null) {
+      let url = `http://localhost:8080/api/exhibitions?page=${this.currentPage}&size=${this.perPage}`
+      sortOption = sortOption != null ? 'sort=' + sortOption + ',desc' : ''
+      if (sortOption !== null && sortOption !== '') {
+        url += '&' + sortOption
+      }
+      searchContent = searchContent != null ? 'title=' + searchContent : '';
+      if (searchContent !== null && searchContent !== null) {
+        url += '&' + searchContent;
+      }
+
+      apiRequest('get', url, null)
         .then(response => {
-          console.log(response);
-          this.cardItems = response.data.content;
-          console.log("데이터 전체 개수: " + response.data.totalElements)
-          this.totalElement = response.data.totalElements;
+          console.log(response)
+          this.cardItems = response.data.content
+          console.log('데이터 전체 개수: ' + response.data.totalElements)
+          this.totalElement = response.data.totalElements
           console.log(response)
         })
         .catch(ex => {
@@ -57,18 +69,22 @@ export default {
     },
 
     updatePageNum(pageEvent, pageNo) {
-      this.currentPage = pageNo;
-      this.fetchNewItems();
+      this.currentPage = pageNo
+      this.fetchNewItems()
+    },
+
+    selectSortOptionAndInput(sortOption, input) {
+      this.selectedButton = sortOption;
+      console.log('이벤트 정상 호출 : ', sortOption, input);
+      this.fetchNewItems(sortOption, input);
     }
+
   },
 
-  selectSortOptionAndInput(value) {
-    this.selectedButton = value;
-  },
 
   created() {
-    this.fetchNewItems();
-  },
+    this.fetchNewItems()
+  }
 
 }
 </script>

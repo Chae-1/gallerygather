@@ -2,7 +2,6 @@ package com.kosa.gallerygather.repository;
 
 import com.kosa.gallerygather.entity.ExhibitionReview;
 import com.kosa.gallerygather.entity.ExhibitionReviewReply;
-import com.kosa.gallerygather.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

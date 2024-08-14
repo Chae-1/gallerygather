@@ -1,7 +1,6 @@
 package com.kosa.gallerygather.service;
 
 import com.kosa.gallerygather.dto.ExhibitionReviewReplyDto;
-import com.kosa.gallerygather.dto.PageRequestDto;
 import com.kosa.gallerygather.entity.ExhibitionReview;
 import com.kosa.gallerygather.entity.ExhibitionReviewReply;
 import com.kosa.gallerygather.entity.Member;
@@ -11,9 +10,7 @@ import com.kosa.gallerygather.repository.ExhibitionReviewRepository;
 import com.kosa.gallerygather.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +23,9 @@ public class ExhibitionReviewReplyService {
     private final ExhibitionRepository exhibitionRepository;
     private final ExhibitionReviewReplyRepository exhibitionReviewReplyRepository;
 
+    /*
+    댓글 추가(입력)
+     */
     @Transactional
     public void addCommentToReview(String email, Long reviewId,
                                    ExhibitionReviewReplyDto.ExhibitionReviewRequestDto replyDto) {
@@ -35,8 +35,7 @@ public class ExhibitionReviewReplyService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 리뷰입니다."));
         ExhibitionReviewReply reply = reviewReplyRepository
                 .save(ExhibitionReviewReply.ofNewReply(member, exhibitionReview, replyDto.getReply()));
-
-
+        exhibitionReview.increaseReplyCount();
 //        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("regDate").ascending());
 
 //        return reviewReplyRepository.findByExhibitionReviewWithMember(exhibitionReview, pageable)
@@ -76,5 +75,6 @@ public class ExhibitionReviewReplyService {
         ExhibitionReview review = exhibitionReviewRepository.findById(reviewId).orElseThrow();
         ExhibitionReviewReply reply = exhibitionReviewReplyRepository.findByIdAndMemberIdAndExhibitionReview(replyId, memberId, review).orElseThrow();
         exhibitionReviewReplyRepository.delete(reply);
+        review.decreaseReplyCount();
     }
 }

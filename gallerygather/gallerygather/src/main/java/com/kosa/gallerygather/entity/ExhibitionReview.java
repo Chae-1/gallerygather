@@ -87,4 +87,20 @@ public class ExhibitionReview {
             this.reviewReplies.add(reply);
         }
     }
+
+    public boolean increaseViewCount() {
+        this.viewCount++;
+        return true;
+    }
+
+    public void increaseLikeCount() {
+        this.likeCount++;
+    }
+
+    public void decreaseLikeCount() {
+        this.likeCount--;
+    }
+
+    public void increaseReplyCount() { this.replyCount++; }
+    public void decreaseReplyCount() { this.replyCount--; }
 }

@@ -30,7 +30,7 @@
               <span class="date">{{ reply.replyRegDate }}</span>
             </div>
           </div>
-          <div class="reply-manage" v-if="userEmail == reply.replyAuthorEmail">
+          <div class="reply-manage" v-if="getUser() == reply.replyAuthorEmail">
             <button v-if="!reply.editable" @click="editReply(index)">수정</button>
             <button v-if="!reply.editable" @click="deleteReply(reply.replyId)">삭제</button>
             <button v-if="reply.editable" @click="updateReply(reply.replyId, reply.replyContent)">저장</button>
@@ -70,8 +70,6 @@ export default {
     //exhigitionId 가져오기
     this.reviewId = this.$route.params.reviewId; // undefined
     this.exhibitionId = this.$route.params.exhibitionId;
-    const store = userStore();
-    this.userEmail = store.getUser();
     console.log(this.reviewId);
     console.log(this.exhibitionId);
     //데이터 불러오기

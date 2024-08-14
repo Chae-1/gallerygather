@@ -5,17 +5,11 @@ import com.kosa.gallerygather.entity.Exhibition;
 import com.kosa.gallerygather.entity.ExhibitionReview;
 import com.kosa.gallerygather.entity.Member;
 import com.kosa.gallerygather.entity.ReviewImage;
-import com.kosa.gallerygather.repository.ExhibitionRepository;
-import com.kosa.gallerygather.repository.MemberRepository;
-import com.kosa.gallerygather.repository.ExhibitionReviewRepository;
-import com.kosa.gallerygather.repository.ReviewImageRepository;
-import lombok.NoArgsConstructor;
+import com.kosa.gallerygather.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.parser.Parser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +17,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +31,7 @@ public class ExhibitionReviewService {
     private final ExhibitionRepository exhibitionRepository;
     private final MemberRepository memberRepository;
     private final ReviewImageRepository reviewImageRepository;
+    private final ExhibitionReviewLikeRepository exhibitionReviewLikeRepository;
 
     @Transactional
     public ReviewDetailDto write(final ExhibitionReviewRequestDto requestDto, String memberEmail, Long exhibitionId) {
@@ -64,17 +61,31 @@ public class ExhibitionReviewService {
         return new ReviewDetailDto(savedReview, member, exhibition, images);
     }
 
+    /*
+    작성자: 오지수
+    viewCount++ 하고 리뷰 정보 가져오기
+    로그인 여부, 좋아요 여부 전달하기
+     */
     @Transactional
-    public ReviewDetailDto getReviewDetail(Long exhibitionId, Long reviewId) {
-        System.out.println("============== review Details Dto 시작 =================");
-        // exhibition 1 -> review m -> member m
+    public Map<String, Object> getReviewDetail(Long exhibitionId, Long reviewId, Long memberId) {
+        Map<String, Object> reviewInfo = new HashMap<>();
+
         Exhibition exhibition = exhibitionRepository.findById(exhibitionId)
                 .orElseThrow(() -> new IllegalArgumentException("전시회 ID 찾기 오류: " + exhibitionId));
-        ExhibitionReview review = exhibitionReviewRepository.findById(reviewId)
-                .orElseThrow(() -> new IllegalArgumentException("리뷰 ID 찾기 오류: " + reviewId));
-        System.out.println("============== review Details Dto 종료 =================");
+        ReviewDetailDto.ResponseReviewDetailDto reviewDto = exhibitionReviewRepository.findByIdAndExhibition(reviewId, exhibition)
+                .filter(ExhibitionReview::increaseViewCount)
+                .map(ReviewDetailDto.ResponseReviewDetailDto::new)
+                .orElseThrow(IllegalArgumentException::new);
+        reviewInfo.put("reviewDetail", reviewDto);
 
-        return new ReviewDetailDto(review, review.getMember(), exhibition, review.getImages());
+        if (memberId == null) {
+            reviewInfo.put("isLoggedIn", false);
+            reviewInfo.put("isLike", false);
+            return reviewInfo;
+        }
+        reviewInfo.put("isLoggedIn", true);
+        reviewInfo.put("isLike", exhibitionReviewLikeRepository.existsByMemberIdAndExhibitionReviewId(memberId, reviewId));
+        return reviewInfo;
     }
 
 

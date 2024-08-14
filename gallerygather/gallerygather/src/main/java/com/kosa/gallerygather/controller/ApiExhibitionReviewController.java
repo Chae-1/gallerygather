@@ -14,6 +14,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/exhibition")
@@ -21,7 +23,6 @@ public class ApiExhibitionReviewController {
 
     private final ExhibitionReviewService reviewService;
     private final ExhibitionReviewReplyService reviewReplyService;
-    private final ExhibitionReviewReplyRepository exhibitionReviewReplyRepository;
     private final ExhibitionReviewReplyService exhibitionReviewReplyService;
 
     @PostMapping("/{exhibitionId}/review")
@@ -35,11 +36,14 @@ public class ApiExhibitionReviewController {
 
     }
 
+    /*
+    리뷰 정보 가져오기
+     */
     @GetMapping("/{exhibitionId}/review/{reviewId}")
-    public ResponseEntity<ReviewDetailDto> getReviewDetail(@PathVariable Long exhibitionId,
-                                                           @PathVariable Long reviewId) {
-        ReviewDetailDto detailDto = reviewService.getReviewDetail(exhibitionId, reviewId);
-        return ResponseEntity.ok(detailDto);
+    public ResponseEntity<Map<String, Object>> getReviewDetail(@PathVariable Long exhibitionId,
+                                                               @PathVariable Long reviewId,
+                                                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.ok( reviewService.getReviewDetail(exhibitionId, reviewId, userDetails==null? null : userDetails.getId() ) );
     }
 
     /*

@@ -67,6 +67,10 @@ public class Member {
         this.nickName = nickName;
     }
 
+    public Member(Long memberId) {
+        this.id = memberId;
+    }
+
     public static Member ofNewMember(String name, String email,
                                      String password, LocalDate dateOfBirth, String nickName) {
         return new Member(name, password, email, BASIC_AUTH,

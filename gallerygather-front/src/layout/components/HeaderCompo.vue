@@ -5,7 +5,8 @@ import { apiRequest } from '@/util/RequestUtil.js'
 export default {
   data() {
     return {
-      store: userStore()
+      store: userStore(),
+      isHovered: false,
     }
   },
 
@@ -33,96 +34,108 @@ export default {
         }
         this.$router.push(currentPath)
       }
+    },
 
+    showAfter() {
+      this.isHovered = true;
+    },
+
+    hideAfter() {
+      this.isHovered = false;
     }
   }
 }
 </script>
 
 <template>
-  <header>
-    <div class="logo">
-      <a href="/" class="logo-path">
-        <img src="../../assets/img/logo.png" alt="">
-      </a>
-    </div>
-
-    <div class="menu-container">
-      <ul class="main-menu">
-        <li class="item">
-          <div class="item__name">Exhibition</div>
-          <div class="item__contents">
-            <div class="contents__menu">
-              <ul class="inner">
-                <li><a href="/">Whats' New</a></li>
-                <li><a href="/">Best Exhibition</a></li>
-                <li><a href="/">Somthing New</a></li>
-                <li><a href="/">Whats' New</a></li>
-              </ul>
-            </div>
-          </div>
-        </li>
-        <li class="item">
-          <div class="item__name">Review</div>
-          <div class="item__contents">
-            <div class="contents__menu">
-              <ul class="inner">
-                <li><a href="/">Whats' New</a></li>
-                <li><a href="/">Best Review</a></li>
-                <li><a href="/">My Review</a></li>
-                <li><a href="/">Follow Best Reviewer</a></li>
-              </ul>
-            </div>
-          </div>
-        </li>
-        <li class="item">
-          <div class="item__name">My Exhibition</div>
-          <div class="item__contents">
-            <div class="contents__menu">
-              <ul class="inner">
-                <li><a href="/">Where</a></li>
-                <li><a href="/">Who</a></li>
-                <li><a href="/">Contact Us</a></li>
-                <li><a href="/">Ask Us</a></li>
-              </ul>
-            </div>
-          </div>
-        </li>
-        <li class="item">
-          <div class="item__name">About Us</div>
-          <div class="item__contents">
-            <div class="contents__menu">
-              <ul class="inner">
-                <li><a href="/">Where</a></li>
-                <li><a href="/">Who</a></li>
-                <li><a href="/">Contact Us</a></li>
-                <li><a href="/">Ask Us</a></li>
-              </ul>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-
-    <div class="login-bar">
-      <div class="login-menu">
-        <router-link to="/mypage" v-if="isAuthenticated">
-          마이페이지
-        </router-link>
-        <router-link to="/join" v-else>
-          회원가입
-        </router-link>
-      </div>
-      <div class="login-menu">
-        <a v-if="isAuthenticated" @click="logout">
-          로그아웃
+  <header :class="{ 'show-after': isHovered }">
+    <div class="header">
+      <div class="logo">
+        <a href="/" class="logo-path">
+          <img src="../../assets/img/logo.png" alt="">
         </a>
-        <router-link to="/login" v-else>
-          로그인
-        </router-link>
+      </div>
+
+      <div class="menu-container">
+
+        <ul class="main-menu">
+          <li class="item"  @mouseenter="showAfter" @mouseleave="hideAfter">
+            <div class="item__name">Exhibition</div>
+            <div class="item__contents">
+              <div class="contents__menu">
+                <ul class="inner">
+                  <li><a href="/">Whats' New</a></li>
+                  <li><a href="/">Best Exhibition</a></li>
+                  <li><a href="/">Somthing New</a></li>
+                  <li><a href="/">Whats' New</a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="item" @mouseenter="showAfter" @mouseleave="hideAfter">
+            <div class="item__name">Review</div>
+            <div class="item__contents">
+              <div class="contents__menu">
+                <ul class="inner">
+                  <li><a href="/">Whats' New</a></li>
+                  <li><a href="/">Best Review</a></li>
+                  <li><a href="/">My Review</a></li>
+                  <li><a href="/">Follow Best Reviewer</a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="item" @mouseenter="showAfter" @mouseleave="hideAfter">
+            <div class="item__name">My Exhibition</div>
+            <div class="item__contents">
+              <div class="contents__menu">
+                <ul class="inner">
+                  <li><a href="/">Where</a></li>
+                  <li><a href="/">Who</a></li>
+                  <li><a href="/">Contact Us</a></li>
+                  <li><a href="/">Ask Us</a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="item" @mouseenter="showAfter" @mouseleave="hideAfter">
+            <div class="item__name">About Us</div>
+            <div class="item__contents">
+              <div class="contents__menu">
+                <ul class="inner">
+                  <li><a href="/">Where</a></li>
+                  <li><a href="/">Who</a></li>
+                  <li><a href="/">Contact Us</a></li>
+                  <li><a href="/">Ask Us</a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+      <div class="login-bar">
+        <div class="login-menu">
+          <router-link to="/mypage" v-if="isAuthenticated">
+            마이페이지
+          </router-link>
+          <router-link to="/join" v-else>
+            회원가입
+          </router-link>
+        </div>
+        <div class="login-menu">
+          <a v-if="isAuthenticated" @click="logout">
+            로그아웃
+          </a>
+          <router-link to="/login" v-else>
+            로그인
+          </router-link>
+        </div>
       </div>
     </div>
   </header>
+
 </template>
 
 <style scoped>
@@ -131,8 +144,9 @@ ul {
   margin: 0;
 }
 
-header {
+.header {
   display: flex;
+  position: relative;
   padding: 0 3%;
   width: 100%;
   justify-content: space-between;
@@ -156,13 +170,11 @@ a:hover {
   height: 70px;
 }
 
-
 .login-bar > div:hover a {
   background-color: #2c2a29;
   color: #669900;
   border-radius: 6px;
 }
-
 
 .main-menu {
   display: flex;
@@ -170,7 +182,6 @@ a:hover {
   gap: 30px;
   padding: 0;
 }
-
 
 .item__name {
   padding: 20px 20px 30px;
@@ -198,13 +209,7 @@ a:hover {
 }
 
 .contents__menu {
-  background-color: #2c2a29;
   height: 400px;
-}
-
-.main-menu .item:hover .item__contents {
-  display: block;
-  font-size: 2rem;
 }
 
 .item__contents ul > li::before {
@@ -222,12 +227,38 @@ a:hover {
 
 .item__contents {
   position: absolute;
-  z-index: 2;
-  width: 100%;
-  display: none;
-  transition-delay: 2s;
-  transition-property: height;
+  z-index: 6;
+  height: 0;
+  font-size: 1.5rem;
+  overflow: hidden;
+  transition: height 1s;
 }
 
 
+header::after {
+  content: '';
+  width: 100%;
+  height: 0px;
+  left: 0;
+  z-index: 5;
+  position: absolute;
+  background: white;
+  display: block;
+  transition: height 1s;
+  background: #3b82f6;
+}
+
+.main-menu .item:hover .item__contents {
+  display: block;
+  height: 400px;
+}
+
+
+header.show-after::after {
+  display: block; /* `isHovered`가 true일 때 보이도록 설정 */
+  height: 400px;
+}
+.inner > li + li {
+  margin-top: 20px;
+}
 </style>

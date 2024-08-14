@@ -1,10 +1,7 @@
 package com.kosa.gallerygather.service;
 
 import com.kosa.gallerygather.dto.*;
-import com.kosa.gallerygather.entity.Exhibition;
-import com.kosa.gallerygather.entity.ExhibitionReview;
-import com.kosa.gallerygather.entity.Member;
-import com.kosa.gallerygather.entity.ReviewImage;
+import com.kosa.gallerygather.entity.*;
 import com.kosa.gallerygather.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
@@ -17,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.nio.file.AccessDeniedException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,6 +98,7 @@ public class ExhibitionReviewService {
                 .orElseThrow(() -> new IllegalArgumentException("리뷰 ID 찾기 오류: " + reviewId));
         if(review.getMember().equals(member)) {
             exhibitionReviewRepository.delete(review);
+            exhibitionReviewReplyRepository.deleteByExhibitionReview(review);
             return true;
         }
         return false;
@@ -171,6 +170,36 @@ public class ExhibitionReviewService {
         }
         review.setContent(document.text().replaceAll("\\s+", " ").trim());
         return new ExhibitionReviewDto.RequestReviewList(review);
+    }
+
+    /*
+    작성자: 오지수
+    Review 좋아요 클릭
+     */
+    @Transactional
+    public void clickReviewLike(ExhibitionReviewLikeDto.RequestReviewLikeDto reviewLikeDto, boolean isLike) throws Exception {
+        // 존재하는 리뷰인지 확인
+        System.out.println("service로 잘 넘어왔다. ++ isLike? : " + isLike);
+        ExhibitionReview review = exhibitionReviewRepository.findById(reviewLikeDto.getReviewId())
+                .orElseThrow(IllegalArgumentException::new);
+        System.out.println("존재하는 리뷰인지 확인 *************** :" + review.getId());
+        //
+        if (isLike) { // 있으면 delete
+            ReviewLike reviewLike = exhibitionReviewLikeRepository.findByMemberIdAndExhibitionReview(reviewLikeDto.getMemberId(), review)
+                    .orElseThrow(IllegalArgumentException::new);
+            exhibitionReviewLikeRepository.delete(reviewLike);
+            review.decreaseLikeCount();
+        } else { // 없으면 insert
+            boolean result = exhibitionReviewLikeRepository.existsByMemberIdAndExhibitionReviewId(reviewLikeDto.getMemberId(), reviewLikeDto.getReviewId());
+            if (result) {
+                throw new Exception("잘못된 접근입니다.");
+            } else {
+                ReviewLike reviewLike = ReviewLike.setReviewLike(reviewLikeDto.getMemberId(), reviewLikeDto.getReviewId());
+                exhibitionReviewLikeRepository.save(reviewLike);
+                review.increaseLikeCount();
+            }
+        }
+
     }
 
 

@@ -59,7 +59,7 @@
         </div>
       </div>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -68,30 +68,30 @@ import DOMPurify from 'dompurify';
 import { userStore } from '@/store/userStore';
 import { apiRequest } from '@/util/RequestUtil';
 
-export default { 
-    components: {
-        ReviewRepliesCompo,
-    },
-    data() {
-        return {
-            exhibitionId: null,
-            reviewId: null,
-            reviewDetail: [],
-            isLike: null,
-            ifLoggedIn: null,
-        };
-    },
-    computed: {
+export default {
+  components: {
+    ReviewRepliesCompo,
+  },
+  data() {
+    return {
+      exhibitionId: null,
+      reviewId: null,
+      reviewDetail: [],
+      isLike: null,
+      ifLoggedIn: null,
+    };
+  },
+  computed: {
     safeContent() {
-        return DOMPurify.sanitize(this.reviewDetail.content);
+      return DOMPurify.sanitize(this.reviewDetail.content);
     },
     ifLoggedIn() {
-          const store = userStore();
-          return store.isAuthenticated;
+      const store = userStore();
+      return store.isAuthenticated;
     },
     getUser() {
-        const store = userStore();
-        return store.getUser;
+      const store = userStore();
+      return store.getUser;
     },
   },
   created() {
@@ -101,16 +101,16 @@ export default {
     this.getReviewDetail()
   },
   methods: {
-      
-      async getReviewDetail() {
-          apiRequest("get", `http://localhost:8080/api/exhibition/${this.exhibitionId}/review/${this.reviewId}`)
-              .then((response) => {
-                  this.reviewDetail = response.data.reviewDetail;
-                  this.ifLoggedIn = response.data.isLoggedIn;
-                  this.isLike = response.data.isLike;
-              }).catch(error => console.log(error));
-      },
-      editReview() {
+
+    async getReviewDetail() {
+      apiRequest("get", `http://localhost:8080/api/exhibition/${this.exhibitionId}/review/${this.reviewId}`)
+        .then((response) => {
+          this.reviewDetail = response.data.reviewDetail;
+          this.ifLoggedIn = response.data.isLoggedIn;
+          this.isLike = response.data.isLike;
+        }).catch(error => console.log(error));
+    },
+    editReview() {
       // 리뷰 수정 페이지로 이동
       if (this.ifLoggedIn === false) {
           alert("잘못된 접근입니다. 로그인 후 이용해주시기 바랍니다.");

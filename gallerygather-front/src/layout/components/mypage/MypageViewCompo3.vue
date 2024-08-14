@@ -22,13 +22,13 @@
           <input type="checkbox" v-model="selectAll" @change="toggleSelectAll" /> 전체선택
         </div>
         <!-- 선택된 항목을 삭제하는 버튼 -->
-        <button @click="deleteReview" class="deletebtn">삭제</button>
+        <button @click="deleteSelectedReviews" class="deletebtn">삭제</button>
       </div>
 
       <!-- 리뷰리스트 시작 -->
       <div class="reviewlist">
         <!-- 리뷰 항목을 반복하여 생성 -->
-        <div  v-for="(review, index) in reviews" :key="index" class="card">
+        <div v-for="(review, index) in reviews" :key="review.id" class="card">
           <!-- 각 리뷰 항목을 카드 형식으로 표시 -->
           <div class="card-content">
               <!-- 선택 체크박스 -->
@@ -113,16 +113,26 @@ export default {
         console.error('리뷰에서 goToDetail.');
       }
     },
-    async deleteReview() {
-      const reviewId = this.$route.params.reviewId
-      try {
-        await apiRequest('delete', `http://localhost:8080/api/exhibition/deleteReview/${reviewId}`)
+    async deleteSelectedReviews() {
+      const selectedReviews = this.reviews.filter(review => review.selected);
 
-        this.$router.push(`/exhibitiondetails/${this.$route.params.exhibitionId}`)
-      } catch (error) {
-        console.error('리뷰 삭제 실패:', error)
+      if (selectedReviews.length === 0) {
+        alert("삭제할 리뷰를 선택하세요.");
+        return;
       }
-    },
+
+      try {
+        for (const review of selectedReviews) {
+          await apiRequest('delete', `http://localhost:8080/api/exhibition/deleteReview/${review.id}`);
+        }
+        // 선택된 리뷰가 삭제된 후, 목록을 갱신
+        this.fetchReviews();
+        this.selectAll = false; // 전체 선택 상태를 초기화
+      } catch (error) {
+        console.error('리뷰 삭제 실패:', error);
+      }
+    }
+
 
 
   }
@@ -172,8 +182,18 @@ h3 {
 
 .card-content {
   display: flex;
-  align-items: center;
-  width: 100%;
+  flex-wrap: wrap;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  align-items: stretch;
+  gap: 20px; /* 카드 간의 간격을 일정하게 유지 */
+}
+.card-link {
+  text-decoration: none;
+  flex: 1 1 calc(25% - 20px); /* 카드의 최소 너비를 설정하고, 간격을 고려하여 유연하게 배치 */
+  max-width: calc(25% - 20px); /* 간격을 고려하여 최대 너비 설정 */
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .checkbox {

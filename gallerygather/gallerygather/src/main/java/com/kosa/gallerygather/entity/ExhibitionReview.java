@@ -118,12 +118,7 @@ public class ExhibitionReview {
         setUpdateDate(requestDto.getUpdateDate());
         setMember(member);
         setExhibition(exhibition);
-        removeAllImages();
         return this;
-    }
-
-    public void removeAllImages() {
-        images.clear();
     }
 
     public void addImage(ReviewImage reviewImage) {

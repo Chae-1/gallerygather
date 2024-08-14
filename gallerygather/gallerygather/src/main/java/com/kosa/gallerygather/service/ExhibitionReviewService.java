@@ -3,6 +3,7 @@ package com.kosa.gallerygather.service;
 import com.kosa.gallerygather.dto.*;
 import com.kosa.gallerygather.entity.*;
 import com.kosa.gallerygather.repository.*;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -31,6 +32,7 @@ public class ExhibitionReviewService {
     private final ReviewImageRepository reviewImageRepository;
     private final ExhibitionReviewReplyRepository exhibitionReviewReplyRepository;
     private final ExhibitionReviewLikeRepository exhibitionReviewLikeRepository;
+    private final EntityManager em;
 
     @Transactional
     public ReviewDetailDto write(final ExhibitionReviewRequestDto requestDto, String memberEmail, Long exhibitionId) {
@@ -114,28 +116,35 @@ public class ExhibitionReviewService {
     public ReviewDetailDto updateReview(ExhibitionReviewRequestDto requestDto, String memberEmail, Long reviewId, Long exhibitionId) {
         Member member = memberRepository.findByEmail(memberEmail)
                 .orElseThrow(() -> new IllegalArgumentException("유저 ID(Email) 찾기 오류: " + memberEmail));
-        ExhibitionReview review = exhibitionReviewRepository.findWithAllImagesById(reviewId, member)
+        ExhibitionReview review = exhibitionReviewRepository.findWithAllImagesById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("리뷰 ID 찾기 오류: " + reviewId));
         Exhibition exhibition = exhibitionRepository.findById(exhibitionId)
                 .orElseThrow(() -> new IllegalArgumentException("전시회 ID 찾기 오류: " + exhibitionId));
 
-        if (!review.getMember().equals(member)) {
+        if (!review.isWriteFor(member)) {
             throw new RuntimeException("리뷰 수정 실패.");
         }
 
         ExhibitionReview updatedReview = review.update(requestDto, member, exhibition);
+        exhibition.updateAvgRating(updatedReview.getRating());
+
+        int deleteCount = reviewImageRepository.deleteByExhibitionReview(review);
+
+        ExhibitionReview findReview = exhibitionReviewRepository.findById(reviewId)
+                .get();
+
+        System.out.println("deleteCount = " + deleteCount);
 
         List<ReviewImage> updatedImages = requestDto
                 .getImages()
                 .stream()
                 .map(images -> {
                     ReviewImage image = ReviewImage.ofNewImage(images.getPath(), images.getOriginalName());
-                    updatedReview.addImage(image);
+                    findReview.addImage(image);
                     return image;
                 })
                 .toList();
 
-        exhibition.updateAvgRating(updatedReview.getRating());
         return new ReviewDetailDto(updatedReview, member, exhibition, updatedImages);
     }
 

@@ -2,8 +2,6 @@ package com.kosa.gallerygather.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -41,6 +39,7 @@ public class ExhibitionReviewReply {
     @JoinColumn(name = "exhibit_review_id")
     private ExhibitionReview exhibitionReview;
 
+
     public ExhibitionReviewReply(String reply, Member member, ExhibitionReview exhibitionReview) {
         this.reply = reply;
         this.member = member;
@@ -66,4 +65,12 @@ public class ExhibitionReviewReply {
         return "No Title";
     }
 
+    //전시번호를 가져오기 위한 코드
+    public Long getExhibitionId() {
+        if (exhibitionReview != null && exhibitionReview.getExhibition() != null) {
+            return exhibitionReview.getExhibition().getId();
+        }
+        return null;
+    }
 }
+

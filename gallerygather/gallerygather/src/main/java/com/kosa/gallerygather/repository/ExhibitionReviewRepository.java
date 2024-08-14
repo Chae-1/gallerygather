@@ -31,16 +31,23 @@ public interface ExhibitionReviewRepository extends JpaRepository<ExhibitionRevi
     Page<ExhibitionReview> findByExhibitionId(@Param("exhibitionId") Long exhibitionId, Pageable pageable);
 
 
-    @Query("select review, m from ExhibitionReview review " +
-            "left join review.member m on review.member = :member " +
+    @Query("select review from ExhibitionReview review " +
+            "left join fetch review.member m " +
             "left join fetch review.images where review.id = :reviewId")
     @Transactional
-    Optional<ExhibitionReview> findWithAllImagesById(@Param("reviewId") Long reviewId, @Param("member") Member member);
+    Optional<ExhibitionReview> findWithAllImagesById(@Param("reviewId") Long reviewId);
 
 
     @Query("select review from ExhibitionReview review left join fetch review.member where review.id = :reviewId" )
     @Transactional
     Optional<ExhibitionReview> test(@Param("reviewId") Long reviewId);
+
+    @Query("select review, m from ExhibitionReview review " +
+            "left join review.member m on review.member = :member " +
+            "left join fetch review.images where review.id = :reviewId")
+    @Transactional
+    List<ExhibitionReview> test1(@Param("reviewId") Long reviewId);
+
 
 }
 

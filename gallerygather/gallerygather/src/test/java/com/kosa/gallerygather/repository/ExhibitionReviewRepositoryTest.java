@@ -29,7 +29,7 @@ class ExhibitionReviewRepositoryTest {
         Member member = memberRepository.findById(1L)
                 .get();
 
-        exhibitionReviewRepository.findWithAllImagesById(1L, member)
+        exhibitionReviewRepository.findWithAllImagesById(8L)
                 .ifPresent(review -> {
                     System.out.println(review.getMember() == member);
                 });

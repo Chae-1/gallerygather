@@ -64,6 +64,7 @@ public class ApiExhibitionReviewController {
                                                @PathVariable Long reviewId,
                                                @PathVariable Long exhibitionId) {
         String memberId = userDetails.getEmail();
+        System.out.println(requestDto);
         ReviewDetailDto updatedReview = exhibitionReviewService.updateReview(requestDto, memberId, reviewId, exhibitionId);
         return ResponseEntity.ok(updatedReview);
     }

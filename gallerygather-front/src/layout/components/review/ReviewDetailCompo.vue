@@ -49,7 +49,7 @@
         </div>
         <div class="edit-buttons">
           {{ getUser }} | {{ reviewDetail.authorEmail }}
-          <button
+          <!-- <button
             type="button"
             class="editButton"
             @click="editReview"
@@ -58,6 +58,16 @@
             수정
           </button>
           <button type="button" class="deleteButton" v-if="getUser === reviewDetail.authorEmail">
+            삭제
+          </button> -->
+          <button
+            type="button"
+            class="editButton"
+            @click="editReview"
+          >
+            수정
+          </button>
+          <button type="button" class="deleteButton">
             삭제
           </button>
         </div>

@@ -15,7 +15,7 @@ import JoinSuccessComment from '@/layout/components/main/JoinSuccessComment.vue'
 import ReviewDetailCompo from '@/layout/components/review/ReviewDetailCompo.vue'
 
 const homeRoute = {
-  path: '/',
+  path: '/home',
   name: 'home',
   redirect: '/main',
   component: Home,

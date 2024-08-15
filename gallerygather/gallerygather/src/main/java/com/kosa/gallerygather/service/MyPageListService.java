@@ -88,11 +88,13 @@ public class MyPageListService {
                     review.getRating(),// 리뷰 평점
                    exhibitionTitle,// 전시 제목
                     exhibitId,
-                    reviewcount
+                    reviewcount,
+                    review.getUpdateDate() // 리뷰 수정 날짜를 추가
             );
             System.out.println("가져온 전시제목(서비스): " + exhibitionTitle);
             System.out.println("가져온 전시번호(서비스): " + exhibitId);
             System.out.println("가져온 리뷰번호(서비스): " + review.getId());
+            System.out.println("가져온 리뷰번호(서비스): " + review.getUpdateDate());
             responseDtos.add(dto); // 변환된 DTO를 리스트에 추가합니다.
         }
 

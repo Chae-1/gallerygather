@@ -27,6 +27,5 @@ public interface ExhibitionLikeRepository extends JpaRepository<ExhibitionLike, 
     //유은 - 특정 사용자가 좋아요한 전시회의 수를 반환
     int countByMemberId(Long memberId);
 
-    //유은 - 좋아요 취소 메서드
 
 }

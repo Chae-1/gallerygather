@@ -96,13 +96,13 @@ export default {
     }
   },
 
-  created() {
+  async created() {
     if (this.$route.params.exhibitInfo) {
       this.exhibitInfo = this.$route.params.exhibitInfo
     } else {
       const { exhibitionId } = this.$route.params
       try {
-        const response = axios.get(`http://localhost:8080/api/exhibitions/${exhibitionId}`)
+        const response = await axios.get(`http://localhost:8080/api/exhibitions/${exhibitionId}`)
         this.exhibitInfo = response.data.exhibition
         console.log('전시정보', this.exhibitInfo)
       } catch (error) {

@@ -58,8 +58,8 @@ public class ApiExhibitionController {
     */
     @PostMapping("/{exhibitionId}/like")
     public ResponseEntity<ExhibitionDto> likeExhibition(@PathVariable Long exhibitionId,
-                               @RequestBody ExhibitionLikeDto.RequestLike likeDto,
-                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                                        @RequestBody ExhibitionLikeDto.RequestLike likeDto,
+                                                        @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.ok()
                 .body(exhibitionLikeService.clickExhibitionLike(likeDto.getIsLike(), new ExhibitionLikeDto.RequestExhibitionLike(exhibitionId, userDetails.getId())));
     }

@@ -17,6 +17,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.nio.file.AccessDeniedException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,22 +94,23 @@ public class ExhibitionReviewService {
         return reviewInfo;
     }
 
+    // 리뷰 삭제
     @Transactional
     public boolean deleteReview(String memberEmail, Long reviewId) {
         Member member = memberRepository.findByEmail(memberEmail)
                 .orElseThrow(() -> new IllegalArgumentException("유저 ID(Email) 찾기 오류: " + memberEmail));
         ExhibitionReview review = exhibitionReviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("리뷰 ID 찾기 오류: " + reviewId));
-        if(review.getMember().equals(member)) {
+        if (review.getMember().equals(member)) {
             exhibitionReviewRepository.delete(review);
-            exhibitionReviewReplyRepository.deleteByExhibitionReviewReply(review);
             return true;
         }
         return false;
     }
 
+    // 리뷰 수정
     @Transactional
-    public ReviewDetailDto updateReview(ExhibitionReviewRequestDto requestDto,String memberEmail, Long reviewId, Long exhibitionId) {
+    public ReviewDetailDto updateReview(ExhibitionReviewRequestDto reviewDto,String memberEmail, Long reviewId, Long exhibitionId) {
         Member member = memberRepository.findByEmail(memberEmail)
                 .orElseThrow(() -> new IllegalArgumentException("유저 ID(Email) 찾기 오류: " + memberEmail));
         ExhibitionReview review = exhibitionReviewRepository.findById(reviewId)
@@ -121,36 +124,60 @@ public class ExhibitionReviewService {
                 throw new RuntimeException(e);
             }
         }
-        ExhibitionReview updatedReview = requestDto.toUpdate(review, member, exhibition);
 
-        List<ReviewImage> existingImages = updatedReview.getImages();
-        if (existingImages != null) {
-            reviewImageRepository.deleteAll(existingImages);
-            existingImages.clear();  // 기존 이미지 리스트를 클리어
+        // 리뷰 수정
+        review.setTitle(reviewDto.getTitle());
+        review.setContent(reviewDto.getContent());
+        review.setRating(reviewDto.getRating());
+        review.setViewDate(reviewDto.getViewDate());
+
+        // 삭제할 이미지 처리
+        if (reviewDto.getImagesToDelete() != null && !reviewDto.getImagesToDelete().isEmpty()) {
+            for (String imageUrl : reviewDto.getImagesToDelete()) {
+                // /uploads/ 이후의 경로만 추출
+                String relativePath = imageUrl.substring(imageUrl.indexOf("/uploads/"));
+
+                // 해당 경로로 이미지 찾기
+                ReviewImage reviewImage = reviewImageRepository.findByPath(relativePath)
+                        .orElseThrow(() -> new IllegalArgumentException("이미지 경로 찾기 오류: " + relativePath));
+
+                // 리뷰에서 이미지 제거 및 DB에서 삭제
+                review.removeImage(reviewImage);
+                reviewImageRepository.delete(reviewImage);
+            }
         }
 
-        List<ReviewImage> updatedImages = requestDto.getImages().stream()
-                .map(imageDto -> {
-                    ReviewImage reviewImage = new ReviewImage();
-                    reviewImage.setOriginalName(imageDto.getOriginalName());
-                    reviewImage.setPath(imageDto.getPath());
-                    reviewImage.setExhibitionReview(updatedReview);
-                    return reviewImageRepository.saveAndFlush(reviewImage);
-                })
-                .collect(Collectors.toList());
+        // 새로 추가된 이미지 처리
+        if (reviewDto.getImages() != null && !reviewDto.getImages().isEmpty()) {
+            List<ReviewImage> newImages = reviewDto.getImages().stream()
+                    .map(imageDto -> {
+                        ReviewImage reviewImage = new ReviewImage();
+                        reviewImage.setOriginalName(imageDto.getOriginalName());
+                        reviewImage.setPath(imageDto.getPath());
+                        reviewImage.setExhibitionReview(review);
+                        return reviewImage;
+                    })
+                    .collect(Collectors.toList());
 
-        updatedReview.getImages().addAll(updatedImages);  // 새로운 이미지를 추가
+            // 이미지 엔티티 저장
+            reviewImageRepository.saveAll(newImages);
 
+            // 리뷰에 이미지 추가
+            for (ReviewImage newImage : newImages) {
+                review.addImage(newImage);
+            }
+        }
 
         // 변경된 리뷰와 이미지를 DB에 저장
-        exhibitionReviewRepository.saveAndFlush(updatedReview);
+        exhibitionReviewRepository.saveAndFlush(review);
 
         // 평균 평점 업데이트
-        exhibition.updateAvgRating(updatedReview.getRating());
+        exhibition.updateAvgRating(review.getRating());
         exhibitionRepository.saveAndFlush(exhibition);
 
-        return new ReviewDetailDto(updatedReview, member, exhibition, updatedImages);
+        return new ReviewDetailDto(review, member, exhibition, review.getImages());
     }
+
 
     // 작성자: 오지수
     // 전시 상세 페이지에서 하단의 리뷰 리스트를 가져오는 Service

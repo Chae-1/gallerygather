@@ -1,11 +1,15 @@
 package com.kosa.gallerygather.entity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "TBL_REVIEW_IMAGE")
 public class ReviewImage {
 
@@ -23,5 +27,11 @@ public class ReviewImage {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exhibitreview_id")
     private ExhibitionReview exhibitionReview;
+
+    public ReviewImage(String originalName, String path, ExhibitionReview exhibitionReview) {
+        this.originalName = originalName;
+        this.path = path;
+        this.exhibitionReview = exhibitionReview;
+    }
 }
 

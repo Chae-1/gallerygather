@@ -8,8 +8,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "TBL_REVIEW_IMAGE")
+@AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "TBL_REVIEW_IMAGE")
 public class ReviewImage {
 
     @Id
@@ -28,6 +29,12 @@ public class ReviewImage {
     private ExhibitionReview exhibitionReview;
 
 
+    public ReviewImage(String originalName, String path, ExhibitionReview exhibitionReview) {
+        this.originalName = originalName;
+        this.path = path;
+        this.exhibitionReview = exhibitionReview;
+    }
+
     private ReviewImage(String path, String originalName) {
         this.path = path;
         this.originalName = originalName;
@@ -35,6 +42,7 @@ public class ReviewImage {
 
     public static ReviewImage ofNewImage(String path, String originalName) {
         return new ReviewImage(path, originalName);
+
     }
 }
 

@@ -9,7 +9,7 @@
         <p>평점: ⭐ {{ exhibitInfo.avgRating }}</p>
       </div>
     </div>
-    <form @submit.prevent="submit">
+    <form @submit.prevent="edit">
       별점을 입력하세요.
       <star-rating
         v-model:rating="review.rating"
@@ -56,7 +56,7 @@
         required
       ></QuillEditor>
       <br />
-      <button type="edit" class="submit-button">등록</button>
+      <button type="submit" class="edit-button">수정</button>
     </form>
   </div>
 </template>
@@ -116,12 +116,11 @@ export default {
       this.initializeReview(this.reviewDetail)
     } else {
       const { exhibitionId, reviewId } = this.$route.params
-
       try {
         const response = await axios.get(
           `http://localhost:8080/api/exhibition/${exhibitionId}/review/${reviewId}`
         )
-        this.reviewDetail = response.data
+        this.reviewDetail = response.data.reviewDetail
         this.initializeReview(this.reviewDetail)
       } catch (error) {
         console.error('Failed to fetch review detail:', error)
@@ -157,8 +156,12 @@ export default {
         const uploadUrls = await this.$refs.quillEditor.uploadImages()
         this.review.images = uploadUrls
 
-        console.log(`http://localhost:8080/api/exhibition/${exhibitionId}/updateReview/${reviewId}`)
+        // 이미지 삭제 처리
+        const imagesToDelete = this.$refs.quillEditor.imagesToDelete
+        this.review.imagesToDelete = imagesToDelete
+        console.log('??????????????????????????', imagesToDelete)
 
+        console.log('백으로 들어가는 데이터::::', this.review)
         // 리뷰 수정 API 호출
         await apiRequest(
           'put',
@@ -264,7 +267,7 @@ export default {
   height: 400px;
 }
 
-.submit-button {
+.edit-button {
   background-color: #5cb85c;
   color: white;
   padding: 10px 20px;
@@ -273,7 +276,7 @@ export default {
   cursor: pointer;
 }
 
-.submit-button:hover {
+.edit-button:hover {
   background-color: #4cae4c;
 }
 </style>

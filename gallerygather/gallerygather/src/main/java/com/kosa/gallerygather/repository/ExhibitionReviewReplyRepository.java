@@ -19,12 +19,9 @@ public interface ExhibitionReviewReplyRepository extends JpaRepository<Exhibitio
     @Query("select r from ExhibitionReviewReply r left join fetch r.member where r.exhibitionReview = :exhibitionReview")
     Page<ExhibitionReviewReply> findByExhibitionReviewWithMember(@Param("exhibitionReview") ExhibitionReview exhibitionReview, Pageable pageable);
 
-
     /*
     작성자: 오지수
      */
-    void deleteByExhibitionReview(ExhibitionReview exhibitionReview);
-
     /*
     리뷰 페이지에서 페이지네이션으로 댓글 리스트 가져오기
      */

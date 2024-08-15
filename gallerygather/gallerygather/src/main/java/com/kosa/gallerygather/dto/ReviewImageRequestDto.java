@@ -19,5 +19,7 @@ public class ReviewImageRequestDto {
         this.originalName = originalName;
         this.path = path;
     }
+
+
 }
 

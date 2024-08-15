@@ -83,6 +83,18 @@ public class ExhibitionReview {
         return true;
     }
 
+    // 이미지 추가
+    public void addImage(ReviewImage image) {
+        images.add(image);
+        image.setExhibitionReview(this);
+    }
+
+    // 이미지 제거
+    public void removeImage(ReviewImage image) {
+        images.remove(image);
+        image.setExhibitionReview(null); // 이미지에서 리뷰와의 관계도 끊음
+    }
+
     public static ExhibitionReview ofNewReview(String title, String content, Double rating, LocalDate viewDate, Member member, Exhibition exhibition) {
         return new ExhibitionReview(title, content, rating, viewDate, LocalDateTime.now(), LocalDateTime.now(), member, exhibition);
 
@@ -119,11 +131,6 @@ public class ExhibitionReview {
         setMember(member);
         setExhibition(exhibition);
         return this;
-    }
-
-    public void addImage(ReviewImage reviewImage) {
-        this.images.add(reviewImage);
-        reviewImage.setExhibitionReview(this);
     }
 
     public boolean isWriteFor(Member member) {

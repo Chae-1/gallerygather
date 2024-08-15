@@ -2,7 +2,9 @@ package com.kosa.gallerygather.repository;
 
 import com.kosa.gallerygather.entity.Exhibition;
 import com.kosa.gallerygather.entity.ExhibitionLike;
+import com.kosa.gallerygather.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -10,8 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ExhibitionLikeRepository extends JpaRepository<ExhibitionLike, Long> {
-    // insert는 save 사용
 
+    // insert는 save 사용
     @Query("SELECT el FROM ExhibitionLike el WHERE el.member.id = :memberId AND el.exhibition.id = :exhibitionId")
     Optional<ExhibitionLike> findExhibitionLikeByallId(@Param("memberId") Long memberId, @Param("exhibitionId") Long exhibitionId);
 
@@ -24,5 +26,7 @@ public interface ExhibitionLikeRepository extends JpaRepository<ExhibitionLike, 
 
     //유은 - 특정 사용자가 좋아요한 전시회의 수를 반환
     int countByMemberId(Long memberId);
+
+    //유은 - 좋아요 취소 메서드
 
 }

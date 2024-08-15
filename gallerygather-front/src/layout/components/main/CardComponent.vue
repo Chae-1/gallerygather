@@ -17,25 +17,25 @@ export default {
                 :key="item.exhibitionId">
       <b-card class="b-card"
               title-tag="h6"
-              :title="item.title" style="max-width: 20rem; font-weight:700; margin: auto; flex: 25%;" img-width="400px"
+              :title="item.title" style="max-width: 20rem; font-size: 15px;font-weight:500; margin: auto; flex: 25%;" img-width="400px"
               img-height="400px"
               :img-src="item.imageUrl"  img-top>
 
         <template #footer>
           
           <div class="card-duration">
-            <span class="card-detail-title">기간</span>
-            <span>{{item.startDate}} ~ {{item.endDate}}</span>
+            <!-- <span class="card-detail-title">기간</span> -->
+            <div> {{ item.startDate }} ~ {{ item.endDate }} </div>
           </div>
           <div class="card-location">
-            <span class="card-detail-title">장소</span>
-            <span>{{ item.place }}</span>
+            <!-- <span class="card-detail-title">장소</span> -->
+            <div class="one-line">{{ item.place }}</div>
           </div>
           <div class="card-info">
-            <span>진행상태</span>
+            <!-- <span>진행상태</span> -->
             <div class="card-info-grade">
-              <span style="margin: 0 20px;">{{item.rating}}</span>
-              <em>별점</em>
+              <div style="margin: 0 20px;"> ⭐ {{item.rating}}</div>
+              <!-- <em>별점</em> -->
             </div>
           </div>
         </template>
@@ -50,6 +50,12 @@ export default {
   transition: transform 0.2s;
 }
 
+.card-title {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .b-card:hover {
   transform: scale(1.02);
 }
@@ -59,6 +65,15 @@ export default {
   font-weight: bold;
 }
 
+.card-duration {
+  display: flex;
+  gap: 10px;
+}
+
+.card-location {
+  display: flex;
+  gap: 10px;
+}
 
 .card-duration::before,
 .card-location::before {
@@ -97,9 +112,26 @@ export default {
   margin: 0 10px;
 }
 
+.main-content >div {
+  display: grid;
+  grid-template-rows: 4;
+}
+
+/* .card-deck {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+}*/
+
 .card-deck > a {
   display: block;
   margin: 0 auto;
+
+}
+
+.one-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 </style>

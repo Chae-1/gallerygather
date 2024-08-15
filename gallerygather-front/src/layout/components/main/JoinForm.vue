@@ -1,25 +1,25 @@
 <script>
-import flatpickr from 'flatpickr';
-import 'flatpickr/dist/flatpickr.min.css';
-import 'flatpickr/dist/l10n/ko.js';
-import axios from "axios";
+import flatpickr from 'flatpickr'
+import 'flatpickr/dist/flatpickr.min.css'
+import 'flatpickr/dist/l10n/ko.js'
+import axios from 'axios'
 
 function canNotJoin(email) {
-  let canJoin = true;
+  let canJoin = true
   let result = axios.post('http://localhost:8080/api/members/check', {
     email: email
   }, {
-    responseType: "json",
+    responseType: 'json'
   }).then((response) => {
     // 정상적인 응답이 오면, 회원 가입 확인 폼으로 이동
-    canJoin = response.data.canJoin;
-    response.status;
+    canJoin = response.data.canJoin
+    response.status
   }).catch((error) => {
-    canJoin = false;
-    console.log(error);
-  });
+    canJoin = false
+    console.log(error)
+  })
   // checkResult =
-  return !canJoin;
+  return !canJoin
 }
 
 export default {
@@ -37,28 +37,28 @@ export default {
   },
 
   mounted() {
-    flatpickr("#date-picker", {
-      dateFormat: "Y-m-d",
-      minDate: "1900-01-01",
-      maxDate: "2099-12-31",
-      defaultDate: "2000-01-01",
-      locale: "ko",
+    flatpickr('#date-picker', {
+      dateFormat: 'Y-m-d',
+      minDate: '1900-01-01',
+      maxDate: '2099-12-31',
+      defaultDate: '2000-01-01',
+      locale: 'ko'
       // Customize options here if needed
-    });
+    })
   },
 
   methods: {
     submitForm() {
       // valid
-      console.log(this.dateOfBirth);
+      console.log(this.dateOfBirth)
       if (this.password !== this.passwordValid) {
-        this.errorMessage = '비밀번호가 일치하지 않습니다.';
-        return;
+        this.errorMessage = '비밀번호가 일치하지 않습니다.'
+        return
       }
 
       if (canNotJoin(this.email)) {
-        this.errorMessage = '이미 가입된 회원입니다.';
-        return;
+        this.errorMessage = '이미 가입된 회원입니다.'
+        return
       }
 
       // 정상일 경우, 회원 가입 요청 시도
@@ -69,22 +69,28 @@ export default {
         password: this.password,
         dateOfBirth: this.dateOfBirth
       }, {
-        responseType: "json",
+        responseType: 'json'
       }).then((response) => {
-        console.log(response);
-        const joinedEmail = response.data.email;
-        const joinedName = response.data.name;
-        const joinedNickName = response.data.nickName;
-        const joinedDate = response.data.regDate;
+        console.log(response)
+        const joinedEmail = response.data.email
+        const joinedName = response.data.name
+        const joinedNickName = response.data.nickName
+        const joinedDate = response.data.regDate
 
-        this.$router.push({name: 'success', params: {
-          joinedName, joinedEmail, joinedNickName, joinedDate
-          }});
+        this.$router.push({
+          name: 'success',
+          query: {
+            joinedName: joinedName,
+            joinedEmail: joinedEmail,
+            joinedNickName: joinedNickName,
+            joinedDate: joinedDate
+          }
+        })
       }).catch((error) => {
-        console.log(error);
-        this.showErrormessage = true;
-      });
-    },
+        console.log(error)
+        this.showErrormessage = true
+      })
+    }
   }
 }
 </script>
@@ -127,15 +133,15 @@ a {
 }
 
 .join {
-  max-width: 1220px; /* 줄여서 가독성 향상 */
-  background-color: #f5f5f5;
+  width: 70%; /* 줄여서 가독성 향상 */
+  background-color: #b8bab4;
   border: 1px solid #eee;
   border-radius: 5px;
   padding: 25px;
   box-sizing: border-box;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
   margin: 10% auto;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 
 .join span {
@@ -146,7 +152,7 @@ a {
 
 
 .join input {
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 .join input[type=email],
@@ -165,8 +171,8 @@ a {
 .join input[type=password]:hover,
 .join input[type=text]:hover,
 .join input[type=date]:hover {
-  border: 1px solid dodgerblue;
-  box-shadow: 0 0 5px dodgerblue;
+  border: 1px solid #669900;
+  box-shadow: 0 0 5px #669900;
 }
 
 .join input[type=email],
@@ -210,19 +216,19 @@ a {
 }
 
 .join button {
-  background-color: #2991b1;
-  color: #fff;
+  background-color: #2c2a29;
+  color: #669900;
   width: 100%; /* 버튼 너비 조정 */
   padding: 10px;
   border-radius: 5px;
   border: none;
   cursor: pointer;
-  font-size: 1.5rem; /* 폰트 사이즈 조정 */
+  font-size: 1rem; /* 폰트 사이즈 조정 */
   transition: 0.3s;
 }
 
 .join button:hover {
-  background-color: #2c778e;
+  transform: scale(1.025);
 }
 
 .join-bottom {
@@ -241,4 +247,21 @@ a {
   font-weight: 700;
 }
 
+@media screen and (max-width: 992px) {
+
+  .join {
+    max-width: 700px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .join {
+    max-width: 400px;
+  }
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+}
 </style>

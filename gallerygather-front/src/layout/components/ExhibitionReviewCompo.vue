@@ -67,6 +67,9 @@ export default {
     mounted() {
         console.log('mounted()');
     },
+    computed: {
+
+    },
     methods: {
         async getExhibitReviewList() {
             try {
@@ -89,7 +92,7 @@ export default {
         goToWrite() {
             const store = userStore();
             
-            if (store.loginCheck()) {
+            if (store.loginCheck) {
                 this.$router.push({ name: 'ReviewWrite'});
             } else {
                 alert("로그인 후 리뷰 작성이 가능합니다.");

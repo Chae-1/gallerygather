@@ -50,8 +50,8 @@ public class Member {
     @Column(name = "address")
     private String address;
 
-    @OneToMany(mappedBy = "member")
-    private List<ExhibitionReviewReply> replies = new ArrayList<>();
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)//부모레코드가 삭제될때 자식레코드도 삭제
+    private List<ExhibitionReviewReply> replies = new ArrayList<>(); // 8 // 15
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "member")
     private RefreshToken refreshToken;
@@ -66,6 +66,10 @@ public class Member {
         this.regDate = regDate;
         this.updateDate = updateDate;
         this.nickName = nickName;
+    }
+
+    public Member(Long memberId) {
+        this.id = memberId;
     }
 
     public static Member ofNewMember(String name, String email,

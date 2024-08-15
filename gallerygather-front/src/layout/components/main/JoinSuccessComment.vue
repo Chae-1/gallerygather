@@ -2,19 +2,27 @@
 export default {
 
   name: "JoinSuccessComment",
+
+  mounted() {
+    console.log(this.$route.query);
+  },
+
   computed: {
     // 라우트 파라미터를 computed property로 접근
     joinedName() {
-      return this.$route.params.joinedName ?? 'asdasd';
+      return this.$route.query.joinedName;
     },
     joinedEmail() {
-      return this.$route.params.joinedEmail ?? 'asdad';
+      return this.$route.query.joinedEmail;
     },
     joinedNickName() {
-      return this.$route.params.joinedNickName ?? 'asdasd';
+      return this.$route.query.joinedNickName;
     },
     joinedDate() {
-      return this.$route.params.joinedDate ?? 'adssad';
+      let lawDate = this.$route.query.joinedDate
+      const date = new Date(lawDate);
+
+      return date.toLocaleString();
     }
   }
 }
@@ -23,7 +31,7 @@ export default {
 <template>
   <div>
     <div class="join">
-      <div class="join-wellcome">가입을 환영합니다.</div>
+      <div class="join-title">가입을 환영합니다.</div>
       <span>이름</span>
       <div class="join-wellcome">{{joinedName}}</div>
       <span>이메일</span>
@@ -87,11 +95,15 @@ a {
   font-weight: 700;
 }
 
-.join-wellcome {
+.join-wellcome, .join-title {
   text-align: center;
   font-family: 'Arial', sans-serif;
   padding: 10px;
   background: white;
+}
+
+.join-title {
+  background: inherit;
 }
 
 </style>

@@ -64,11 +64,7 @@ export default {
 </script>
 
 <style scoped>
-.pagination {
-  margin: 0 auto;
-}
-
-.pagination > .page-item {
-  background-color: red;
+.mt-3 {
+  margin-bottom: 15px;
 }
 </style>

@@ -29,6 +29,7 @@ export default {
         <a href="#">공지사항</a>
         <a href="#">개인정보 처리방침</a>
       </div>
+
       <div class="footer-social">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -60,13 +61,15 @@ export default {
     </div>
 
     <div class="toggle" @click="descVisible">
-      <h6>갤러리개더 정보</h6>
+      <span>갤러리개더 정보</span>
     </div>
 
     <div class="footer-description" v-show="!visible">
       <div>
         <p>상호: 주식회사 갤러리개더 / 대표: 없음 </p>
+        <p>|</p>
         <p>주소: 매각 협의 중 </p>
+        <p>|</p>
         <p>이메일 : god@normalize.net / 대표전화 : 1644-1052</p>
       </div>
     </div>
@@ -91,9 +94,9 @@ export default {
 footer {
   width: 100%;
   height: 100%;
-  padding: 20px;
-  background: #ababab;
-  color: #730758;
+  padding: 5px;
+  background: #f8f7f3;
+  font-size: 0.75rem;
 }
 
 .footer-menu {
@@ -109,8 +112,7 @@ footer {
 .footer-menu a {
   display: block;
   padding: 0 20px;
-  font-size: 0.9rem;
-  color: #6c2c2c;
+  color: #737373;
 }
 
 .footer-title {
@@ -132,6 +134,25 @@ footer {
   cursor: pointer;
   margin-top: 1rem;
   font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.footer-description {
+  display : flex;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.footer-description div{
+  display : flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.footer-description p {
+  margin : 5px 0;
 }
 
 </style>

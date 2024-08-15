@@ -1,7 +1,7 @@
 import Intro from "@/layout/Intro.vue";
 
 const introRoute = {
-    path: '/intro',
+    path: '/',
     name: 'intro',
     component: Intro
 }

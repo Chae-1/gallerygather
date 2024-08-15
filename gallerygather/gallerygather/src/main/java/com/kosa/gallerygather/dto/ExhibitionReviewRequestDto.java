@@ -3,12 +3,16 @@ package com.kosa.gallerygather.dto;
 import com.kosa.gallerygather.entity.Exhibition;
 import com.kosa.gallerygather.entity.ExhibitionReview;
 import com.kosa.gallerygather.entity.Member;
+<<<<<<< HEAD
 import com.kosa.gallerygather.entity.ReviewImage;
 import com.kosa.gallerygather.repository.ReviewImageRepository;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+=======
+import lombok.*;
+>>>>>>> ad1313cf8e17a0e297253e44cd8e5e2e6b5b1b68
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +23,7 @@ import java.util.stream.Collectors;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Setter
+@ToString
 public class ExhibitionReviewRequestDto {
 
     private String title;
@@ -43,6 +48,7 @@ public class ExhibitionReviewRequestDto {
                 .build();
     }
 
+<<<<<<< HEAD
 //    public ExhibitionReview toUpdate(ExhibitionReview existingReview, Member member, Exhibition exhibition) {
 //        existingReview.setTitle(this.title);
 //        existingReview.setContent(this.content);
@@ -62,4 +68,6 @@ public class ExhibitionReviewRequestDto {
 //        review.setViewDate(this.viewDate);
 //        review.setUpdateDate(this.updateDate);
 //    }
+=======
+>>>>>>> ad1313cf8e17a0e297253e44cd8e5e2e6b5b1b68
 }

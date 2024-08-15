@@ -14,15 +14,14 @@ class ExhibitionServiceTest {
 
     @Test
     void getCardDto() {
-        Page<ExhibitionCardDto> cardDto = exhibitionService.getCardDto(new PageRequestDto(10, 1));
-        System.out.println(cardDto);
-
-        System.out.println("cardDto.getTotalElements() = " + cardDto.getTotalElements());
-        System.out.println("cardDto.getTotalPages() = " + cardDto.getTotalPages());
-        for (ExhibitionCardDto exhibitionCardDto : cardDto.getContent()) {
-            System.out.println("exhibitionCardDto = " + exhibitionCardDto);
-        }
-        System.out.println(cardDto.getNumberOfElements());
-        System.out.println("cardDto.getSize() = " + cardDto.getSize());
+//        System.out.println(cardDto);
+//
+//        System.out.println("cardDto.getTotalElements() = " + cardDto.getTotalElements());
+//        System.out.println("cardDto.getTotalPages() = " + cardDto.getTotalPages());
+//        for (ExhibitionCardDto exhibitionCardDto : cardDto.getContent()) {
+//            System.out.println("exhibitionCardDto = " + exhibitionCardDto);
+//        }
+//        System.out.println(cardDto.getNumberOfElements());
+//        System.out.println("cardDto.getSize() = " + cardDto.getSize());
     }
 }

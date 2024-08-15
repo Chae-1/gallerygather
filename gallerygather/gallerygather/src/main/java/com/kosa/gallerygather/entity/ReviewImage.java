@@ -28,10 +28,21 @@ public class ReviewImage {
     @JoinColumn(name = "exhibitreview_id")
     private ExhibitionReview exhibitionReview;
 
+
     public ReviewImage(String originalName, String path, ExhibitionReview exhibitionReview) {
         this.originalName = originalName;
         this.path = path;
         this.exhibitionReview = exhibitionReview;
+    }
+
+    private ReviewImage(String path, String originalName) {
+        this.path = path;
+        this.originalName = originalName;
+    }
+
+    public static ReviewImage ofNewImage(String path, String originalName) {
+        return new ReviewImage(path, originalName);
+
     }
 }
 

@@ -30,7 +30,7 @@
               <span class="date">{{ reply.replyRegDate }}</span>
             </div>
           </div>
-          <div class="reply-manage" v-if="getUser() == reply.replyAuthorEmail">
+          <div class="reply-manage" v-if="getUser == reply.replyAuthorEmail">
             <button v-if="!reply.editable" @click="editReply(index)">수정</button>
             <button v-if="!reply.editable" @click="deleteReply(reply.replyId)">삭제</button>
             <button v-if="reply.editable" @click="updateReply(reply.replyId, reply.replyContent)">저장</button>
@@ -77,14 +77,15 @@ export default {
   },
 
   mounted() {
-
+    
   },
-  methods: {
+  computed: {
     getUser() {
       const store = userStore();
-      return store.getUser();
+      return store.getUser;
     },
-
+  },
+  methods: {
     setReplies(response) {
       this.replies = response.data.content;
       this.totalElement = response.data.totalElements;
@@ -116,7 +117,7 @@ export default {
 
     async addReply() {
       const store = userStore();
-      if (store.loginCheck()) { //로그인 한 상태라면 댓글 등록 가능
+      if (store.loginCheck) { //로그인 한 상태라면 댓글 등록 가능
         try {
           apiRequest('post', `http://localhost:8080/api/exhibition/review/${this.reviewId}/replies`, {
             reply: this.newReplyContent
@@ -153,7 +154,7 @@ export default {
 
     async deleteReply(replyId) {
       const store = userStore();
-      if (store.loginCheck()) { //로그인 상태 다시 체크
+      if (store.loginCheck) { //로그인 상태 다시 체크
         try {
           await apiRequest("delete", `http://localhost:8080/api/exhibition/reviews/${this.reviewId}/replies/${replyId}`)
           .then(response => {
@@ -218,7 +219,7 @@ export default {
   position: relative;
   padding: 20px;
   border-radius: 5px;
-  background-color: #3d3b3a;
+  background-color: #f8f5eb;
   width: 60%;
   margin: 20px auto;
   /* margin-bottom: 20px; */
@@ -229,6 +230,7 @@ export default {
   /* background-color: transparent; */
   color: #3d3b3a;
   background-color: #f8f5eb;
+  border: 1px solid #ddd;
 }
 
 .editable-text {
@@ -246,15 +248,16 @@ export default {
   right: 10px;
   width: 60px;
   height: 30px;
-  background-color: darkslategray;
+  background-color: #2c2a29;
   border-radius: 5px;
-  color: #f8f5eb;
+  color: #669900;
+  ;
 }
 
 .reply-lists-container {
   width: 60%;
   margin: 0 auto;
-  background-color: darkslategray;
+  background-color: #2c2a29;
   border-radius: 5px;
   padding: 20px 20px 10px;
 }
@@ -265,7 +268,7 @@ export default {
 }
 
 .non-reply span{
-  color: #ffffff;
+  color: #669900;
 }
 
 li {

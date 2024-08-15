@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="container" ref="container">
+  <div style="width: 100%">
+    <div class="container-x" ref="container">
         <div class="photo" id="photo1">
             <img src="../assets/img/intro/intro1.jpg" alt="Photo 1">
         </div>
@@ -79,13 +79,6 @@ export default {
 </script>
 
 <style scoped>
-html, body, #app {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
 
 div {
     margin: 0;
@@ -96,19 +89,17 @@ div {
 }
 
 
-.container {
-    display: flex;
-    flex-direction: column;
-    height: 300%;
-    scroll-snap-type: y mandatory;
-    overflow-y: scroll;
-    scroll-behavior: smooth;
+.container-x {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
 }
 
 .photo {
     scroll-snap-align: start;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -117,8 +108,8 @@ div {
 }
 
 .photo img {
-    width: 100vw; /* This makes the image fill the entire width of the viewport */
-    height: 100vh; /* This makes the image fill the entire height of the viewport */
+    width: 100%; /* This makes the image fill the entire width of the viewport */
+    height: 100%; /* This makes the image fill the entire height of the viewport */
     object-fit: cover;
     position: absolute;
     top: 50%;

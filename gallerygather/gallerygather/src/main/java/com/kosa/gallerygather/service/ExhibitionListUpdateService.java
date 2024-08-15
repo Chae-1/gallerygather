@@ -86,6 +86,11 @@ public class ExhibitionListUpdateService {
                     LocalDate startDate = LocalDate.parse(split[0].trim());
                     LocalDate endDate = LocalDate.parse(split[0].trim());
 
+
+                    if (item.getImageObject() == null) {
+                        continue;
+                    }
+
                     repository.save(
                             Exhibition.builder()
                                     .title(item.getTitle())

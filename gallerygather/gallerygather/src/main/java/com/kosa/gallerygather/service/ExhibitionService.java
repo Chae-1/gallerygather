@@ -25,6 +25,13 @@ public class ExhibitionService {
     private final ExhibitionRepository exhibitionRepository;
     private final ExhibitionLikeRepository exhibitionLikeRepository;
 
+
+    public boolean deleteExhibition(Long exhibitionId) {
+        exhibitionRepository.deleteById(exhibitionId);
+        return true;
+    }
+
+
     public Page<ExhibitionCardDto> getCardDto(Pageable pageable, String title) {
         return exhibitionRepository.findAll(ExhibitionSpecs.containsTitle(title), pageable)
                 .map(exhibition -> new ExhibitionCardDto(exhibition.getId(), exhibition.getImgUrl(),

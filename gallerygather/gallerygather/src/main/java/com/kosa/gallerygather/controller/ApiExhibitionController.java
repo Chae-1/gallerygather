@@ -32,6 +32,12 @@ public class ApiExhibitionController {
     private final ExhibitionLikeService exhibitionLikeService;
     private final MemberService memberService;
 
+    @DeleteMapping("/{exhibitionId}")
+    public ResponseEntity<Boolean> deleteExhibition(@PathVariable Long exhibitionId) {
+        exhibitionService.deleteExhibition(exhibitionId);
+        return ResponseEntity.ok(true);
+    }
+
     @GetMapping
     public ResponseEntity<Page<ExhibitionCardDto>> getCards(Pageable pageable, @RequestParam(required = false) String title) {
         log.info("{}", pageable);

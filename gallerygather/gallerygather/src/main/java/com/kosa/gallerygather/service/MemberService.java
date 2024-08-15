@@ -7,7 +7,6 @@ import com.kosa.gallerygather.exception.token.RefreshTokenExpirationException;
 import com.kosa.gallerygather.repository.ExhibitionLikeRepository;
 import com.kosa.gallerygather.repository.MemberRepository;
 import com.kosa.gallerygather.security.UserDetailsImpl;
-import com.kosa.gallerygather.util.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

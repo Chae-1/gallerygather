@@ -3,7 +3,7 @@ package com.kosa.gallerygather.config;
 import com.kosa.gallerygather.repository.MemberRepository;
 import com.kosa.gallerygather.security.JwtAuthenticationFilter;
 import com.kosa.gallerygather.security.UserDetailsServiceImpl;
-import com.kosa.gallerygather.util.JwtService;
+import com.kosa.gallerygather.service.JwtService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

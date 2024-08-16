@@ -20,7 +20,7 @@
             </div>
             <div class="reply-content">
               <textarea
-                :class="{'editable-text' : reply.editable, 'uneditable-text' : !reply.editable}"
+                :class="{ 'editable-text': reply.editable, 'uneditable-text': !reply.editable }"
                 :readonly="!reply.editable"
                 v-model="reply.replyContent"
                 @input="autoResize($event)"
@@ -33,16 +33,19 @@
           <div class="reply-manage" v-if="getUser == reply.replyAuthorEmail">
             <button v-if="!reply.editable" @click="editReply(index)">수정</button>
             <button v-if="!reply.editable" @click="deleteReply(reply.replyId)">삭제</button>
-            <button v-if="reply.editable" @click="updateReply(reply.replyId, reply.replyContent)">저장</button>
+            <button v-if="reply.editable" @click="updateReply(reply.replyId, reply.replyContent)">
+              저장
+            </button>
           </div>
         </li>
       </ul>
     </div>
-    <pagination-compo :currentPage="currentPage"
-                      :perPage="perPage"
-                      :totalRows="totalElement"
-                      @onclick-change="onPageChanged"
-                      >
+    <pagination-compo
+      :currentPage="currentPage"
+      :perPage="perPage"
+      :totalRows="totalElement"
+      @onclick-change="onPageChanged"
+    >
     </pagination-compo>
   </div>
 </template>
@@ -51,7 +54,7 @@
 import PaginationCompo from '../PaginationCompo.vue'
 import axios from 'axios'
 import { apiRequest } from '@/util/RequestUtil.js'
-import {userStore} from "@/store/userStore.js";
+import { userStore } from '@/store/userStore.js'
 
 export default {
   components: { PaginationCompo },
@@ -68,45 +71,45 @@ export default {
   },
   created() {
     //exhigitionId 가져오기
-    this.reviewId = this.$route.params.reviewId; // undefined
-    this.exhibitionId = this.$route.params.exhibitionId;
-    console.log(this.reviewId);
-    console.log(this.exhibitionId);
+    this.reviewId = this.$route.params.reviewId // undefined
+    this.exhibitionId = this.$route.params.exhibitionId
+    console.log(this.reviewId)
+    console.log(this.exhibitionId)
     //데이터 불러오기
-    this.getExhibitReviews();
+    this.getExhibitReviews()
   },
 
-  mounted() {
-    
-  },
+  mounted() {},
   computed: {
     getUser() {
-      const store = userStore();
-      return store.getUser;
-    },
+      const store = userStore()
+      return store.getUser
+    }
   },
   methods: {
     setReplies(response) {
-      this.replies = response.data.content;
-      this.totalElement = response.data.totalElements;
-      console.log(`pageNo: ${this.currentPage}`);
-      console.log(`total: ${this.totalElement}`);
+      this.replies = response.data.content
+      this.totalElement = response.data.totalElements
+      console.log(`pageNo: ${this.currentPage}`)
+      console.log(`total: ${this.totalElement}`)
     },
 
     async getExhibitReviews() {
       axios.get(`http://192.168.230.3:8080/api/exhibition/${this.exhibitionId}/review/${this.reviewId}/replies?page=${this.currentPage-1}&size=${this.perPage}&sort=regDate,desc`)
         .then(response => {
+
           console.log(response)
           this.setReplies(response)
-        }).catch(error => {
-        console.log(error)
-      })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
 
     onPageChanged(newPage) {
-      console.log("클릭 : " + newPage);
-      this.currentPage = newPage;
-      this.getExhibitReviews();
+      console.log('클릭 : ' + newPage)
+      this.currentPage = newPage
+      this.getExhibitReviews()
     },
 
     autoResize(event) {
@@ -116,8 +119,9 @@ export default {
     },
 
     async addReply() {
-      const store = userStore();
-      if (store.loginCheck) { //로그인 한 상태라면 댓글 등록 가능
+      const store = userStore()
+      if (store.loginCheck) {
+        //로그인 한 상태라면 댓글 등록 가능
         try {
           apiRequest('post', `http://192.168.230.3:8080/api/exhibition/review/${this.reviewId}/replies`, {
             reply: this.newReplyContent
@@ -126,20 +130,20 @@ export default {
               this.currentPage = 1;
               this.getExhibitReviews(); //데이터 다시 가져오기
               this.newReplyContent = '';
+
             }
           })
-
         } catch (error) {
-          console.log(error);
+          console.log(error)
         }
-
-      } else { // 로그인 X ->  댓글등록 불가
-        alert("로그인 후 이용해 주세요.");
+      } else {
+        // 로그인 X ->  댓글등록 불가
+        alert('로그인 후 이용해 주세요.')
       }
     },
 
     editReply(index) {
-      console.log(`index, replyid: ${index}`);
+      console.log(`index, replyid: ${index}`)
       const reply = this.replies[index]
       reply.editable = !reply.editable //true
       if (reply.editable) {
@@ -153,33 +157,35 @@ export default {
     },
 
     async deleteReply(replyId) {
-      const store = userStore();
-      if (store.loginCheck) { //로그인 상태 다시 체크
+      const store = userStore()
+      if (store.loginCheck) {
+        //로그인 상태 다시 체크
         try {
           await apiRequest("delete", `http://192.168.230.3:8080/api/exhibition/reviews/${this.reviewId}/replies/${replyId}`)
           .then(response => {
             if (response.status == 201) {
-              this.getExhibitReviews();
+              this.getExhibitReviews()
             } else {
-              alert("댓글 삭제에 실패하였습니다. 잠시 후 다시 시도해주세요.")
+              alert('댓글 삭제에 실패하였습니다. 잠시 후 다시 시도해주세요.')
             }
           })
         } catch (error) {
-          console.log(error);
-          alert("잠시 후 다시 시도해주세요.");
+          console.log(error)
+          alert('잠시 후 다시 시도해주세요.')
         }
       } else {
-        alert("로그아웃된 사용자입니다.");
+        alert('로그아웃된 사용자입니다.')
       }
 
-      console.log(`삭제: ${replyId}`);
-      this.replies.splice(replyId, 1);
+      console.log(`삭제: ${replyId}`)
+      this.replies.splice(replyId, 1)
     },
 
     async updateReply(replyId, replyContent) {
-      console.log("전달 받는 데이터가 수정된 데이터냐 :" +replyContent);
-      const store = userStore();
-      if (store.loginCheck) { //로그인 여부 한 번 더 체크
+      console.log('전달 받는 데이터가 수정된 데이터냐 :' + replyContent)
+      const store = userStore()
+      if (store.loginCheck) {
+        //로그인 여부 한 번 더 체크
         try {
           await apiRequest("put", `http://192.168.230.3:8080/api/exhibition/reviews/${this.reviewId}/replies/${replyId}`, {
             replyContent: replyContent
@@ -187,15 +193,16 @@ export default {
             if (response.status == 201) { //정상적으로 수정되었다면,
               this.getExhibitReviews();
             } else {
-              alert("댓글 수정에 실패하였습니다. 잠시 후 다시 시도해주세요.");
+              alert('댓글 수정에 실패하였습니다. 잠시 후 다시 시도해주세요.')
             }
           })
-        } catch(error) {
-          console.log(error);
-          alert("댓글 수정에 실패하였습니다. 잠시 후 다시 시도해주세요.");
+        } catch (error) {
+          console.log(error)
+          alert('댓글 수정에 실패하였습니다. 잠시 후 다시 시도해주세요.')
         }
-      } else { //로그인 해제 됐다면
-        alert("로그인 후 수정해주세요.");
+      } else {
+        //로그인 해제 됐다면
+        alert('로그인 후 수정해주세요.')
       }
     }
   }
@@ -235,7 +242,6 @@ export default {
 
 .editable-text {
   border: 1px solid darkslategray;
-  ;
 }
 
 /* .uneditable-text {
@@ -251,7 +257,6 @@ export default {
   background-color: #2c2a29;
   border-radius: 5px;
   color: #669900;
-  ;
 }
 
 .reply-lists-container {
@@ -264,10 +269,10 @@ export default {
 
 .non-reply {
   text-align: center;
-  padding-bottom: 10px;;
+  padding-bottom: 10px;
 }
 
-.non-reply span{
+.non-reply span {
   color: #669900;
 }
 

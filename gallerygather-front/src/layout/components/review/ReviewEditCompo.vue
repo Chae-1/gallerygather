@@ -1,63 +1,66 @@
 <template>
-  <div class="review-container">
-    <h2 class="title">후기 작성하기</h2>
-    <div class="exhibition-info">
-      <img :src="exhibitInfo.imgUrl" alt="전시 이미지" class="exhibition-image" />
-      <div class="exhibition-detail">
-        <h3>{{ exhibitInfo.title }}</h3>
-        <p>기간: {{ exhibitInfo.startDate }} ~ {{ exhibitInfo.endDate }}</p>
-        <p>평점: ⭐ {{ exhibitInfo.avgRating }}</p>
-      </div>
-    </div>
-    <form @submit.prevent="edit">
-      별점을 입력하세요.
-      <star-rating
-        v-model:rating="review.rating"
-        :increment="0.5"
-        :star-size="20"
-        required
-      ></star-rating>
-      <br />
-      제목:
-      <input
-        type="text"
-        class="input-title"
-        v-model="review.title"
-        placeholder="제목을 입력해주세요."
-        required
-      />
-      <br />
-      <div class="visit-date">
-        <label id="date-button">관람 일자 </label>
-        <button type="button" class="date-button" @click="showDatePicker = !showDatePicker">
-          {{
-            showDatePicker
-              ? formattedDate
-                ? formattedDate + ' [닫기]'
-                : '날짜 선택 [닫기]'
-              : formattedDate || '날짜 선택하기'
-          }}
-          <span></span>
-        </button>
-        <div v-if="showDatePicker" class="date-picker-container">
-          <v-date-picker
-            v-model="review.viewDate"
-            @input="showDatePicker = false"
-            mode="single"
-          ></v-date-picker>
+  <div class="page-background">
+    <div class="review-container">
+      <h3 class="title">후기 작성하기</h3>
+      <div class="exhibition-info">
+        <img :src="exhibitInfo.imgUrl" alt="전시 이미지" class="exhibition-image" />
+        <div class="exhibition-detail">
+          <h3>{{ exhibitInfo.title }}</h3>
+          <p>기간: {{ exhibitInfo.startDate }} ~ {{ exhibitInfo.endDate }}</p>
+          <p>평점: ⭐ {{ exhibitInfo.avgRating }}</p>
+          <div class="star-rating-container">
+            <star-rating
+              v-model:rating="review.rating"
+              :increment="0.5"
+              :star-size="30"
+              required
+              :rounded-corners="true"
+            ></star-rating>
+            <span class="rating-text">별점을 매겨주세요</span>
+          </div>
         </div>
       </div>
-      <br />
-      내용:
-      <QuillEditor
-        v-model:modelValue="review.content"
-        ref="quillEditor"
-        placeholder="내용을 입력해 주세요."
-        required
-      ></QuillEditor>
-      <br />
-      <button type="submit" class="edit-button">수정</button>
-    </form>
+      <form @submit.prevent="edit">
+        <input
+          type="text"
+          class="input-title"
+          v-model="review.title"
+          placeholder="제목을 입력해주세요."
+          required
+        />
+        <br />
+        <div class="visit-date">
+          <div class="date-picker-wrapper">
+            <input
+              type="text"
+              v-model="formattedDate"
+              @focus="showDatePicker = true"
+              placeholder="관람일자 선택"
+              class="date-input"
+              readonly
+            />
+            <button type="button" class="calendar-button" @click="showDatePicker = !showDatePicker">
+              📅
+            </button>
+          </div>
+          <div v-if="showDatePicker" class="date-picker-container">
+            <v-date-picker
+              v-model="review.viewDate"
+              @input="onDateSelected"
+              mode="single"
+            ></v-date-picker>
+          </div>
+        </div>
+        <QuillEditor
+          v-model:modelValue="review.content"
+          ref="quillEditor"
+          placeholder="내용을 입력해 주세요."
+          required
+        ></QuillEditor>
+        <br />
+        <button type="submit" class="edit-button">수정</button>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -85,11 +88,11 @@ export default {
   },
   data() {
     return {
-      exhibitInfo: [],
+      exhibitInfo: {},
       review: {
         title: '',
         content: '',
-        viewDate: new Date().toISOString().substr(0, 10),
+        viewDate: null,
         rating: 0,
         images: []
       }
@@ -176,7 +179,6 @@ export default {
       }
     }
   },
-
   watch: {
     'review.content': function (newContent) {
       console.log('Parent component review.content changed:', newContent)
@@ -192,12 +194,18 @@ export default {
 </script>
 
 <style scoped>
+.page-background {
+  background-color: #f0f0f0; /* 페이지 전체 배경색 */
+  padding: 20px; /* 페이지 내용과 테두리 사이의 간격 */
+}
+
 .review-container {
-  background-color: #f8f4e5;
-  padding: 20px;
-  border-radius: 8px;
-  width: 800px;
-  margin: 0 auto;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .title {
@@ -206,26 +214,47 @@ export default {
 }
 
 .exhibition-info {
+  padding: 30px;
   display: flex;
   margin-bottom: 20px;
+  background-color: rgb(231, 231, 238);
+  border-radius: 10px;
 }
 
 .exhibition-image {
   width: 150px;
-  height: 200px;
+  height: auto;
   margin-right: 20px;
+  border-radius: 8px;
 }
 
 .exhibition-detail {
   margin-top: 20px;
 }
 
-.input-title {
-  width: 100%;
-  padding: 10px;
+/* .exhibition-detail h3 {
+  font-size: 20px;
   margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+}
+
+.exhibition-detail p {
+  margin: 5px 0;
+  color: #555;
+} */
+
+.star-rating-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.vue-star-rating .star svg {
+  border-radius: 50%; /* 둥근 모서리 적용 */
+}
+
+.rating-text {
+  margin-left: 30px;
+  font-size: 16px;
 }
 
 .visit-date {
@@ -235,20 +264,33 @@ export default {
   position: relative; /* 날짜 선택기를 절대 위치시킬 수 있도록 설정 */
 }
 
-.date-button {
-  background-color: #3b82f6;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  display: inline-flex;
+.date-picker-wrapper {
+  display: flex;
   align-items: center;
-  margin-left: 10px;
+  border: 1px solid #ccc; /* 외곽선 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  overflow: hidden; /* 둥근 모서리에 맞춰 내부 요소 잘림 */
+  width: max-content; /* 입력 필드와 아이콘 버튼의 내용에 맞게 크기 조정 */
 }
 
-.date-button span {
-  margin-left: 5px;
+.date-input {
+  border: none;
+  padding: 8px 12px;
+  font-size: 17px;
+  flex-grow: 1; /* 입력 필드가 가능한 공간을 모두 차지하도록 */
+  min-width: 150px;
+  margin-right: -5px;
+}
+
+.calendar-button {
+  background-color: #b7d1eb;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 17px; /* 이모티콘 크기 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .date-picker-container {
@@ -261,14 +303,32 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 선택적으로 더 나은 가시성을 위해 그림자를 추가 */
   border-radius: 5px; /* 버튼의 테두리 반경과 일치시킴 */
   margin-top: 5px; /* 겹침을 피하기 위한 약간의 여백 */
+  width: auto; /* 컨테이너의 너비를 내용에 맞게 설정 */
 }
 
-.input-content {
-  height: 400px;
+.v-date-picker {
+  width: auto; /* 달력 자체의 너비를 조정 */
+  min-width: 100%; /* 달력의 최소 너비를 부모 컨테이너와 동일하게 */
+  max-width: 300px; /* 달력의 최대 너비 설정 */
+  box-sizing: border-box; /* 패딩과 보더를 포함하여 너비 계산 */
 }
+
+.input-title {
+  width: 100%;
+  padding: 10px;
+  font-size: 30px;
+  margin-bottom: 35px;
+  border-bottom: 2px solid black;
+  /* border: 1px solid #ccc; */
+  /* border-radius: 4px; */
+}
+
+/* .input-content {
+  height: 400px;
+} */
 
 .edit-button {
-  background-color: #5cb85c;
+  background-color: #021c19;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -277,6 +337,6 @@ export default {
 }
 
 .edit-button:hover {
-  background-color: #4cae4c;
+  background-color: #021c19bb;
 }
 </style>

@@ -62,7 +62,7 @@ public class ExhibitionReview {
     @OneToMany(mappedBy = "exhibitionReview", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReviewImage> images = new ArrayList<>();
 
-    @OneToMany(mappedBy = "exhibitionReview", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "exhibitionReview", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExhibitionReviewReply> reviewReplies = new ArrayList<>();
 
     @Builder

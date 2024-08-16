@@ -45,7 +45,7 @@
             {{ isLike ? '❤️ 좋아요 취소' : '🩶 좋아요' }}
           </button>
         </div>
-        <div class="edit-buttons">
+        <div class="EorD-buttons">
           <button
             type="button"
             class="editButton"
@@ -171,6 +171,7 @@ export default {
 
 .review-box {
   color: #ddd !important;
+  margin-right: 200px;
 }
 .review {
 }
@@ -207,7 +208,7 @@ export default {
 }
 
 .button-container {
-  width: 60%;
+  width: 50%;
   display: flex;
   justify-content: space-between;
   /* 오른쪽 정렬을 유지하려면 'right' 대신 'flex-end' 사용 */
@@ -216,7 +217,7 @@ export default {
   align-items: center;
 }
 
-.edit-buttons button {
+.EorD-buttons button {
   margin-left: 10px;
 }
 
@@ -234,7 +235,7 @@ export default {
 
 .editButton {
   background-color: #669900;
-  color: #2c2a29;
+  color: #eee;
 }
 
 .editButton:hover {
@@ -244,7 +245,7 @@ export default {
 
 .deleteButton {
   background-color: #2c2a29;
-  color: #669900;
+  color: #eee;
 }
 
 .deleteButton:hover {

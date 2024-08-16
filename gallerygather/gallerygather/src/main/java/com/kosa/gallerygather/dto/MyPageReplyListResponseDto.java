@@ -1,12 +1,12 @@
 package com.kosa.gallerygather.dto;
 
-//유은
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-
+//유은
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

@@ -1,5 +1,5 @@
 package com.kosa.gallerygather.controller;
-//유은
+
 import com.kosa.gallerygather.dto.MyPageReviewListResponseDto;
 import com.kosa.gallerygather.security.UserDetailsImpl;
 import com.kosa.gallerygather.service.MyPageListService;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+//유은
 @RestController
 @RequiredArgsConstructor
 public class ApiMyPageReviewListController {

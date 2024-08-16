@@ -26,6 +26,8 @@ public class ApiExhibitionReviewController {
     private final ExhibitionReviewService exhibitionReviewService;
     private final ExhibitionReviewReplyService exhibitionReviewReplyService;
 
+    /* 작성자: 이혜연
+    리뷰 작성하기 */
     @PostMapping("/{exhibitionId}/review")
     public ResponseEntity<ReviewDetailDto> createReview(@RequestBody ExhibitionReviewRequestDto requestDto,
                                                         @AuthenticationPrincipal UserDetailsImpl userDetails,
@@ -35,7 +37,7 @@ public class ApiExhibitionReviewController {
         return ResponseEntity.ok(detailDto);
     }
 
-    /*
+    /* 작성자: 이혜연
     리뷰 정보 가져오기
      */
     @GetMapping("/{exhibitionId}/review/{reviewId}")
@@ -44,7 +46,10 @@ public class ApiExhibitionReviewController {
                                                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.ok( reviewService.getReviewDetail(exhibitionId, reviewId, userDetails==null? null : userDetails.getId() ) );
     }
-
+    
+    /* 작성자: 이혜연
+    리뷰 삭제하기
+     */
     @DeleteMapping("/deleteReview/{reviewId}")
     public ResponseEntity<String> deleteReview(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                 @PathVariable Long reviewId){
@@ -56,6 +61,9 @@ public class ApiExhibitionReviewController {
         } return ResponseEntity.status(HttpStatus.FORBIDDEN).body("리뷰 삭제 오류");
     }
 
+    /* 작성자: 이혜연
+    리뷰 수정하기
+     */
     @PutMapping("/{exhibitionId}/updateReview/{reviewId}")
     public ResponseEntity<ReviewDetailDto> updateReview(@RequestBody ExhibitionReviewRequestDto requestDto,
                                                @AuthenticationPrincipal UserDetailsImpl userDetails,

@@ -30,7 +30,9 @@ public class ExhibitionReviewRequestDto {
     private List<ReviewImageRequestDto> images;
     private List<String> imagesToDelete;
 
-
+    /*
+   작성자: 이혜연
+    */
     public ExhibitionReview toEntity(Member member, Exhibition exhibition){
         return ExhibitionReview.builder()
                 .title(title)

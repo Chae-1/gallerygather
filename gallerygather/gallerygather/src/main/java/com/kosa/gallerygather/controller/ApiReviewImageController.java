@@ -17,6 +17,9 @@ public class ApiReviewImageController {
     @Autowired
     private ReviewImageService reviewImageService;
 
+    /* 작성자: 이혜연
+    이미지 경로 받기
+     */
     @PostMapping("/api/uploads")
     public ResponseEntity<ReviewImageRequestDto> uploadImage(@RequestParam("image") MultipartFile image){
 

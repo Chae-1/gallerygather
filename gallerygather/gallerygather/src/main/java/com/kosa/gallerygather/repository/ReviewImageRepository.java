@@ -13,7 +13,9 @@ import java.util.Optional;
 
 @Repository
 public interface ReviewImageRepository extends JpaRepository<ReviewImage, Long> {
-
+    /*
+   작성자: 이혜연
+    */
     // 이미지 경로를 통해 이미지를 검색하는 메서드
     Optional<ReviewImage> findByPath(String path);
 

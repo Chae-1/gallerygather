@@ -35,6 +35,10 @@ public class ExhibitionReviewService {
     private final ExhibitionReviewLikeRepository exhibitionReviewLikeRepository;
     private final EntityManager em;
 
+    /*
+     작성자: 이혜연
+     리뷰 작성
+  */
     @Transactional
     public ReviewDetailDto write(final ExhibitionReviewRequestDto requestDto, String memberEmail, Long exhibitionId) {
 
@@ -98,8 +102,10 @@ public class ExhibitionReviewService {
         reviewInfo.put("isLike", exhibitionReviewLikeRepository.existsByMemberIdAndExhibitionReviewId(memberId, reviewId));
         return reviewInfo;
     }
-
-    // 리뷰 삭제
+    /*
+   작성자: 이혜연
+   리뷰 삭제
+    */
     @Transactional
     public boolean deleteReview(String memberEmail, Long reviewId) {
         Member member = memberRepository.findByEmail(memberEmail)
@@ -113,7 +119,10 @@ public class ExhibitionReviewService {
         return false;
     }
 
-    // 리뷰 수정
+    /*
+   작성자: 이혜연
+   리뷰 수정
+    */
     @Transactional
     public ReviewDetailDto updateReview(ExhibitionReviewRequestDto reviewDto,String memberEmail, Long reviewId, Long exhibitionId) {
         Member member = memberRepository.findByEmail(memberEmail)
@@ -182,31 +191,6 @@ public class ExhibitionReviewService {
         exhibitionRepository.saveAndFlush(exhibition);
 
         return new ReviewDetailDto(review, member, exhibition, review.getImages());
-/*
-        if (!review.isWriteFor(member)) {
-            throw new RuntimeException("리뷰 수정 실패.");
-        }
-
-        ExhibitionReview updatedReview = review.update(requestDto, member, exhibition);
-        exhibition.updateAvgRating(updatedReview.getRating());
-
-        int deleteCount = reviewImageRepository.deleteByExhibitionReview(review);
-
-        ExhibitionReview findReview = exhibitionReviewRepository.findById(reviewId)
-                .get();
-
-        System.out.println("deleteCount = " + deleteCount);
-
-        List<ReviewImage> updatedImages = requestDto
-                .getImages()
-                .stream()
-                .map(images -> {
-                    ReviewImage image = ReviewImage.ofNewImage(images.getPath(), images.getOriginalName());
-                    findReview.addImage(image);
-                    return image;
-                })
-                .toList();
-*/
     }
 
 

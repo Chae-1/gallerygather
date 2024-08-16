@@ -30,6 +30,10 @@ public class ReviewDetailDto {
     private String exhibitionImgUrl;
     private List<ReviewImageResponseDto> images;
 
+     /*
+    작성자: 이혜연
+     */
+
     public ReviewDetailDto(ExhibitionReview review, Member member, Exhibition exhibition, List<ReviewImage> images) {
         this.reviewId = review.getId();
         this.title = review.getTitle();

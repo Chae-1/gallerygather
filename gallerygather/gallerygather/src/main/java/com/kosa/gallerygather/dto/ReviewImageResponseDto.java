@@ -14,7 +14,10 @@ public class ReviewImageResponseDto {
     // 기본 생성자
     public ReviewImageResponseDto() {}
 
-    // ReviewImage 엔티티를 받아들이는 생성자
+    /*
+   작성자: 이혜연
+    */
+    // ReviewImage를 내보내는 코드
     public ReviewImageResponseDto(ReviewImage reviewImage) {
         this.path = reviewImage.getPath();
         this.originalName = reviewImage.getOriginalName();

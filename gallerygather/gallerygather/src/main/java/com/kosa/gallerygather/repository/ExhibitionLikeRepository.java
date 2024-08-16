@@ -13,6 +13,8 @@ import java.util.Optional;
 
 public interface ExhibitionLikeRepository extends JpaRepository<ExhibitionLike, Long> {
 
+    /* 작성자: 오지수 */
+
     // insert는 save 사용
     @Query("SELECT el FROM ExhibitionLike el WHERE el.member.id = :memberId AND el.exhibition.id = :exhibitionId")
     Optional<ExhibitionLike> findExhibitionLikeByallId(@Param("memberId") Long memberId, @Param("exhibitionId") Long exhibitionId);

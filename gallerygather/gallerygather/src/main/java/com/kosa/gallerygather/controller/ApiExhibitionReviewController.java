@@ -36,6 +36,7 @@ public class ApiExhibitionReviewController {
     }
 
     /*
+    작성자 : 오지수, 이혜은
     리뷰 정보 가져오기
      */
     @GetMapping("/{exhibitionId}/review/{reviewId}")

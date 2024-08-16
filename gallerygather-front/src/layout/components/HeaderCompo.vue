@@ -1,8 +1,10 @@
 <script>
+// 작성자: 채형일, 오지수
 import { userStore } from '@/store/userStore.js'
 import { apiRequest } from '@/util/RequestUtil.js'
 
 export default {
+  //작성자 : 채형일
   data() {
     return {
       store: userStore(),
@@ -48,6 +50,7 @@ export default {
 </script>
 
 <template>
+  <!-- 작성자: 오지수 -->
   <header :class="{ 'show-after': isHovered }">
     <div class="header">
       <div class="logo">

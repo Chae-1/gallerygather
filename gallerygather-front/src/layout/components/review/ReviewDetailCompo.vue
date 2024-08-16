@@ -1,4 +1,5 @@
 <template>
+  <!-- 작성자: 오지수 -->
   <div class="review-details">
     <div class="review-container">
       <div class="review-box">

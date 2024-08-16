@@ -34,15 +34,19 @@
               <!-- 선택 체크박스 -->
                 <input type="checkbox" v-model="review.selected" class="checkbox" @click.stop />
               <!-- 리뷰 이미지 보류-->
-<!--              <div class="review-pic">-->
-<!--                <img :src="review.image" class="review-image" />-->
-<!--              </div>-->
+              <div class="review-pic">
+                <img :src="review.image" class="review-image" />
+              </div>
               <!-- 리뷰 내용 -->
               <div class="content-text" @click="goToDetail(review)">
-                <!-- 리뷰 제목 -->
+                <!-- 리뷰 별점 -->
+                <div class="">⭐{{ review.rating }}</div>
+                <!-- 리뷰 제목-->
+                <br />
                 <div class="review-title">{{ review.title }}</div>
                 <!-- 리뷰 내용 텍스트 -->
                 <div>{{ review.exhibitTitle }}</div>
+                <div>{{ formatDate(review.updateDate) }}</div>
                 <div class="text-grey update-date">{{ review.date }}</div>
               </div>
           </div>
@@ -77,7 +81,7 @@ export default {
     async fetchReviews() {
       // JWT 토큰 추가
       const token = localStorage.getItem('accessToken')
-      console.log('서버로부터 받은 데이터:', token);
+      console.log('서버로부터 받은 데이터 토큰:', token);
 
       const config = {
         headers: {
@@ -86,9 +90,11 @@ export default {
         }
       }
       try {
-        const response = await axios.get('http://192.168.230.3:8080/api/reviews/member', config)
+
+        const response = await axios.get('http://localhost:8080/api/reviews/member', config)
         console.log('서버로부터 받은 리뷰 데이터:', response.data);
         this.reviews = response.data;// 서버로부터 받은 데이터를 reviews에 저장
+        console.log('서버로부터 받은 리뷰 데이터:', response.data);
       } catch (error) {
         console.error('Error fetching reviews:', error)
       }
@@ -100,6 +106,7 @@ export default {
       })
     },
     goToDetail(review) {
+      console.log("review에 들어있는데이터 : "+review);
       console.log('고디테일 : exhibitionId:', review.exhibitId, '   reviewId:', review.id);
       if (review.exhibitId && review.id) {
         this.$router.push({
@@ -131,10 +138,11 @@ export default {
       } catch (error) {
         console.error('리뷰 삭제 실패:', error);
       }
+    },
+    formatDate(dateTime) {// 로케일에 맞게 날짜까지만 반환
+      const date = new Date(dateTime);
+      return date.toLocaleDateString(); // 로케일에 맞게 날짜까지만 반환
     }
-
-
-
   }
 }
 </script>
@@ -172,14 +180,14 @@ h3 {
 }
 
 .reviewlist .card {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-bottom: 15px;
-  padding: 10px;
+  padding: 20px;
+  min-height: 150px;
+  height: auto;
   display: flex;
   align-items: center;
 
 }
+
 
 .card-content {
   display: flex;
@@ -204,7 +212,6 @@ h3 {
   margin-right: 15px;
   flex-shrink: 0;
 }
-
 .review-title {
   font-size: 16px;
   font-weight: bold;

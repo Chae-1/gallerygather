@@ -1,4 +1,5 @@
 <template>
+    <!-- 작성자: 오지수 -->
     <div class="exhibition-reviews">
         <div>
             <span>리뷰 목록</span>

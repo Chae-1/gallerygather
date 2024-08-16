@@ -94,7 +94,7 @@ export default {
     },
 
     async getExhibitReviews() {
-      axios.get(`http://localhost:8080/api/exhibition/${this.exhibitionId}/review/${this.reviewId}/replies?page=${this.currentPage-1}&size=${this.perPage}&sort=regDate,desc`)
+      axios.get(`http://192.168.230.3:8080/api/exhibition/${this.exhibitionId}/review/${this.reviewId}/replies?page=${this.currentPage-1}&size=${this.perPage}&sort=regDate,desc`)
         .then(response => {
           console.log(response)
           this.setReplies(response)
@@ -119,7 +119,7 @@ export default {
       const store = userStore();
       if (store.loginCheck) { //로그인 한 상태라면 댓글 등록 가능
         try {
-          apiRequest('post', `http://localhost:8080/api/exhibition/review/${this.reviewId}/replies`, {
+          apiRequest('post', `http://192.168.230.3:8080/api/exhibition/review/${this.reviewId}/replies`, {
             reply: this.newReplyContent
           }).then(response => {
             if (response.status === 201) { //정상적으로 댓글 등록 성공
@@ -156,7 +156,7 @@ export default {
       const store = userStore();
       if (store.loginCheck) { //로그인 상태 다시 체크
         try {
-          await apiRequest("delete", `http://localhost:8080/api/exhibition/reviews/${this.reviewId}/replies/${replyId}`)
+          await apiRequest("delete", `http://192.168.230.3:8080/api/exhibition/reviews/${this.reviewId}/replies/${replyId}`)
           .then(response => {
             if (response.status == 201) {
               this.getExhibitReviews();
@@ -181,7 +181,7 @@ export default {
       const store = userStore();
       if (store.loginCheck) { //로그인 여부 한 번 더 체크
         try {
-          await apiRequest("put", `http://localhost:8080/api/exhibition/reviews/${this.reviewId}/replies/${replyId}`, {
+          await apiRequest("put", `http://192.168.230.3:8080/api/exhibition/reviews/${this.reviewId}/replies/${replyId}`, {
             replyContent: replyContent
           }).then(response => {
             if (response.status == 201) { //정상적으로 수정되었다면,

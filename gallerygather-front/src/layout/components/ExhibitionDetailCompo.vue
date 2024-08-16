@@ -1,4 +1,6 @@
 <template>
+  <button @click="deleteExhibition">삭제</button>
+
     <div class="exhibition">
         <div class="exhibition-poster">
             <div class="poster-wrapper">
@@ -54,7 +56,7 @@ export default {
 
     methods: {
         async getExhibitDetails() {
-            apiRequest('get', `http://localhost:8080/api/exhibitions/${this.exhibitionId}`)
+            apiRequest('get', `http://192.168.230.3:8080/api/exhibitions/${this.exhibitionId}`)
                 .then((response) => {
                     console.log(`login : ${response.data.isLoggedIn}`);
                     console.log(`islike : ${response.data.isLike}`);
@@ -71,7 +73,7 @@ export default {
             } else {
                 // 추가해야함
                 apiRequest('post',
-                `http://localhost:8080/api/exhibitions/${this.exhibitionId}/like`,
+                `http://192.168.230.3:8080/api/exhibitions/${this.exhibitionId}/like`,
                 {"isLike": this.isLike}
             ).then((response) => {
                 console.log(response);
@@ -83,7 +85,18 @@ export default {
             })
             }
         
-        }
+        },
+
+      deleteExhibition() {
+          axios.delete(`http://192.168.230.3:8080/api/exhibitions/${this.exhibitionId}`)
+            .then(response => {
+              console.log(response);
+              this.$router.push("/main")
+            })
+            .catch(error => {
+              console.log (error);
+            })
+      }
     }
 }
 </script>

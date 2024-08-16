@@ -20,7 +20,7 @@ export default {
       const user = userStore();
       const prevStore = prevPathStore();
 
-      apiRequest('post', 'http://localhost:8080/api/members/auth/login', {
+      apiRequest('post', 'http://192.168.230.3:8080/api/members/auth/login', {
         email: this.email,
         password: this.password,
       }).then(response => {

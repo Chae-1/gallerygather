@@ -110,7 +110,7 @@ export default {
     async getReviewDetail() {
       apiRequest(
         'get',
-        `http://localhost:8080/api/exhibition/${this.exhibitionId}/review/${this.reviewId}`
+        `http://192.168.230.3:8080/api/exhibition/${this.exhibitionId}/review/${this.reviewId}`
       )
         .then((response) => {
           this.reviewDetail = response.data.reviewDetail
@@ -133,7 +133,7 @@ export default {
     handleLikeClick() {
       if (this.ifLoggedIn) {
         //로그인 되었으면
-        apiRequest('post', `http://localhost:8080/api/exhibition/reviews/${this.reviewId}/like`, {
+        apiRequest('post', `http://192.168.230.3:8080/api/exhibition/reviews/${this.reviewId}/like`, {
           isLike: this.isLike
         })
           .then((response) => {
@@ -152,7 +152,7 @@ export default {
     async deleteReview() {
       const reviewId = this.$route.params.reviewId
       try {
-        await apiRequest('delete', `http://localhost:8080/api/exhibition/deleteReview/${reviewId}`)
+        await apiRequest('delete', `http://192.168.230.3:8080/api/exhibition/deleteReview/${reviewId}`)
         this.$router.push(`/exhibitiondetails/${this.$route.params.exhibitionId}`)
       } catch (error) {
         console.error('리뷰 삭제 실패:', error)

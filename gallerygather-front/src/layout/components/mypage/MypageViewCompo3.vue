@@ -86,7 +86,7 @@ export default {
         }
       }
       try {
-        const response = await axios.get('http://localhost:8080/api/reviews/member', config)
+        const response = await axios.get('http://192.168.230.3:8080/api/reviews/member', config)
         console.log('서버로부터 받은 리뷰 데이터:', response.data);
         this.reviews = response.data;// 서버로부터 받은 데이터를 reviews에 저장
       } catch (error) {
@@ -123,7 +123,7 @@ export default {
 
       try {
         for (const review of selectedReviews) {
-          await apiRequest('delete', `http://localhost:8080/api/exhibition/deleteReview/${review.id}`);
+          await apiRequest('delete', `http://192.168.230.3:8080/api/exhibition/deleteReview/${review.id}`);
         }
         // 선택된 리뷰가 삭제된 후, 목록을 갱신
         this.fetchReviews();

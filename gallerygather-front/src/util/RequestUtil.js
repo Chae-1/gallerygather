@@ -30,7 +30,7 @@ export async function apiRequest(method, url, data = null, options = {}, isAuthe
 
 // 토큰 재발급 유틸리티 함수
 async function handleTokenRefresh() {
-  return await axios.post('http://localhost:8080/api/members/auth/refresh', {
+  return await axios.post('http://192.168.230.3:8080/api/members/auth/refresh', {
     refreshToken: localStorage.getItem('refreshToken'),
   }).then(response => {
     console.log('재 로그인 요청');

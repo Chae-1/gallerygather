@@ -103,7 +103,7 @@ export default {
         formData.append('image', file)
 
         try {
-          const response = await axios.post('http://localhost:8080/api/uploads', formData, {
+          const response = await axios.post('http://192.168.230.3:8080/api/uploads', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }

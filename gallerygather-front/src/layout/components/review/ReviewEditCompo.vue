@@ -102,7 +102,7 @@ export default {
     } else {
       const { exhibitionId } = this.$route.params
       try {
-        const response = await axios.get(`http://localhost:8080/api/exhibitions/${exhibitionId}`)
+        const response = await axios.get(`http://192.168.230.3:8080/api/exhibitions/${exhibitionId}`)
         this.exhibitInfo = response.data.exhibition
         console.log('전시정보', this.exhibitInfo)
       } catch (error) {
@@ -118,7 +118,7 @@ export default {
       const { exhibitionId, reviewId } = this.$route.params
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/exhibition/${exhibitionId}/review/${reviewId}`
+          `http://192.168.230.3:8080/api/exhibition/${exhibitionId}/review/${reviewId}`
         )
         this.reviewDetail = response.data.reviewDetail
         this.initializeReview(this.reviewDetail)
@@ -165,7 +165,7 @@ export default {
         // 리뷰 수정 API 호출
         await apiRequest(
           'put',
-          `http://localhost:8080/api/exhibition/${exhibitionId}/updateReview/${reviewId}`,
+          `http://192.168.230.3:8080/api/exhibition/${exhibitionId}/updateReview/${reviewId}`,
           this.review
         )
 

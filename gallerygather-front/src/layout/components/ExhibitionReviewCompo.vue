@@ -73,7 +73,7 @@ export default {
     methods: {
         async getExhibitReviewList() {
             try {
-                await axios.get(`http://localhost:8080/api/exhibition/${this.exhibitionId}/review?pageNo=${this.currentPage}&pagePer=${this.perPage}`)
+                await axios.get(`http://192.168.230.3:8080/api/exhibition/${this.exhibitionId}/review?pageNo=${this.currentPage}&pagePer=${this.perPage}`)
                     .then((response) => {
                     this.exhibitReviewList = response.data.content;
                     this.totalElement = response.data.totalElements;

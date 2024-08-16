@@ -76,7 +76,7 @@ export default {
         }
       }
       try {
-        const response = await axios.get('http://localhost:8080/api/replys/member/reply', config)
+        const response = await axios.get('http://192.168.230.3:8080/api/replys/member/reply', config)
         this.replys = response.data//
         console.log('서버로부터 받은 댓글 데이터:', response.data)
       } catch (error) {

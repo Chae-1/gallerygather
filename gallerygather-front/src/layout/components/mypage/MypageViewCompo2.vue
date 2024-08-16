@@ -79,7 +79,7 @@ export default {
       }
 
       try {
-        const response = await axios.get('http://localhost:8080/api/exhibitions/likelist', config)
+        const response = await axios.get('http://192.168.230.3:8080/api/exhibitions/likelist', config)
         this.cards = response.data // 서버로부터 받은 데이터를 cards 배열에 저장
         console.log('서버로부터 받은 likes 데이터:', response.data)
       } catch (error) {

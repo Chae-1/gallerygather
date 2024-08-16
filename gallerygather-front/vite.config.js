@@ -13,12 +13,17 @@ export default defineConfig({
     }
   },
   server: {
+
+
     proxy: {
       '/uploads': {
-        target: 'http://localhost:8080',
+        target: 'http://192.168.230.3:8080',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/uploads/, '/uploads'),
       },
     },
+
+    host: '0.0.0.0',
+    port: 5173,
   }
 })

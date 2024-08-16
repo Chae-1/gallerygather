@@ -102,7 +102,7 @@ export default {
     } else {
       const { exhibitionId } = this.$route.params
       try {
-        const response = await axios.get(`http://localhost:8080/api/exhibitions/${exhibitionId}`)
+        const response = await axios.get(`http://192.168.230.3:8080/api/exhibitions/${exhibitionId}`)
         this.exhibitInfo = response.data.exhibition
         console.log('전시정보', this.exhibitInfo)
       } catch (error) {
@@ -134,12 +134,12 @@ export default {
 
         console.log('리뷰객체 보내지는 값!!!!!!!!!!!!', this.review)
 
-        console.log('URL:', `http://localhost:8080/api/exhibition/${exhibitionId}/review`)
+        console.log('URL:', `http://192.168.230.3:8080/api/exhibition/${exhibitionId}/review`)
         console.log('Payload:', this.review)
 
         apiRequest(
           'post',
-          `http://localhost:8080/api/exhibition/${exhibitionId}/review`,
+          `http://192.168.230.3:8080/api/exhibition/${exhibitionId}/review`,
           this.review
         ).then((response) => {
           const reviewDetail = response.data

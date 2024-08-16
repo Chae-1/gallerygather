@@ -20,7 +20,7 @@ export default {
   methods: {
     async logout() {
       try {
-        await apiRequest('post', 'http://localhost:8080/api/members/auth/logout', {
+        await apiRequest('post', 'http://192.168.230.3:8080/api/members/auth/logout', {
           accessToken: localStorage.getItem('accessToken'),
           refreshToken: localStorage.getItem('refreshToken')
         })

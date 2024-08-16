@@ -60,12 +60,16 @@ export default {
 
         <ul class="main-menu">
           <li class="item"  @mouseenter="showAfter" @mouseleave="hideAfter">
-            <div class="item__name">Exhibition</div>
+            <div class="item__name">
+              <router-link to="/main">
+                Exhibition
+              </router-link>
+            </div>
             <div class="item__contents">
               <div class="contents__menu">
                 <ul class="inner">
-                  <li><a href="/">Exhibition</a></li>
-                  <li><a href="/">Review</a></li>
+                  <li><router-link to="/main">Exhibition</router-link></li>
+                  <li><a href="/">Reviews</a></li>
                   <li><a href="/">My Exhibition</a></li>
                   <li><a href="/">Whats' New</a></li>
                 </ul>

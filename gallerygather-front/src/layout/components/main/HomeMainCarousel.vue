@@ -17,21 +17,21 @@ export default {
       </div>
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img src="https://picsum.photos/1024/480/?image=12" class="d-block w-100" alt="...">
-          <div class="carousel-caption d-none d-md-block">
-            <h5>First slide label</h5>
-            <p>Some representative placeholder content for the first slide.</p>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img src="https://picsum.photos/1024/480/?image=12" class="d-block w-100" alt="...">
+          <img src="../../../assets/img/pic.jpg" class="d-block w-100 img"  alt="...">
           <div class="carousel-caption d-none d-md-block">
             <h5>Second slide label</h5>
             <p>Some representative placeholder content for the second slide.</p>
           </div>
         </div>
         <div class="carousel-item">
-          <img src="https://picsum.photos/1024/480/?image=12" class="d-block w-100" alt="...">
+          <img src="../../../assets/img/sky.png" class="d-block w-100 img" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h5>First slide label</h5>
+            <p>Some representative placeholder content for the first slide.</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="../../../assets/img/statu.jpg" class="d-block w-100 img" alt="..." >
           <div class="carousel-caption d-none d-md-block">
             <h5>Third slide label</h5>
             <p>Some representative placeholder content for the third slide.</p>
@@ -53,9 +53,32 @@ export default {
 </template>
 
 <style>
+.carousel-item {
+  scroll-snap-align: start;
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 1s ease-in-out;
+}
 .carousel-indicators > button {
   border-radius: 50% !important;
   width: 10px !important;
   height: 10px !important;
+}
+.img {
+  width: 100%;
+  height: auto;
+  max-height: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  min-height: 100vh;
 }
 </style>

@@ -177,8 +177,9 @@ export default {
 
 <style scoped>
 .quill-editor {
-  height: 500px;
-  max-height: none;
-  overflow: auto;
+  max-height: none; /* 최대 높이 제한 제거 */
+  overflow: visible; /* 스크롤바를 없애고 내용이 넘칠 때 컨테이너가 자동으로 커지도록 설정 */
+  min-height: 500px; /* 에디터의 최소 높이를 설정 */
+  /* border-radius: 10px; */
 }
 </style>

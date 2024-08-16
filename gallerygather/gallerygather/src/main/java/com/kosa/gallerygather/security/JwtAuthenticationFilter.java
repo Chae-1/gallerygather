@@ -1,8 +1,8 @@
 package com.kosa.gallerygather.security;
 
-import com.kosa.gallerygather.util.JwtService;
+import com.kosa.gallerygather.service.BlockListManager;
+import com.kosa.gallerygather.service.JwtService;
 import io.jsonwebtoken.ExpiredJwtException;
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +29,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsServiceImpl;
 
+//    private final BlockListManager blockListManager;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
@@ -46,6 +48,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         }
+
+//        if (blockListManager.isBannedToken(token)) {
+//
+//        }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(username);

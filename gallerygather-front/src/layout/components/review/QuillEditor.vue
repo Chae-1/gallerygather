@@ -103,7 +103,7 @@ export default {
         formData.append('image', file)
 
         try {
-          const response = await axios.post('http://localhost:8080/api/uploads', formData, {
+          const response = await axios.post('http://192.168.230.3:8080/api/uploads', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
@@ -177,8 +177,10 @@ export default {
 
 <style scoped>
 .quill-editor {
-  height: 500px;
-  max-height: none;
-  overflow: auto;
+  max-height: 500px; /* 최대 높이를 500px로 제한 */
+  overflow-y: auto; /* 내용이 넘칠 때 세로 스크롤바를 표시 */
+  min-height: 500px; /* 에디터의 최소 높이를 300px로 설정 */
+  padding: 10px; /* 내용이 에디터 경계에 닿지 않도록 패딩 추가 */
+  box-sizing: border-box; /* 패딩을 포함하여 높이를 계산 */
 }
 </style>

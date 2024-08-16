@@ -1,3 +1,5 @@
+<!-- 작성자: 채형일-->
+
 <script>
 import flatpickr from 'flatpickr'
 import 'flatpickr/dist/flatpickr.min.css'
@@ -6,7 +8,7 @@ import axios from 'axios'
 
 function canNotJoin(email) {
   let canJoin = true
-  let result = axios.post('http://localhost:8080/api/members/check', {
+  let result = axios.post('http://192.168.230.3:8080/api/members/check', {
     email: email
   }, {
     responseType: 'json'
@@ -31,7 +33,7 @@ export default {
       password: '',
       passwordValid: '',
       dateOfBirth: '',
-      errorMessage: '에러 메시지',
+      errorMessage: '이메일이 중복되었습니다.',
       showErrormessage: false
     }
   },
@@ -62,7 +64,7 @@ export default {
       }
 
       // 정상일 경우, 회원 가입 요청 시도
-      axios.post('http://localhost:8080/api/members/join', {
+      axios.post('http://192.168.230.3:8080/api/members/join', {
         email: this.email,
         name: this.name,
         nickName: this.nickName,
@@ -87,7 +89,8 @@ export default {
           }
         })
       }).catch((error) => {
-        console.log(error)
+        console.log(error.response.data);
+        this.errorMessage = error.response.data;
         this.showErrormessage = true
       })
     }

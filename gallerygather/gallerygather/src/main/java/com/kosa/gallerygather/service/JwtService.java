@@ -1,4 +1,4 @@
-package com.kosa.gallerygather.util;
+package com.kosa.gallerygather.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

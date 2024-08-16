@@ -1,4 +1,5 @@
 <template>
+    <!-- 작성자: 오지수 -->
     <div class="exhibition-reviews">
         <div>
             <span>리뷰 목록</span>
@@ -18,7 +19,7 @@
                             <div v-html="review.content" class="review_detail"></div>
                         </router-link>
                         <div class="reviewbox-by">
-                            <span class="byname">{{ review.reviewer }}</span>
+                            <span class="byname">{{ review.nickName }}</span>
                         </div>
                         <div class="reviewbox-sub">
                             <span class="text-date">{{ review.regDate }}</span>
@@ -53,7 +54,7 @@ export default {
             totalElement: null,
             exhibitionId: null,
             currentPage: 1,
-            perPage: 2,
+            perPage: 5,
             exhibitReviewList: [],
             
         };
@@ -73,7 +74,7 @@ export default {
     methods: {
         async getExhibitReviewList() {
             try {
-                await axios.get(`http://localhost:8080/api/exhibition/${this.exhibitionId}/review?pageNo=${this.currentPage}&pagePer=${this.perPage}`)
+                await axios.get(`http://192.168.230.3:8080/api/exhibition/${this.exhibitionId}/review?pageNo=${this.currentPage}&pagePer=${this.perPage}`)
                     .then((response) => {
                     this.exhibitReviewList = response.data.content;
                     this.totalElement = response.data.totalElements;

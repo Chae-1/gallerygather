@@ -42,11 +42,10 @@ public interface ExhibitionReviewRepository extends JpaRepository<ExhibitionRevi
     @Transactional
     Optional<ExhibitionReview> test(@Param("reviewId") Long reviewId);
 
-    @Query("select review, m from ExhibitionReview review " +
-            "left join review.member m on review.member = :member " +
+    @Query("select review from ExhibitionReview review " +
             "left join fetch review.images where review.id = :reviewId")
     @Transactional
-    List<ExhibitionReview> test1(@Param("reviewId") Long reviewId);
+    List<ExhibitionReview> findReviewWithAll(@Param("reviewId") Long reviewId);
 
 
 }

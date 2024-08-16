@@ -259,8 +259,6 @@ public class ExhibitionReviewService {
                 review.increaseLikeCount();
             }
         }
-
     }
-
 
 }

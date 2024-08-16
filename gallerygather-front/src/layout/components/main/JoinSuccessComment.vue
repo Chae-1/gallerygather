@@ -1,3 +1,5 @@
+<!-- 작성자: 채형일-->
+
 <script>
 export default {
 
@@ -48,9 +50,9 @@ export default {
       </div>
       <div class="button-group">
         <span>
-          <a href="/">
+          <router-link to="/main">
           홈으로
-          </a>
+          </router-link>
         </span>
       </div>
     </div>

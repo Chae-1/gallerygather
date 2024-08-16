@@ -1,8 +1,10 @@
 <script>
+// 작성자: 채형일, 오지수
 import { userStore } from '@/store/userStore.js'
 import { apiRequest } from '@/util/RequestUtil.js'
 
 export default {
+  //작성자 : 채형일
   data() {
     return {
       store: userStore(),
@@ -20,7 +22,7 @@ export default {
   methods: {
     async logout() {
       try {
-        await apiRequest('post', 'http://localhost:8080/api/members/auth/logout', {
+        await apiRequest('post', 'http://192.168.230.3:8080/api/members/auth/logout', {
           accessToken: localStorage.getItem('accessToken'),
           refreshToken: localStorage.getItem('refreshToken')
         })
@@ -48,6 +50,7 @@ export default {
 </script>
 
 <template>
+  <!-- 작성자: 오지수 -->
   <header :class="{ 'show-after': isHovered }">
     <div class="header">
       <div class="logo">
@@ -60,12 +63,16 @@ export default {
 
         <ul class="main-menu">
           <li class="item"  @mouseenter="showAfter" @mouseleave="hideAfter">
-            <div class="item__name">Exhibition</div>
+            <div class="item__name">
+              <router-link to="/main">
+                Exhibition
+              </router-link>
+            </div>
             <div class="item__contents">
               <div class="contents__menu">
                 <ul class="inner">
-                  <li><a href="/">Exhibition</a></li>
-                  <li><a href="/">Review</a></li>
+                  <li><router-link to="/main">Exhibition</router-link></li>
+                  <li><a href="/">Reviews</a></li>
                   <li><a href="/">My Exhibition</a></li>
                   <li><a href="/">Whats' New</a></li>
                 </ul>

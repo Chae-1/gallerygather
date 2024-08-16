@@ -1,4 +1,5 @@
 <template>
+  <!-- 작성자: 오지수 -->
   <div class="review-details">
     <div class="review-container">
       <div class="review-box">
@@ -45,7 +46,7 @@
             {{ isLike ? '❤️ 좋아요 취소' : '🩶 좋아요' }}
           </button>
         </div>
-        <div class="edit-buttons">
+        <div class="EorD-buttons">
           <button
             type="button"
             class="editButton"
@@ -110,7 +111,7 @@ export default {
     async getReviewDetail() {
       apiRequest(
         'get',
-        `http://localhost:8080/api/exhibition/${this.exhibitionId}/review/${this.reviewId}`
+        `http://192.168.230.3:8080/api/exhibition/${this.exhibitionId}/review/${this.reviewId}`
       )
         .then((response) => {
           this.reviewDetail = response.data.reviewDetail
@@ -133,7 +134,7 @@ export default {
     handleLikeClick() {
       if (this.ifLoggedIn) {
         //로그인 되었으면
-        apiRequest('post', `http://localhost:8080/api/exhibition/reviews/${this.reviewId}/like`, {
+        apiRequest('post', `http://192.168.230.3:8080/api/exhibition/reviews/${this.reviewId}/like`, {
           isLike: this.isLike
         })
           .then((response) => {
@@ -152,7 +153,7 @@ export default {
     async deleteReview() {
       const reviewId = this.$route.params.reviewId
       try {
-        await apiRequest('delete', `http://localhost:8080/api/exhibition/deleteReview/${reviewId}`)
+        await apiRequest('delete', `http://192.168.230.3:8080/api/exhibition/deleteReview/${reviewId}`)
         this.$router.push(`/exhibitiondetails/${this.$route.params.exhibitionId}`)
       } catch (error) {
         console.error('리뷰 삭제 실패:', error)
@@ -171,6 +172,7 @@ export default {
 
 .review-box {
   color: #ddd !important;
+  margin-right: 200px;
 }
 .review {
 }
@@ -207,7 +209,7 @@ export default {
 }
 
 .button-container {
-  width: 60%;
+  width: 50%;
   display: flex;
   justify-content: space-between;
   /* 오른쪽 정렬을 유지하려면 'right' 대신 'flex-end' 사용 */
@@ -216,7 +218,7 @@ export default {
   align-items: center;
 }
 
-.edit-buttons button {
+.EorD-buttons button {
   margin-left: 10px;
 }
 
@@ -233,8 +235,8 @@ export default {
 }
 
 .editButton {
-  background-color: #669900;
-  color: #2c2a29;
+  background-color: darkslategray;
+  color: #eee;
 }
 
 .editButton:hover {
@@ -244,7 +246,7 @@ export default {
 
 .deleteButton {
   background-color: #2c2a29;
-  color: #669900;
+  color: #eee;
 }
 
 .deleteButton:hover {

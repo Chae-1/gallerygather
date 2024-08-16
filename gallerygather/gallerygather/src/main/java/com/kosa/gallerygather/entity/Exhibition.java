@@ -13,6 +13,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
+
 @AllArgsConstructor
 @NoArgsConstructor
 public class Exhibition {
@@ -81,6 +82,13 @@ public class Exhibition {
     public void updateAvgRating(Double newRating){
         this.reviewCount++;
         this.avgRating = ((this.avgRating * (this.reviewCount - 1) + newRating) / this.reviewCount);
+    }
+
+    public Double getAvgRating() {
+        if (this.avgRating != null) {
+            return Math.round(this.avgRating * 100.0) / 100.0; // 소수점 둘째 자리까지 반올림하여 반환
+        }
+        return null;
     }
 
 }

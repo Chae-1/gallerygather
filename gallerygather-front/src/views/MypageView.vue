@@ -12,10 +12,21 @@
 <script>
 import MypageNaviCompo from '../layout/components/mypage/MypageNaviCompo.vue'
 import MypageViewCompoMain from '../layout/components/mypage/MypageViewCompoMain.vue'
+import { userStore } from '@/store/userStore.js'
 
 export default {
-  components: { MypageNaviCompo, MypageViewCompoMain }
+  components: { MypageNaviCompo, MypageViewCompoMain },
+
+  created() {
+    const us = userStore();
+    if (!us.isAuthenticated) {
+      alert("로그인을 반드시 해주세요.");
+      this.$router.push('/login');
+    }
+  }
 }
+
+
 </script>
 
 <style scoped>

@@ -161,7 +161,7 @@ export default {
         const token = localStorage.getItem('accessToken') // JWT 토큰 가져오기
 
         // 좋아요 개수 가져오기
-        const likeCountResponse = await apiRequest('get', 'http://localhost:8080/api/exhibitions/likes/member/like-count', null, {
+        const likeCountResponse = await apiRequest('get', 'http://192.168.230.3:8080/api/exhibitions/likes/member/like-count', null, {
           headers: {
             Authorization: token
           }
@@ -169,14 +169,14 @@ export default {
         this.likeCount = likeCountResponse.data
 
 
-        const reviewCountResponse = await apiRequest('get', 'http://localhost:8080/api/reviews/member/review-count', null, {
+        const reviewCountResponse = await apiRequest('get', 'http://192.168.230.3:8080/api/reviews/member/review-count', null, {
           headers: {
             Authorization: token
           }
         })
         this.reviewCount = reviewCountResponse.data
 
-        const replyCountResponse = await apiRequest('get', 'http://localhost:8080/api/replys/member/reply-count', null, {
+        const replyCountResponse = await apiRequest('get', 'http://192.168.230.3:8080/api/replys/member/reply-count', null, {
           headers: {
             Authorization: token
           }
@@ -187,7 +187,6 @@ export default {
 
       } catch (error) {
         console.error('사용자 요약 정보를 가져오는 중 오류 발생:', error)
-        alert('사용자 요약 정보를 가져오지 못했습니다.')
       }
     },
     async checkNickDuplicate(nickName) {
@@ -199,7 +198,7 @@ export default {
 
         const response = await apiRequest(
           'post',
-          'http://localhost:8080/api/members/check-nickname',
+          'http://192.168.230.3:8080/api/members/check-nickname',
           { nickname: this.nickName }, // POST 요청 데이터
           {
             headers: {
@@ -252,7 +251,7 @@ export default {
       try {
         const token = localStorage.getItem('accessToken') // JWT 토큰 가져오기
         const response = await apiRequest('get',
-          'http://localhost:8080/api/members/original', null, {
+          'http://192.168.230.3:8080/api/members/original', null, {
             headers: {
               Authorization: token
             }
@@ -284,7 +283,6 @@ export default {
         }
       } catch (error) {
         console.error('사용자 정보를 가져오는 중 오류 발생:', error)
-        alert('사용자 정보를 가져오지 못했습니다.')
       }
     },// 기존 사용자 정보 불러오기
     async saveUserInfo() {
@@ -310,7 +308,7 @@ export default {
         console.log('내정보 변경 토큰 :', token)
 
         const response = await apiRequest('post',
-          'http://localhost:8080/api/members/update',
+          'http://192.168.230.3:8080/api/members/update',
           userInfo,
           {
             headers: {
@@ -341,7 +339,7 @@ export default {
         const token = localStorage.getItem('accessToken') // JWT 토큰 가져오기
         console.log('비밀번호 변경 토큰 :', token)
         const response = await apiRequest('post',
-          'http://localhost:8080/api/members/change-password',
+          'http://192.168.230.3:8080/api/members/change-password',
           {
             currentPassword: this.currentPassword,
             newPassword: this.newPassword
@@ -376,7 +374,7 @@ export default {
     async deleteMember() {
       if (confirm('정말로 회원 탈퇴하시겠습니까?')) {
         const token = localStorage.getItem('accessToken');
-        apiRequest('DELETE', 'http://localhost:8080/api/members/delete', {
+        apiRequest('DELETE', 'http://192.168.230.3:8080/api/members/delete', {
           headers: {
             Authorization: token
           }

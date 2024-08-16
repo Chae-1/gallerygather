@@ -23,6 +23,7 @@ public class ExhibitionReviewDto {
         private LocalDate regDate;
         private Double rating;
         private String reviewer;
+        private String nickName;
         private int viewCount;
         private int likeCount;
         private int replyCount;
@@ -37,6 +38,7 @@ public class ExhibitionReviewDto {
             this.likeCount = review.getLikeCount();
             this.replyCount = review.getReplyCount();
             this.reviewer = review.getMember().getName();
+            this.nickName = review.getMember().getNickName();
 
         }
     }

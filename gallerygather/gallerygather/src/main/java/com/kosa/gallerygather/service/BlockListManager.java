@@ -15,4 +15,8 @@ public class BlockListManager {
     public void addBlockList(String accessToken) {
         blockList.put(accessToken, true);
     }
+
+    public boolean isBannedToken(String token) {
+        return blockList.containsKey(token);
+    }
 }

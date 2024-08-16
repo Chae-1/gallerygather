@@ -1,4 +1,5 @@
 <template>
+    <!-- 작성자: 오지수 -->
     <div class="exhibition">
         <div class="exhibition-poster">
             <div class="poster-wrapper">
@@ -7,7 +8,7 @@
             </div>
         </div>
         <div class="exhibition-info">
-            <span class="exhibition-status">진행중</span>
+            <span class="exhibition-status">{{ exhibitionStatus }}</span>
             <h1 class="exhibition-title">{{ exhibitDetails.title }}</h1>
             <div class="">
                 <p>{{exhibitDetails.startDate}} ~ {{ exhibitDetails.endDate }}</p>
@@ -26,7 +27,7 @@
                 </button>
                 <span class="replies">💬 {{ exhibitDetails.reviewCount }}</span>
             </div>
-            <router-link :href="exhibitDetails.siteUrl" role="button" class="site-button">사이트 바로가기</router-link>
+            <a :href="exhibitDetails.siteUrl" target="_blank" role="button" class="site-button">사이트 바로가기</a>
         </div>
     </div>
 </template>
@@ -48,13 +49,21 @@ export default {
         this.exhibitionId = this.$route.params.exhibitionId;
         this.getExhibitDetails();
     },
+    computed: {
+      exhibitionStatus() {
+        const endDate = new Date(this.exhibitDetails.endDate);
+        const currentDate = new Date();
+
+        return endDate > currentDate ? '진행중' : '종료';
+      }
+    },
     mounted() {
 
     },
 
     methods: {
         async getExhibitDetails() {
-            apiRequest('get', `http://localhost:8080/api/exhibitions/${this.exhibitionId}`)
+            apiRequest('get', `http://192.168.230.3:8080/api/exhibitions/${this.exhibitionId}`)
                 .then((response) => {
                     console.log(`login : ${response.data.isLoggedIn}`);
                     console.log(`islike : ${response.data.isLike}`);
@@ -71,7 +80,7 @@ export default {
             } else {
                 // 추가해야함
                 apiRequest('post',
-                `http://localhost:8080/api/exhibitions/${this.exhibitionId}/like`,
+                `http://192.168.230.3:8080/api/exhibitions/${this.exhibitionId}/like`,
                 {"isLike": this.isLike}
             ).then((response) => {
                 console.log(response);
@@ -83,7 +92,18 @@ export default {
             })
             }
         
-        }
+        },
+
+      deleteExhibition() {
+          axios.delete(`http://192.168.230.3:8080/api/exhibitions/${this.exhibitionId}`)
+            .then(response => {
+              console.log(response);
+              this.$router.push("/main")
+            })
+            .catch(error => {
+              console.log (error);
+            })
+      }
     }
 }
 </script>
@@ -173,6 +193,7 @@ export default {
     gap: 10px;
     margin-top: 10px;
 }
+
 /* 
 .ticket-button {
     margin-top: 20px;
@@ -185,6 +206,7 @@ export default {
 .ticket-button:hover {
     background-color: #e0e0e0;
 } */
+
 .gray-button {
     background-color: gray;
     color: white;

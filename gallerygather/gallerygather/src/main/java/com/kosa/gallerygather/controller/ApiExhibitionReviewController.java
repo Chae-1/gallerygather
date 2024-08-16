@@ -32,12 +32,11 @@ public class ApiExhibitionReviewController {
                                                         @PathVariable Long exhibitionId) {
         String memberId = userDetails.getEmail();
         ReviewDetailDto detailDto = reviewService.write(requestDto, memberId, exhibitionId);
-
         return ResponseEntity.ok(detailDto);
-
     }
 
     /*
+    작성자 : 오지수, 이혜은
     리뷰 정보 가져오기
      */
     @GetMapping("/{exhibitionId}/review/{reviewId}")

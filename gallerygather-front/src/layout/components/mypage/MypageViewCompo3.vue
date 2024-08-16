@@ -28,7 +28,7 @@
       <!-- 리뷰리스트 시작 -->
       <div class="reviewlist">
         <!-- 리뷰 항목을 반복하여 생성 -->
-        <div v-for="(review, index) in reviews" :key="review.id" class="card">
+        <div v-for="(review) in reviews" :key="review.id" class="card">
           <!-- 각 리뷰 항목을 카드 형식으로 표시 -->
           <div class="card-content">
               <!-- 선택 체크박스 -->
@@ -90,7 +90,9 @@ export default {
         }
       }
       try {
+
         const response = await axios.get('http://localhost:8080/api/reviews/member', config)
+        console.log('서버로부터 받은 리뷰 데이터:', response.data);
         this.reviews = response.data;// 서버로부터 받은 데이터를 reviews에 저장
         console.log('서버로부터 받은 리뷰 데이터:', response.data);
       } catch (error) {
@@ -128,7 +130,7 @@ export default {
 
       try {
         for (const review of selectedReviews) {
-          await apiRequest('delete', `http://localhost:8080/api/exhibition/deleteReview/${review.id}`);
+          await apiRequest('delete', `http://192.168.230.3:8080/api/exhibition/deleteReview/${review.id}`);
         }
         // 선택된 리뷰가 삭제된 후, 목록을 갱신
         this.fetchReviews();
@@ -183,16 +185,18 @@ h3 {
   height: auto;
   display: flex;
   align-items: center;
+
 }
 
 
 .card-content {
   display: flex;
   flex-wrap: wrap;
+  height: 100px;
   justify-content: flex-start; /* 왼쪽 정렬 */
   align-items: stretch;
   gap: 20px; /* 카드 간의 간격을 일정하게 유지 */
-  min-height: 100px; /* 카드 내용의 최소 높이를 설정합니다 */
+  width: 100%;
 }
 
 .card-link {

@@ -25,6 +25,10 @@ public class ApiMemberController {
 
     private final MemberService memberService;
 
+    /*
+    작성자 : 채형일
+    로그인 token 발급
+    */
     @PostMapping("/auth/login")
     public ResponseEntity<AuthDto.SuccessfulLoginResultDto> login(@RequestBody LoginRequest loginRequest) {
         log.info("{}", loginRequest);
@@ -32,6 +36,10 @@ public class ApiMemberController {
         return ResponseEntity.ok(successfulLoginResultDto);
     }
 
+    /*
+     작성자 : 채형일
+     로그인 토큰 만료.
+   */
     @PostMapping("/auth/logout")
     public ResponseEntity<AuthDto.LogoutResultDto> logout(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                  @RequestBody TokenDto tokenDto) {
@@ -39,6 +47,11 @@ public class ApiMemberController {
         return ResponseEntity.ok(logout);
     }
 
+
+    /*
+        작성자: 채형일
+        회원가입 요청
+     */
     @PostMapping("/join")
     public ResponseEntity<CompleteJoinMemberDto> join(@RequestBody JoinRequest request) {
         log.info("{}", request);

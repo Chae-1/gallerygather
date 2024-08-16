@@ -1,4 +1,5 @@
 <template>
+    <!-- 작성자: 오지수 -->
     <div class="exhibition">
         <div class="exhibition-poster">
             <div class="poster-wrapper">

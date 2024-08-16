@@ -36,7 +36,7 @@
               <!-- 댓글 내용 -->
               <div class="content-text">{{ reply.content }}</div>
               <!-- 리뷰 작성 날짜 -->
-              <div class="update-date">{{ reply.updateDate }}</div>
+              <div class="update-date">{{ formatDate(reply.updateDate) }}</div>
             </div>
           </div>
         </div>
@@ -102,6 +102,10 @@ export default {
       } else {
         console.error('댓글에서 goToExhibitionDetailCompo 문제.');
       }
+    },
+    formatDate(dateTime) {// 로케일에 맞게 날짜까지만 반환
+      const date = new Date(dateTime);
+      return date.toLocaleDateString(); // 로케일에 맞게 날짜까지만 반환
     }
   },
 }

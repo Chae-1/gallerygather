@@ -4,6 +4,10 @@ import lombok.*;
 
 import java.time.LocalDate;
 
+/**
+ * 작성자: 채형일
+ *
+ */
 @Getter
 @Setter
 @NoArgsConstructor

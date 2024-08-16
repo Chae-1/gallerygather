@@ -51,11 +51,17 @@ export default {
 
   methods: {
     fetchNewItems(sortOption = null, searchContent = null) {
-      let url = `http://192.168.230.3:8080/api/exhibitions?page=${this.currentPage}&size=${this.perPage}&sort=startDate,desc`
-      sortOption = sortOption != null ? 'sort=' + sortOption + ',desc' : ''
-      if (sortOption !== null && sortOption !== '') {
+      let url = `http://192.168.230.3:8080/api/exhibitions?page=${this.currentPage}&size=${this.perPage}`
+      console.log(sortOption, searchContent);
+      const newOption = sortOption != null ? 'sort=' + sortOption + ',desc' : ''
+      if (newOption !== null && newOption !== '') {
         url += '&' + sortOption
       }
+
+      if (sortOption === null) {
+        url += '&' + 'sort=startDate,desc';
+      }
+
       searchContent = searchContent != null ? 'title=' + searchContent : '';
       if (searchContent !== null && searchContent !== null) {
         url += '&' + searchContent;

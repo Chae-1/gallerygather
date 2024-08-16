@@ -19,22 +19,19 @@ export default {
         <div class="carousel-item active">
           <img src="../../../assets/img/pic.jpg" class="d-block w-100 img"  alt="...">
           <div class="carousel-caption d-none d-md-block">
-            <h5>Second slide label</h5>
-            <p>Some representative placeholder content for the second slide.</p>
+            <h3>베스티지-존재의 리좀</h3>
           </div>
         </div>
         <div class="carousel-item">
-          <img src="../../../assets/img/sky.png" class="d-block w-100 img" alt="...">
+          <img src="../../../assets/img/sky2.jpg" class="d-block w-100 img" alt="...">
           <div class="carousel-caption d-none d-md-block">
-            <h5>First slide label</h5>
-            <p>Some representative placeholder content for the first slide.</p>
+            <h3>빛의 벙커 : 반 고흐</h3>
           </div>
         </div>
         <div class="carousel-item">
           <img src="../../../assets/img/statu.jpg" class="d-block w-100 img" alt="..." >
           <div class="carousel-caption d-none d-md-block">
-            <h5>Third slide label</h5>
-            <p>Some representative placeholder content for the third slide.</p>
+            <h3>전시의 전시</h3>
           </div>
         </div>
       </div>
@@ -53,7 +50,12 @@ export default {
 </template>
 
 <style>
+
 .carousel-item {
+  font-family: "Nanum Brush Script", cursive;
+  font-weight: 400;
+  font-style: normal;
+
   scroll-snap-align: start;
   width: 100%;
   height: 80vh;

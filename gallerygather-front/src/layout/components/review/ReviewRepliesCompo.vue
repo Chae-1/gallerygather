@@ -65,7 +65,7 @@ export default {
       exhibitionId: null,
       totalElement: null,
       currentPage: 1,
-      perPage: 2,
+      perPage: 5,
       newReplyContent: '',
       replies: {}
     }

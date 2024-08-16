@@ -28,7 +28,7 @@
       <!-- 리뷰리스트 시작 -->
       <div class="reviewlist">
         <!-- 리뷰 항목을 반복하여 생성 -->
-        <div v-for="(review, index) in reviews" :key="review.id" class="card">
+        <div v-for="(review) in reviews" :key="review.id" class="card">
           <!-- 각 리뷰 항목을 카드 형식으로 표시 -->
           <div class="card-content">
               <!-- 선택 체크박스 -->
@@ -178,15 +178,19 @@ h3 {
   padding: 10px;
   display: flex;
   align-items: center;
+
 }
 
 .card-content {
   display: flex;
   flex-wrap: wrap;
+  height: 100px;
   justify-content: flex-start; /* 왼쪽 정렬 */
   align-items: stretch;
   gap: 20px; /* 카드 간의 간격을 일정하게 유지 */
+  width: 100%;
 }
+
 .card-link {
   text-decoration: none;
   flex: 1 1 calc(25% - 20px); /* 카드의 최소 너비를 설정하고, 간격을 고려하여 유연하게 배치 */

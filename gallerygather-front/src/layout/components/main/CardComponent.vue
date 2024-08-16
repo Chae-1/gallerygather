@@ -1,7 +1,6 @@
-<script>
-import axios from "axios";
-import { apiRequest } from '@/util/RequestUtil.js'
+<!-- 작성자: 채형일-->
 
+<script>
 export default {
   name: "CardComponent",
   props: {

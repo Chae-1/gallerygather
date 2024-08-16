@@ -1,3 +1,6 @@
+/**
+ * 작성자 : 채형일
+ */
 import { createRouter, createWebHistory } from 'vue-router'
 import homeRoute from '@/router/HomeRoute.js'
 import introRoute from '@/router/IntroRoute.js'

@@ -1,4 +1,5 @@
 <template>
+  <!-- 작성자: 오지수 -->
   <div style="width: 100%">
     <!-- Fixed Navigation Bar -->
     <div class="navbar">

@@ -109,7 +109,7 @@ public class MemberService {
     //유은 - 비밀번호 변경
     public void changePassword(MyPageChangePasswordDto request, String userEmail) {
         //이메일확인
-        System.out.println("로그인된 이메일 :  "+userEmail);
+        System.out.println("로그인된 이메일 :  " + userEmail);
         System.out.println("getCurrentPassword"+request.getCurrentPassword()+"getNewPassword"+request.getNewPassword());
 
         Member member = memberRepository.findByEmail(userEmail).orElseThrow(()->

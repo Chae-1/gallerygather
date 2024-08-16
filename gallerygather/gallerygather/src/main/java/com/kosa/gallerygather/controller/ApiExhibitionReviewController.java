@@ -37,7 +37,8 @@ public class ApiExhibitionReviewController {
         return ResponseEntity.ok(detailDto);
     }
 
-    /* 작성자: 이혜연
+    /*
+    작성자 : 오지수, 이혜연
     리뷰 정보 가져오기
      */
     @GetMapping("/{exhibitionId}/review/{reviewId}")

@@ -1,6 +1,7 @@
 <!-- 이혜연, 오지수 작성 -->
 <!-- 리뷰 상세페이지 -->
 <template>
+  <!-- 작성자: 오지수 -->
   <div class="review-details">
     <div class="review-container">
       <div class="review-box">

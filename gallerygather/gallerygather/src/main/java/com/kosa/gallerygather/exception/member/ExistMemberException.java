@@ -1,5 +1,7 @@
 package com.kosa.gallerygather.exception.member;
-
+/*
+    작성자 : 채형일
+ */
 public class ExistMemberException extends MemberException {
 
     public ExistMemberException() {

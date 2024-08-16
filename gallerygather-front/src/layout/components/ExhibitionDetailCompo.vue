@@ -1,6 +1,5 @@
 <template>
-  <button @click="deleteExhibition">삭제</button>
-
+    <!-- 작성자: 오지수 -->
     <div class="exhibition">
         <div class="exhibition-poster">
             <div class="poster-wrapper">
@@ -9,7 +8,7 @@
             </div>
         </div>
         <div class="exhibition-info">
-            <span class="exhibition-status">진행중</span>
+            <span class="exhibition-status">{{ exhibitionStatus }}</span>
             <h1 class="exhibition-title">{{ exhibitDetails.title }}</h1>
             <div class="">
                 <p>{{exhibitDetails.startDate}} ~ {{ exhibitDetails.endDate }}</p>
@@ -28,7 +27,7 @@
                 </button>
                 <span class="replies">💬 {{ exhibitDetails.reviewCount }}</span>
             </div>
-            <router-link :href="exhibitDetails.siteUrl" role="button" class="site-button">사이트 바로가기</router-link>
+            <a :href="exhibitDetails.siteUrl" target="_blank" role="button" class="site-button">사이트 바로가기</a>
         </div>
     </div>
 </template>
@@ -49,6 +48,14 @@ export default {
     created() {
         this.exhibitionId = this.$route.params.exhibitionId;
         this.getExhibitDetails();
+    },
+    computed: {
+      exhibitionStatus() {
+        const endDate = new Date(this.exhibitDetails.endDate);
+        const currentDate = new Date();
+
+        return endDate > currentDate ? '진행중' : '종료';
+      }
     },
     mounted() {
 
@@ -186,6 +193,7 @@ export default {
     gap: 10px;
     margin-top: 10px;
 }
+
 /* 
 .ticket-button {
     margin-top: 20px;
@@ -198,6 +206,7 @@ export default {
 .ticket-button:hover {
     background-color: #e0e0e0;
 } */
+
 .gray-button {
     background-color: gray;
     color: white;

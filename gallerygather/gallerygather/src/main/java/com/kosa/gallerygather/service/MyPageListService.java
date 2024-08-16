@@ -29,7 +29,7 @@ public class MyPageListService {
         this.myPageReplyRepository = myPageReplyRepository;
     }
 
-
+    //유은
     // 멤버 이메일로 모든 댓글 조회
     public List<MyPageReplyListResponseDto> getMyPageReplyRepository(String email) {
 
@@ -61,7 +61,7 @@ public class MyPageListService {
         return replysDto;
     }
 
-
+    //유은
     // 멤버의 이메일로 모든 리뷰를 조회하는 메소드
     public List<MyPageReviewListResponseDto> getReviewsByMemberEmail(String email) {
 

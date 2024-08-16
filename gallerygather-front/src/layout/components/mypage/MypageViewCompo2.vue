@@ -1,3 +1,4 @@
+<!--유은-->
 <template>
   <div class="reviews">
     <div class="container">
@@ -28,18 +29,19 @@
             <template #footer>
               <div class="card-body">
                 <div class="card-duration">
-                  <span class="card-detail-title">기간</span>
-                  <span>{{ item.startDate }} ~ {{ item.endDate }}</span>
+                  <span>{{ item.startDate }}</span>
+                  <span> ~ </span>
+                  <span>{{ item.endDate }}</span>
                 </div>
                 <div class="card-location">
                   <span class="card-detail-title">장소</span>
                   <span>{{ item.place }}</span>
                 </div>
                 <div class="card-info">
-                  <span>진행상태</span>
                   <div class="card-info-grade">
-                    <span style="margin: 0 20px;">{{ item.rating }}</span>
                     <em>별점</em>
+                    <span style="margin: 0 20px;"> ⭐{{ item.avgRating
+                    || '0' }}</span>
                   </div>
                 </div>
               </div>
@@ -59,11 +61,13 @@ export default {
   data() {
     return {
       cards: [] // cards 배열 초기화
+
     }
   },
   created() {
     this.fetchLikes() // 컴포넌트 생성 시 좋아요 목록을 가져옵니다.
     console.log('fetchLikes Created')
+
   },
   methods: {
     async fetchLikes() {
@@ -92,34 +96,23 @@ export default {
 
 <style scoped>
 .container {
-  width: 80%;
-  margin: 0 auto;
+  width: 90%; /* 컨테이너의 너비를 90%로 설정 */
+  margin: 0 auto; /* 가운데 정렬 */
 }
 
-h3 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-}
 .card-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: stretch;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 고정된 카드 크기 유지 */
+  gap: 10px; /* 카드 사이의 간격 */
 }
 
 .card-link {
   text-decoration: none;
-  flex: 1 0 21%;
-  margin: 10px;
-  max-width: 23%;
   display: flex;
   flex-direction: column;
 }
 
 .b-card {
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -129,11 +122,12 @@ h3 {
 .card-img {
   width: 100%;
   height: 200px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 8px 8px 0 0;
 }
 
 .card-title {
+  min-height: 50px;
   text-align: center;
   padding: 10px 15px;
   font-weight: bold;
@@ -141,10 +135,12 @@ h3 {
 
 .card-body {
   display: flex;
+  height: 200px;
   flex-direction: column;
   justify-content: space-between;
   padding: 10px 15px;
-  flex-grow: 1; /* 카드 바디 영역이 균일한 높이를 가지도록 설정 */
+  flex-grow: 1;
+  min-height: 150px;
 }
 
 .b-card:hover {
@@ -169,6 +165,28 @@ h3 {
   background-image: url("../../../assets/img/location.svg");
   background-size: cover;
 }
+
+.card-location {
+  display: flex;
+  align-items: center;
+}
+
+.card-detail-title {
+  white-space: nowrap;
+  margin-right: 5px;
+  flex-shrink: 0;
+}
+
+.card-location span,
+.card-duration span {
+  display: block; /* 각 span을 블록 요소로 만들어 줄바꿈을 합니다. */
+  font-size: 0.9em; /* 글자 크기를 줄입니다. */
+  max-width: calc(100% - 40px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 
 .card-info {
   display: flex;
@@ -195,4 +213,5 @@ h3 {
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
+
 </style>

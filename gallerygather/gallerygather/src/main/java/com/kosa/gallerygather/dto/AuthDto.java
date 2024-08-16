@@ -2,6 +2,12 @@ package com.kosa.gallerygather.dto;
 
 import lombok.*;
 
+/*
+    작성자 : 채형일
+    로그인 시, 토큰 발급 dto,
+    로그아웃 시 성공 여부 dto
+ */
+
 @Getter
 @Setter
 @NoArgsConstructor

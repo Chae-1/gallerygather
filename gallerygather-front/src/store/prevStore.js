@@ -1,3 +1,5 @@
+<!-- 작성자: 채형일-->
+
 import { defineStore } from 'pinia'
 
 export const prevPathStore = defineStore('router', {

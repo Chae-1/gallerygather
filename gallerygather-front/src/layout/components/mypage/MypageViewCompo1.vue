@@ -1,3 +1,4 @@
+<!--유은-->
 <template>
   <div class="mypage">
     <br />
@@ -187,7 +188,6 @@ export default {
 
       } catch (error) {
         console.error('사용자 요약 정보를 가져오는 중 오류 발생:', error)
-        alert('사용자 요약 정보를 가져오지 못했습니다.')
       }
     },
     async checkNickDuplicate(nickName) {
@@ -284,7 +284,6 @@ export default {
         }
       } catch (error) {
         console.error('사용자 정보를 가져오는 중 오류 발생:', error)
-        alert('사용자 정보를 가져오지 못했습니다.')
       }
     },// 기존 사용자 정보 불러오기
     async saveUserInfo() {

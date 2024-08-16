@@ -1,4 +1,5 @@
 <template>
+  <!-- 작성자: 오지수 -->
   <div class="reply-container">
     <div class="reply-register">
       <hr />
@@ -65,7 +66,7 @@ export default {
       exhibitionId: null,
       totalElement: null,
       currentPage: 1,
-      perPage: 2,
+      perPage: 5,
       newReplyContent: '',
       replies: {}
     }
@@ -119,6 +120,7 @@ export default {
       textarea.style.height = textarea.scrollHeight + 'px'
     },
 
+    //작성자: 오지수, 채형일
     async addReply() {
       const store = userStore()
       if (store.loginCheck) {

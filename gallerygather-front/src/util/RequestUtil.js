@@ -1,5 +1,10 @@
 /**
  * 작성자: 채형일
+ *
+ * 요청 도중, accessToken 만료로 인한 토큰 재발급 요청과, 재요청이 포함된
+ *
+ * 유틸리티 함수
+ *
  */
 import axios from 'axios'
 
@@ -18,11 +23,14 @@ export async function apiRequest(method, url, data = null, options = {}, isAuthe
     });
     return response;
   } catch (error) {
+    // 401 UnAuthorized 로 인해 요청이 실패 했다면, accessToken이 만료되었거나 인증 실패 오류이다.
+    // 토큰을 재발급 하고, 재요청을 시도한다.
     if (error.response && error.response.status === 401) {
       console.log('토큰 재발급 중..')
       await handleTokenRefresh();
       return apiRequest(method, url, data, options);
     }
+
     console.error('Request error:', error);
     throw error;
   }

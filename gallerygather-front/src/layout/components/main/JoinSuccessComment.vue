@@ -21,7 +21,7 @@ export default {
       return this.$route.query.joinedNickName;
     },
     joinedDate() {
-      let lawDate = this.$route.query.joinedDate
+      const lawDate = this.$route.query.joinedDate;
       const date = new Date(lawDate);
 
       return date.toLocaleString();

@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 /**
  * 작성자 : 채형일
+ * 회원 가입 완료 시 응답으로 보내주는 dto
  */
 @Getter
 @Setter

@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
+/**
+ * 작성자 : 채형일
+ */
 @Setter
 @Getter
 @ToString

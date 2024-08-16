@@ -12,6 +12,11 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+/*
+    작성자 : 채형일
+    accesstoken 토큰 만료로 인한 refreshToken 발급 엔티티
+
+ */
 public class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

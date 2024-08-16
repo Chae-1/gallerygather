@@ -5,7 +5,7 @@
 <script>
 import Intro from '@/layout/Intro.vue'
 export default {
-    components: { Intro },
+    components:   { Intro },
 
 }
 </script>

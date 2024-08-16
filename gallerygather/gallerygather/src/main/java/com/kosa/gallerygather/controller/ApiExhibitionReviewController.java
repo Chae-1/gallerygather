@@ -32,9 +32,7 @@ public class ApiExhibitionReviewController {
                                                         @PathVariable Long exhibitionId) {
         String memberId = userDetails.getEmail();
         ReviewDetailDto detailDto = reviewService.write(requestDto, memberId, exhibitionId);
-
         return ResponseEntity.ok(detailDto);
-
     }
 
     /*

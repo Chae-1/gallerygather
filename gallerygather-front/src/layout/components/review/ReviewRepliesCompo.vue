@@ -1,6 +1,7 @@
 <template>
   <div class="reply-container">
     <div class="reply-register">
+      <hr />
       <textarea
         placeholder="댓글을 입력해주세요."
         v-model="newReplyContent"
@@ -234,48 +235,53 @@ export default {
   /* width: 60%;
     margin: 20px auto; */
 }
-
+/* 댓글작성 감싸기 */
 .reply-register {
   position: relative;
   padding: 20px;
   border-radius: 5px;
-  background-color: #f8f5eb;
-  width: 60%;
+  background-color: white;
+  border: 0.5px solid #ccc;
+  width: 50%;
   margin: 20px auto;
-  /* margin-bottom: 20px; */
+  margin-top: 60px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* 댓글 작성 칸 */
 .reply-register textarea {
-  width: calc(100% - 60px);
-  /* background-color: transparent; */
+  width: calc(100% - 120px); /* 오른쪽 패딩을 고려한 너비 조정 */
+  height: 80px;
+  padding: 10px;
   color: #3d3b3a;
-  background-color: #f8f5eb;
-  border: 1px solid #ddd;
+  /* border: 0.5px solid #ccc; */
+  background-color: white;
+  resize: none; /* 텍스트 영역 크기 조정 막기 */
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box; /* padding과 border를 너비에 포함 */
 }
 
-.editable-text {
-  border: 1px solid darkslategray;
-}
-
-/* .uneditable-text {
-  background-color: blue;
-} */
-
+/* 등록 버튼 */
 .reply-register button {
   position: absolute;
   bottom: 20px;
-  right: 10px;
-  width: 60px;
-  height: 30px;
-  background-color: #2c2a29;
+  right: 20px;
+  width: 80px;
+  height: 40px;
+  background-color: darkslategray; /* 녹색 버튼 */
   border-radius: 5px;
-  color: #669900;
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
 }
 
 .reply-lists-container {
-  width: 60%;
+  width: 50%;
   margin: 0 auto;
-  background-color: #2c2a29;
+  /* background-color: #f8f5eb; */
+  /* border: 0.5px solid #ccc; */
   border-radius: 5px;
   padding: 20px 20px 10px;
 }
@@ -291,8 +297,10 @@ export default {
 
 li {
   list-style: none;
-  background-color: #f8f5eb;
-  border-radius: 5px;
+  background-color: #fdfcfb;
+  /* border: 0.5px solid #ccc; */
+  /* border-radius: 5px; */
+  border-bottom: 2px solid black;
   margin-bottom: 10px;
   padding: 10px;
 }

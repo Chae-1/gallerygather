@@ -234,7 +234,7 @@ export default {
 }
 
 .editButton {
-  background-color: #669900;
+  background-color: darkslategray;
   color: #eee;
 }
 

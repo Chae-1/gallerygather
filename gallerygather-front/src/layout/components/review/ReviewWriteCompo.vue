@@ -1,3 +1,5 @@
+<!-- 이혜연 작성 -->
+<!-- 리뷰 작성 페이지 -->
 <template>
   <div class="page-background">
     <div class="review-container">
@@ -111,7 +113,6 @@ export default {
           `http://192.168.230.3:8080/api/exhibitions/${exhibitionId}`
         )
         this.exhibitInfo = response.data.exhibition
-        console.log('전시정보', this.exhibitInfo)
       } catch (error) {
         console.error('Failed to fetch exhibition some detail:', error)
         // 오류 처리 로직 추가 가능 (예: 에러 메시지 표시, 다른 페이지로 리다이렉트 등)
@@ -132,17 +133,11 @@ export default {
   methods: {
     async submit() {
       const exhibitionId = this.$route.params.exhibitionId
-      console.log('?????????????????????', exhibitionId)
 
       try {
         // QuillEditor에서 이미지 업로드
         const uploadUrls = await this.$refs.quillEditor.uploadImages()
         this.review.images = uploadUrls
-
-        console.log('리뷰객체 보내지는 값!!!!!!!!!!!!', this.review)
-
-        console.log('URL:', `http://192.168.230.3:8080/api/exhibition/${exhibitionId}/review`)
-        console.log('Payload:', this.review)
 
         apiRequest(
           'post',
@@ -150,7 +145,6 @@ export default {
           this.review
         ).then((response) => {
           const reviewDetail = response.data
-          console.log('!!!!!!!!!!!!!!!!!!!!!1111', reviewDetail)
 
           // 상세보기 페이지로 이동합니다.
           ///exhibitiondetails/:exhibitionId/reviewdetails/:reviewId
@@ -179,8 +173,8 @@ export default {
 
 <style scoped>
 .page-background {
-  background-color: #f0f0f0; /* 페이지 전체 배경색 */
-  padding: 20px; /* 페이지 내용과 테두리 사이의 간격 */
+  background-color: #f0f0f0;
+  padding: 20px;
 }
 
 .review-container {
@@ -216,16 +210,6 @@ export default {
   margin-top: 20px;
 }
 
-/* .exhibition-detail h3 {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.exhibition-detail p {
-  margin: 5px 0;
-  color: #555;
-} */
-
 .star-rating-container {
   display: flex;
   align-items: center;
@@ -233,7 +217,7 @@ export default {
 }
 
 .vue-star-rating .star svg {
-  border-radius: 50%; /* 둥근 모서리 적용 */
+  border-radius: 50%;
 }
 
 .rating-text {
@@ -261,7 +245,7 @@ export default {
   border: none;
   padding: 8px 12px;
   font-size: 17px;
-  flex-grow: 1; /* 입력 필드가 가능한 공간을 모두 차지하도록 */
+  flex-grow: 1;
   min-width: 150px;
   margin-right: -5px;
 }
@@ -271,7 +255,7 @@ export default {
   border: none;
   padding: 8px;
   cursor: pointer;
-  font-size: 17px; /* 이모티콘 크기 */
+  font-size: 17px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -303,13 +287,7 @@ export default {
   font-size: 30px;
   margin-bottom: 35px;
   border-bottom: 2px solid black;
-  /* border: 1px solid #ccc; */
-  /* border-radius: 4px; */
 }
-
-/* .input-content {
-  height: 400px;
-} */
 
 .submit-button {
   background-color: #021c19;

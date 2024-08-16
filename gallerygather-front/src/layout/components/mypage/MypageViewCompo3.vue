@@ -1,11 +1,11 @@
 <template>
   <div class="reviews">
     <div class="container">
-      <br/>
-      <br/>
+      <br />
+      <br />
       <h3>내가 작성한 리뷰 확인</h3>
-      <br/>
-      <br/>
+      <br />
+      <br />
       <div class="row">
         <!-- 버튼 토글을 사용하여 탭을 만듭니다 -->
         <div class="btn-toggle">
@@ -28,30 +28,29 @@
       <!-- 리뷰리스트 시작 -->
       <div class="reviewlist">
         <!-- 리뷰 항목을 반복하여 생성 -->
-        <div v-for="(review, index) in reviews" :key="review.id" class="card">
+        <div v-for="review in reviews" :key="review.id" class="card">
           <!-- 각 리뷰 항목을 카드 형식으로 표시 -->
           <div class="card-content">
-              <!-- 선택 체크박스 -->
-                <input type="checkbox" v-model="review.selected" class="checkbox" @click.stop />
-              <!-- 리뷰 이미지 보류-->
-<!--              <div class="review-pic">-->
-<!--                <img :src="review.image" class="review-image" />-->
-<!--              </div>-->
-              <!-- 리뷰 내용 -->
-              <div class="content-text" @click="goToDetail(review)">
-                <!-- 리뷰 제목 -->
-                <div class="review-title">{{ review.title }}</div>
-                <!-- 리뷰 내용 텍스트 -->
-                <div>{{ review.exhibitTitle }}</div>
-                <div class="text-grey update-date">{{ review.date }}</div>
-              </div>
+            <!-- 선택 체크박스 -->
+            <input type="checkbox" v-model="review.selected" class="checkbox" @click.stop />
+            <!-- 리뷰 이미지 보류-->
+            <!--              <div class="review-pic">-->
+            <!--                <img :src="review.image" class="review-image" />-->
+            <!--              </div>-->
+            <!-- 리뷰 내용 -->
+            <div class="content-text" @click="goToDetail(review)">
+              <!-- 리뷰 제목 -->
+              <div class="review-title">{{ review.title }}</div>
+              <!-- 리뷰 내용 텍스트 -->
+              <div>{{ review.exhibitTitle }}</div>
+              <div class="text-grey update-date">{{ review.date }}</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
 
 <script>
 import axios from 'axios'
@@ -69,26 +68,26 @@ export default {
     }
   },
   created() {
-    this.fetchReviews(); // 컴포넌트가 생성될 때 리뷰 목록을 가져옵니다.
-    console.log("Reviews Component created");
+    this.fetchReviews() // 컴포넌트가 생성될 때 리뷰 목록을 가져옵니다.
+    console.log('Reviews Component created')
   },
   methods: {
     //로그인정보
     async fetchReviews() {
       // JWT 토큰 추가
       const token = localStorage.getItem('accessToken')
-      console.log('서버로부터 받은 데이터:', token);
+      console.log('서버로부터 받은 데이터:', token)
 
       const config = {
         headers: {
-          'Authorization': token, // 인증 헤더에 JWT 토큰을 포함
+          Authorization: token, // 인증 헤더에 JWT 토큰을 포함
           'Content-Type': 'application/json'
         }
       }
       try {
         const response = await axios.get('http://192.168.230.3:8080/api/reviews/member', config)
-        console.log('서버로부터 받은 리뷰 데이터:', response.data);
-        this.reviews = response.data;// 서버로부터 받은 데이터를 reviews에 저장
+        console.log('서버로부터 받은 리뷰 데이터:', response.data)
+        this.reviews = response.data // 서버로부터 받은 데이터를 reviews에 저장
       } catch (error) {
         console.error('Error fetching reviews:', error)
       }
@@ -100,7 +99,7 @@ export default {
       })
     },
     goToDetail(review) {
-      console.log('고디테일 : exhibitionId:', review.exhibitId, '   reviewId:', review.id);
+      console.log('고디테일 : exhibitionId:', review.exhibitId, '   reviewId:', review.id)
       if (review.exhibitId && review.id) {
         this.$router.push({
           name: 'ReviewDetail',
@@ -108,33 +107,33 @@ export default {
             exhibitionId: review.exhibitId,
             reviewId: review.id
           }
-        });
+        })
       } else {
-        console.error('리뷰에서 goToDetail.');
+        console.error('리뷰에서 goToDetail.')
       }
     },
     async deleteSelectedReviews() {
-      const selectedReviews = this.reviews.filter(review => review.selected);
+      const selectedReviews = this.reviews.filter((review) => review.selected)
 
       if (selectedReviews.length === 0) {
-        alert("삭제할 리뷰를 선택하세요.");
-        return;
+        alert('삭제할 리뷰를 선택하세요.')
+        return
       }
 
       try {
         for (const review of selectedReviews) {
-          await apiRequest('delete', `http://192.168.230.3:8080/api/exhibition/deleteReview/${review.id}`);
+          await apiRequest(
+            'delete',
+            `http://192.168.230.3:8080/api/exhibition/deleteReview/${review.id}`
+          )
         }
         // 선택된 리뷰가 삭제된 후, 목록을 갱신
-        this.fetchReviews();
-        this.selectAll = false; // 전체 선택 상태를 초기화
+        this.fetchReviews()
+        this.selectAll = false // 전체 선택 상태를 초기화
       } catch (error) {
-        console.error('리뷰 삭제 실패:', error);
+        console.error('리뷰 삭제 실패:', error)
       }
     }
-
-
-
   }
 }
 </script>
@@ -217,5 +216,4 @@ h3 {
   font-size: 14px;
   color: #333;
 }
-
 </style>

@@ -1,3 +1,5 @@
+<!-- 이혜연, 오지수 작성 -->
+<!-- 리뷰 상세페이지 -->
 <template>
   <div class="review-details">
     <div class="review-container">
@@ -133,11 +135,14 @@ export default {
     handleLikeClick() {
       if (this.ifLoggedIn) {
         //로그인 되었으면
-        apiRequest('post', `http://192.168.230.3:8080/api/exhibition/reviews/${this.reviewId}/like`, {
-          isLike: this.isLike
-        })
+        apiRequest(
+          'post',
+          `http://192.168.230.3:8080/api/exhibition/reviews/${this.reviewId}/like`,
+          {
+            isLike: this.isLike
+          }
+        )
           .then((response) => {
-            console.log(response)
             this.isLike = !this.isLike
             this.reviewDetail.likeCount += this.isLike ? 1 : -1
           })
@@ -152,7 +157,10 @@ export default {
     async deleteReview() {
       const reviewId = this.$route.params.reviewId
       try {
-        await apiRequest('delete', `http://192.168.230.3:8080/api/exhibition/deleteReview/${reviewId}`)
+        await apiRequest(
+          'delete',
+          `http://192.168.230.3:8080/api/exhibition/deleteReview/${reviewId}`
+        )
         this.$router.push(`/exhibitiondetails/${this.$route.params.exhibitionId}`)
       } catch (error) {
         console.error('리뷰 삭제 실패:', error)

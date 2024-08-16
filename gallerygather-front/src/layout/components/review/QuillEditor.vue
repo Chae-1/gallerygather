@@ -1,3 +1,5 @@
+<!-- 이혜연 작성 -->
+<!-- 리뷰 content QuillEditor -->
 <template>
   <div>
     <div ref="quillEditor" class="quill-editor"></div>
@@ -132,20 +134,13 @@ export default {
       return uploadedUrls
     },
     detectImageDeletion(previousContent, currentContent) {
-      console.log('이전 Content:', previousContent)
-      console.log('현재 Content:', currentContent)
-
       const previousImages = this.extractImageSources(previousContent)
       const currentImages = this.extractImageSources(currentContent)
-
-      console.log('이전 Images:', previousImages)
-      console.log('현재 Images:', currentImages)
 
       const deletedImages = previousImages.filter((src) => {
         return !currentImages.includes(src) && !src.startsWith('data:image/')
       })
       if (deletedImages.length > 0) {
-        console.log('삭제된 Images:', deletedImages)
         this.imagesToDelete.push(...deletedImages)
       }
     },
@@ -157,7 +152,6 @@ export default {
       const imageSources = []
 
       for (let img of imgElements) {
-        console.log('Found Image Source:', img.src)
         imageSources.push(img.src)
       }
 

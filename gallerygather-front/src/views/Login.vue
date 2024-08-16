@@ -1,3 +1,6 @@
+<!-- 작성자: 채형일-->
+
+
 <script>
 // 작성자: 채형일
 import {userStore} from "@/store/userStore.js";

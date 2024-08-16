@@ -10,20 +10,13 @@ import VCalendar from 'v-calendar'
 import 'v-calendar/style.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
-// import { createVuetify } from 'vuetify'
-// import 'vuetify/styles' // Vuetify 스타일 로드
-// import * as components from 'vuetify/components'
-// import * as directives from 'vuetify/directives'
+<!-- 작성자: 채형일-->
+
 
 const pinia = createPinia()
-// const vuetify = createVuetify({
-//   components,
-//   directives
-// }) // Vuetify 초기화
 const app = createApp(App);
 app.use(pinia);
 app.use(router);
 app.use(BootstrapVue3);
 app.use(VCalendar,{});
-
 app.mount('#app')

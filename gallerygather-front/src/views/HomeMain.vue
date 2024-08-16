@@ -1,3 +1,4 @@
+<!-- 작성자: 채형일-->
 <template>
   <div class="home-main">
     <HomeMainCarousel />

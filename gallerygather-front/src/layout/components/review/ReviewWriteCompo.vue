@@ -48,6 +48,8 @@
               v-model="review.viewDate"
               @input="onDateSelected"
               mode="single"
+              :min-date="exhibitInfo.startDate"
+              :max-date="exhibitInfo.endDate"
             ></v-date-picker>
           </div>
         </div>
@@ -105,7 +107,9 @@ export default {
     } else {
       const { exhibitionId } = this.$route.params
       try {
-        const response = await axios.get(`http://192.168.230.3:8080/api/exhibitions/${exhibitionId}`)
+        const response = await axios.get(
+          `http://192.168.230.3:8080/api/exhibitions/${exhibitionId}`
+        )
         this.exhibitInfo = response.data.exhibition
         console.log('전시정보', this.exhibitInfo)
       } catch (error) {

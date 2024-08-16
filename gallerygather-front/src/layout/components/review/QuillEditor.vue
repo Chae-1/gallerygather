@@ -177,9 +177,10 @@ export default {
 
 <style scoped>
 .quill-editor {
-  max-height: none; /* 최대 높이 제한 제거 */
-  overflow: visible; /* 스크롤바를 없애고 내용이 넘칠 때 컨테이너가 자동으로 커지도록 설정 */
-  min-height: 500px; /* 에디터의 최소 높이를 설정 */
-  /* border-radius: 10px; */
+  max-height: 500px; /* 최대 높이를 500px로 제한 */
+  overflow-y: auto; /* 내용이 넘칠 때 세로 스크롤바를 표시 */
+  min-height: 500px; /* 에디터의 최소 높이를 300px로 설정 */
+  padding: 10px; /* 내용이 에디터 경계에 닿지 않도록 패딩 추가 */
+  box-sizing: border-box; /* 패딩을 포함하여 높이를 계산 */
 }
 </style>
